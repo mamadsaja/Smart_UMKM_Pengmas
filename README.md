@@ -1,7 +1,8 @@
 # Smart_UMKM_Pengmas
 UNTUK PROJECT INI MENGGUNAKAN LARAVEL V.10 DAN MENGGUNAKAN LIBRARY CSS TAILWIND
+
 Langkah-Langkah untuk clone project
-1. Buka terimal kemudian arahkan terminal ke directory yang akan digunakan untuk menyimpan project
+1. Buka terminal kemudian arahkan terminal ke directory yang akan digunakan untuk menyimpan project
 2. Setelah itu lakukan clone project dengan cara melakuakn perintah git clone "https://github.com/mamadsaja/Smart_UMKM_Pengmas.git"
 3. Setalah selesai clone project arahkan directory ke folder project lalu jalankan perintah "code ." untuk langsung membuka project yang di colone di VSCode
 4. Setelah itu buka terminal lalu jalankan perintah "composer install" pada terminal VSCode 
