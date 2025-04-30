@@ -62,6 +62,8 @@ class TokoBukuResource extends Resource
                     ->label('Kontak')
                     ->readOnly() 
                     ->required(),
+                TextInput::make('Nama_Seller') // << ini biar ke-submit ke DB
+                    ->hidden(),
                 TextInput::make('deskripsi_toko')
             ]);
     }
