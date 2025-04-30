@@ -24,12 +24,12 @@ class SellerResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('Nama_Seller'),
-                TextInput::make('Email')
+                TextInput::make('name'),
+                TextInput::make(name: 'email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                TextInput::make('Password')
+                TextInput::make('password')
                     ->password()
                     ->required()
                     ->minLength(8)

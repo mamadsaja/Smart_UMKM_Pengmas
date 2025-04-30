@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\SellerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +19,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', [AdminController::class, 'index'])->name('login');
+Route::get('/login', [AdminController::class, 'index'])->name('adminLogin');
+Route::get('/login', [SellerController::class, 'index'])->name('sellerLogin');

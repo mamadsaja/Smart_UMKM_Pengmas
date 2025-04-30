@@ -10,5 +10,10 @@ class TokoBuku extends Model
     use HasFactory;
     protected $guarded = 'id';
     protected $table = 'toko_bukus';
-    protected $fillable = ['Nama_Toko',  'Marketplace', 'Nama_Seller', 'Alamat','Kontak','deskripsi_toko'];
+    protected $fillable = ['Nama_Toko', 'Marketplace', 'Nama_Seller', 'Alamat', 'Kontak', 'deskripsi_toko'];
+
+    public function seller()
+    {
+        return $this->belongsTo(Seller::class, 'seller_id');
+    }
 }

@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
 
-class Seller extends Model
+class Seller extends Authenticatable
 {
     use HasFactory;
-    
-    protected $guarded = 'id';
-    protected $fillable = ['Nama_Seller',  'Email', 'Password'];
+
+    protected $guarded = ['id'];
+    protected $fillable = ['name', 'email', 'password'];
 
     public function setPasswordAttribute($value)
     {
