@@ -9,6 +9,8 @@ class Buku extends Model
 {
     use HasFactory;
 
+    //test
+
     public function tokoBuku()
     {
         return $this->belongsTo(TokoBuku::class, 'toko_buku_id');
