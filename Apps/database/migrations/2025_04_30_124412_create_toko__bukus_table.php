@@ -12,14 +12,14 @@ return new class extends Migration {
     {
         Schema::create('toko_bukus', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('seller_id')->constrained('sellers')->onDelete('cascade');
-            $table->timestamps();
+            $table->foreignId('Id_seller')->constrained('sellers')->onDelete('cascade');
             $table->string('Nama_Toko');
             $table->json('Link_Marketplace');
             $table->string('Nama_Seller');
             $table->string('Alamat');
             $table->bigInteger('Kontak');
             $table->string('deskripsi_toko');
+            $table->timestamps();
         });
     }
 
