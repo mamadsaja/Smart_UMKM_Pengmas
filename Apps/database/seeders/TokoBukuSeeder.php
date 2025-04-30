@@ -14,13 +14,14 @@ class TokoBukuSeeder extends Seeder
     public function run(): void
     {
         DB::table('toko_bukus')->insert([
-            'seller_id' => 1, // Assuming the seller with ID 1 exists
+            // 'seller_id' => 1, // Assuming the seller with ID 1 exists
             'Nama_Toko' => 'Toko Buku',
-            'Marketplace' => 'Tokopedia',
             'Nama_Seller' => 'Seller1',
+            'Link_Marketplace' => 'Tokopedia',
             'Alamat' => 'Jl. Contoh Alamat No. 123',
             'Kontak' => 1234567890,
             'deskripsi_toko' => 'Toko Buku Terpercaya',
-        ]);
+        ]);        
     }
+    protected $casts = ['Link_Marketplace' => 'array'];
 }

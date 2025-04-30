@@ -7,6 +7,7 @@
     @vite('resources/css/app.css')
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.min.css"/>
     <title>@yield('title')</title>
 </head>
 <body>
@@ -14,5 +15,6 @@
     @yield('content')
 
     <script src="./assets/vendor/preline/dist/preline.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
 </body>
 </html>

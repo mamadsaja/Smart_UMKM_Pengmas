@@ -10,10 +10,12 @@ class TokoBuku extends Model
     use HasFactory;
     protected $guarded = 'id';
     protected $table = 'toko_bukus';
-    protected $fillable = ['Nama_Toko', 'Marketplace', 'Nama_Seller', 'Alamat', 'Kontak', 'deskripsi_toko'];
+    protected $casts = ['Link_Marketplace' => 'array'];
+    protected $fillable = ['Nama_Toko',  'Link_Marketplace', 'Nama_Seller', 'Alamat','Kontak','deskripsi_toko','Id_seller'];
 
     public function seller()
-    {
-        return $this->belongsTo(Seller::class, 'seller_id');
+    {   
+        return $this->belongsTo(Seller::class, 'Id_seller');
     }
 }
+

@@ -9,9 +9,8 @@ use Illuminate\Support\Facades\Hash;
 class Seller extends Authenticatable
 {
     use HasFactory;
-
-    protected $guarded = ['id'];
-    protected $fillable = ['name', 'email', 'password'];
+    protected $guarded = 'id';
+    protected $fillable = ['Nama_Seller',  'Email', 'Password', 'Kontak'];
 
     public function setPasswordAttribute($value)
     {

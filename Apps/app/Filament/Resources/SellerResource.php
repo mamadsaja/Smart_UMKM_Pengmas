@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextInputColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -34,6 +35,13 @@ class SellerResource extends Resource
                     ->required()
                     ->minLength(8)
                     ->maxLength(64),
+                TextInput::make('Kontak')
+                    ->label('Nomor Kontak')
+                    ->tel()
+                    ->required()
+                    ->maxLength(15)
+                    ->rule('regex:/^[0-9]+$/')
+                    ->placeholder('08xxxxxxxxxx'),
             ]);
     }
 
@@ -41,7 +49,12 @@ class SellerResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextInputColumn::make('Nama_Seller')
+                    ->disabled(),
+                TextInputColumn::make('Email')
+                    ->disabled(),
+                TextInputColumn::make('Kontak')
+                    ->disabled(),  
             ])
             ->filters([
                 //

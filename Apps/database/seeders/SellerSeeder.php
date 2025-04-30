@@ -14,9 +14,10 @@ class SellerSeeder extends Seeder
     public function run(): void
     {
         DB::table('sellers')->insert([
-            'name' => 'Seller',
+            'Nama_Seller' => 'Seller',
             'email' => 'seller1@gmail.com',
-            'password' => bcrypt('password'), // Use bcrypt for hashing the password
+            'Kontak' => '081208896',
+            'password' => bcrypt('password'), 
         ]);
     }
 }
