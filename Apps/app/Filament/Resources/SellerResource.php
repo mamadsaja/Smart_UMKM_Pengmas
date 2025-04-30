@@ -54,7 +54,7 @@ class SellerResource extends Resource
                 TextInputColumn::make('Email')
                     ->disabled(),
                 TextInputColumn::make('Kontak')
-                    ->disabled(),  
+                    ->disabled(),
             ])
             ->filters([
                 //
