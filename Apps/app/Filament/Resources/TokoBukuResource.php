@@ -25,7 +25,7 @@ class TokoBukuResource extends Resource
         return $form
             ->schema([
                 TextInput::make('Nama_Toko'),
-                TextInput::make('Marketpalce'),
+                TextInput::make('Marketplace'),
                 TextInput::make('Nama_Seller'),
                 TextInput::make('Alamat'),
                 TextInput::make('Kontak'),
