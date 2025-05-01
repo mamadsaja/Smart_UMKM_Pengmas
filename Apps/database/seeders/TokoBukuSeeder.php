@@ -16,7 +16,7 @@ class TokoBukuSeeder extends Seeder
         DB::table('toko_bukus')->insert([
             'Id_seller' => 1, // Assuming the seller with ID 1 exists
             'Nama_Toko' => 'Toko Buku',
-            'Nama_Seller' => 'Seller1',
+            'name' => 'Seller1',
             'Link_Marketplace' => json_encode([
                 'Tokopedia' => 'https://www.tokopedia.com/tokobuku',
                 'Bukalapak' => 'https://www.bukalapak.com/tokobuku',

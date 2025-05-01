@@ -14,8 +14,8 @@ class CreateTokoBuku extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $seller = Seller::find($data['Id_seller']);
-        $data['Nama_Seller'] = $seller?->Nama_Seller ?? null;
-
+        $data['name'] = $seller?->name ?? null; 
+    
         return $data;
     }
 }

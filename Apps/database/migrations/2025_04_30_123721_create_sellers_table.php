@@ -13,10 +13,10 @@ return new class extends Migration {
         Schema::create('sellers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('Nama_Seller');
-            $table->string('Email');
-            $table->string('Password');
-            $table->bigInteger('Kontak');
+            $table->string(column: 'name');
+            $table->string('email');
+            $table->string('password')->nullable();
+            $table->bigInteger(column: 'Kontak');
         });
     }
 

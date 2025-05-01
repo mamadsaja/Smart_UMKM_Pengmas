@@ -25,12 +25,12 @@ class SellerResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('Nama_Seller'),
-                TextInput::make('Email')
+                TextInput::make('name'),
+                TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                TextInput::make('Password')
+                TextInput::make('password')
                     ->password()
                     ->required()
                     ->minLength(8)
@@ -49,12 +49,12 @@ class SellerResource extends Resource
     {
         return $table
             ->columns([
-                TextInputColumn::make('Nama_Seller')
+                TextInputColumn::make(name: 'name')
                     ->disabled(),
-                TextInputColumn::make('Email')
+                TextInputColumn::make(name: 'email')
                     ->disabled(),
                 TextInputColumn::make('Kontak')
-                    ->disabled(),  
+                    ->disabled(),
             ])
             ->filters([
                 //
