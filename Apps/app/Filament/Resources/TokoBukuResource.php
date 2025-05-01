@@ -44,25 +44,25 @@ class TokoBukuResource extends Resource
                     ->minItems(1)
                     ->reorderable()
                     ->defaultItems(1),
-                Select::make('Id_seller') 
+                Select::make('Id_seller')
                     ->label('Nama Seller')
-                    ->options(Seller::pluck('Nama_Seller', 'id')) 
+                    ->options(Seller::pluck('Nama_Seller', 'id'))
                     ->searchable()
                     ->reactive()
                     ->afterStateUpdated(function ($state, callable $set) {
                         $seller = Seller::find($state);
                         if ($seller) {
                             $set('Kontak', $seller->Kontak);
-                            $set('Nama_Seller', $seller->Nama_Seller); 
+                            $set('Nama_Seller', $seller->Nama_Seller);
                         }
                     })
                     ->required(),
                 TextInput::make('Alamat'),
                 TextInput::make('Kontak')
                     ->label('Kontak')
-                    ->readOnly() 
+                    ->readOnly()
                     ->required(),
-                TextInput::make('Nama_Seller') // << ini biar ke-submit ke DB
+                TextInput::make('name') // << ini biar ke-submit ke DB
                     ->hidden(),
                 TextInput::make('deskripsi_toko')
             ]);
@@ -74,7 +74,7 @@ class TokoBukuResource extends Resource
             ->columns([
                 TextInputColumn::make('Nama_Toko')
                     ->disabled(),
-                TextInputColumn::make('seller.Nama_Seller')
+                TextInputColumn::make('seller.name')
                     ->disabled(),
                 TextInputColumn::make('Kontak')
                     ->disabled(),
