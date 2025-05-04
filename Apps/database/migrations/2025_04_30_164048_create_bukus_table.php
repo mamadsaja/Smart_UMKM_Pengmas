@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('bukus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('toko_buku_id')->constrained('toko_bukus')->onDelete('cascade');
+            $table->foreignId('toko_buku_id')->nullable()->constrained('toko_buku');
             $table->string(column: 'judul');
             $table->string('penulis');
             $table->string(column: 'penerbit');

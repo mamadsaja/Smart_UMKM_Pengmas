@@ -16,4 +16,9 @@ class Seller extends Authenticatable
     {
         $this->attributes['password'] = Hash::needsRehash($value) ? Hash::make($value) : $value;
     }
+
+    public function tokoBuku()
+    {
+        return $this->hasOne(TokoBuku::class, 'Id_seller');
+    }
 }

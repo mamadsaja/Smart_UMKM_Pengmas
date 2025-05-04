@@ -23,7 +23,11 @@ class TokoBukuResource extends Resource
 {
     protected static ?string $model = TokoBuku::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
+    protected static ?string $navigationLabel = 'Manage Toko Buku';
+    protected static ?string $navigationGroup = 'Manage';
+    protected static ?string $navigationBadgeTooltip = 'The number of Toko Buku';
+
 
     public static function form(Form $form): Form
     {
@@ -73,6 +77,7 @@ class TokoBukuResource extends Resource
         return $table
             ->columns([
                 TextInputColumn::make('Nama_Toko')
+                    ->searchable()
                     ->disabled(),
                 TextInputColumn::make('seller.name')
                     ->disabled(),
@@ -86,6 +91,7 @@ class TokoBukuResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -108,5 +114,15 @@ class TokoBukuResource extends Resource
             'create' => Pages\CreateTokoBuku::route('/create'),
             'edit' => Pages\EditTokoBuku::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) TokoBuku::count();
+    }
+
+    public static function getNavigationBadgeTooltip(): ?string
+    {
+        return 'Total Toko Buku yang terdaftar';
     }
 }

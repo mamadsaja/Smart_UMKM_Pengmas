@@ -19,7 +19,11 @@ class SellerResource extends Resource
 {
     protected static ?string $model = Seller::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationLabel = 'Manage Seller';
+    protected static ?string $navigationGroup = 'Manage';
+    protected static ?string $navigationBadgeTooltip = 'The number of users';
+
 
     public static function form(Form $form): Form
     {
@@ -50,6 +54,7 @@ class SellerResource extends Resource
         return $table
             ->columns([
                 TextInputColumn::make(name: 'name')
+                    ->searchable()
                     ->disabled(),
                 TextInputColumn::make(name: 'email')
                     ->disabled(),
@@ -61,6 +66,7 @@ class SellerResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -83,5 +89,15 @@ class SellerResource extends Resource
             'create' => Pages\CreateSeller::route('/create'),
             'edit' => Pages\EditSeller::route('/{record}/edit'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) Seller::count();
+    }
+
+    public static function getNavigationBadgeTooltip(): ?string
+    {
+        return 'Total seller yang terdaftar';
     }
 }
