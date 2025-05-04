@@ -11,10 +11,10 @@ class TokoBuku extends Model
     protected $guarded = 'id';
     protected $table = 'toko_bukus';
     protected $casts = ['Link_Marketplace' => 'array'];
-    protected $fillable = ['Nama_Toko',  'Link_Marketplace', 'name', 'Alamat','Kontak','deskripsi_toko','Id_seller'];
+    protected $fillable = ['Nama_Toko', 'Link_Marketplace', 'name', 'Alamat', 'Kontak', 'deskripsi_toko', 'Id_seller'];
 
     public function seller()
-    {   
+    {
         return $this->belongsTo(Seller::class, 'Id_seller');
     }
 }
