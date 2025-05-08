@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->string('Alamat');
             $table->bigInteger('Kontak');
             $table->string('deskripsi_toko');
+            $table->string('gambar_toko')->nullable();
+            $table->string('banner')->nullable();
             $table->timestamps();
         });
     }
