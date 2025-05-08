@@ -10,15 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('sellers', function (Blueprint $table) {
+        Schema::create('penulis', function (Blueprint $table) {
             $table->id();
+            $table->string('nama')->unique();
             $table->timestamps();
-            $table->string(column: 'name');
-            $table->string('email');
-            $table->string('password')->nullable();
-            $table->bigInteger(column: 'Kontak');
-            $table->string(column: 'banner')->nullable();
-            $table->string(column: 'foto_profil')->nullable();
         });
     }
 
@@ -27,6 +22,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('sellers');
+        Schema::dropIfExists('penulis');
     }
 };

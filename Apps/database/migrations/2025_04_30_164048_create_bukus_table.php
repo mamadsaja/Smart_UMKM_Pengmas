@@ -12,7 +12,9 @@ return new class extends Migration {
     {
         Schema::create('bukus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('toko_buku_id')->nullable()->constrained('toko_buku');
+            $table->foreignId('toko_buku_id')->nullable()->constrained('toko_bukus');
+            $table->foreignId('penulis_id')->nullable()->constrained('penulis');
+            $table->foreignId('penerbit_id')->nullable()->constrained('penerbit');
             $table->string(column: 'judul');
             $table->string('penulis');
             $table->string(column: 'penerbit');

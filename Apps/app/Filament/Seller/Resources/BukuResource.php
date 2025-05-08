@@ -2,13 +2,13 @@
 namespace App\Filament\Seller\Resources;
 
 use App\Models\Buku;
-use App\Filament\Seller\Resources\BukuResource\Pages; 
+use App\Filament\Seller\Resources\BukuResource\Pages;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Tables\Table;
-use Filament\Resources\Resource;  
-use Filament\Forms\Form; 
+use Filament\Resources\Resource;
+use Filament\Forms\Form;
 use Filament\Widgets\StatsOverviewWidget;
 
 
@@ -19,6 +19,7 @@ class BukuResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Manage Buku';
     protected static ?string $navigationGroup = 'Manage';
+    protected static ?int $navigationSort = 1;
     protected static ?string $navigationBadgeTooltip = 'The number of Buku';
 
     protected static ?int $sort = 0;
