@@ -10,13 +10,11 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('sellers', function (Blueprint $table) {
+        Schema::create('genre', function (Blueprint $table) {
             $table->id();
+            $table->foreignId(column: 'idBuku')->constrained(table: 'bukus', indexName: 'fk_genre_buku');
+            $table->foreignId(column: 'idKategori')->constrained(table: 'kategori', indexName: 'fk_genre_kategori');
             $table->timestamps();
-            $table->string(column: 'name');
-            $table->string('email');
-            $table->string('password')->nullable();
-            $table->bigInteger(column: 'Kontak');
         });
     }
 
@@ -25,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('sellers');
+        Schema::dropIfExists('genre');
     }
 };
