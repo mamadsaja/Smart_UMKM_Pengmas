@@ -17,6 +17,8 @@ return new class extends Migration {
             $table->string('email');
             $table->string('password')->nullable();
             $table->bigInteger(column: 'Kontak');
+            $table->string(column: 'banner')->nullable();
+            $table->string(column: 'foto_profil')->nullable();
         });
     }
 
