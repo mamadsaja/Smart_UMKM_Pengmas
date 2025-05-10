@@ -59,68 +59,69 @@ class BukuResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-    ->schema([
-        Forms\Components\TextInput::make('judul')
-            ->required()
-            ->maxLength(255),
+            ->schema([
+                Forms\Components\TextInput::make('judul')
+                    ->required()
+                    ->maxLength(255),
 
-        Forms\Components\TextInput::make('penulis')
-            ->label('Penulis')
-            ->placeholder('Masukkan nama penulis'),
+                Forms\Components\TextInput::make('penulis')
+                    ->label('Penulis')
+                    ->placeholder('Masukkan nama penulis'),
 
-        Forms\Components\Select::make('penerbit')
-            ->label('Penerbit')
-            ->options(function () {
-                return \App\Models\Buku::whereNotNull('penerbit')
-                ->pluck('penerbit', 'penerbit')
-                ->filter(function ($value) {
-                    return !empty($value);  
-                })
-                ->unique()
-                ->toArray();
-            })
-            ->searchable(),
+                Forms\Components\Select::make('penerbit')
+                    ->label('Penerbit')
+                    ->options(function () {
+                        return \App\Models\Buku::whereNotNull('penerbit')
+                            ->pluck('penerbit', 'penerbit')
+                            ->filter(function ($value) {
+                                return !empty($value);
+                            })
+                            ->unique()
+                            ->toArray();
+                    })
+                    ->searchable(),
 
-        Forms\Components\TextInput::make('penerbit')
-            ->label('Penerbit Baru (Jika Tidak Ada)')
-            ->required(false)
-            ->placeholder('Masukkan nama penerbit baru')
-            ->afterStateUpdated(function ($state, callable $set) {
-                if ($state) {
-                    $set('penerbit_temp', $state);
-                }
-            }),
+                Forms\Components\TextInput::make('penerbit')
+                    ->label('Penerbit Baru (Jika Tidak Ada)')
+                    ->required(false)
+                    ->placeholder('Masukkan nama penerbit baru')
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        if ($state) {
+                            $set('penerbit_temp', $state);
+                        }
+                    }),
 
-        Forms\Components\TextInput::make('tahun_terbit')
-            ->required()
-            ->numeric()
-            ->minValue(0)
-            ->maxLength(6),
-        Forms\Components\TextInput::make('harga')
-            ->required()
-            ->minValue(0)
-            ->numeric(),
-        Forms\Components\Textarea::make('deskripsi')
-            ->required(),
-        Forms\Components\TextInput::make('stok')
-            ->required()
-            ->minValue(0)
-            ->numeric(),
-        Forms\Components\FileUpload::make('gambar')
-            ->required(),
-        Forms\Components\Select::make('kategori')
-            ->multiple()  
-            ->label('Kategori')
-            ->options(function () {
-                return \App\Models\Kategori::all()->mapWithKeys(function ($kategori) {
-                    return [$kategori->id => $kategori->namaKategori]; 
-                });
-            })
-            ->searchable()
-            ->required(),
-    ]);
+                Forms\Components\TextInput::make('tahun_terbit')
+                    ->required()
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxLength(6),
+                Forms\Components\TextInput::make('harga')
+                    ->required()
+                    ->minValue(0)
+                    ->numeric(),
+                Forms\Components\Textarea::make('deskripsi')
+                    ->required(),
+                Forms\Components\TextInput::make('stok')
+                    ->required()
+                    ->minValue(0)
+                    ->numeric(),
+                Forms\Components\FileUpload::make('gambar')
+                    ->required(),
+                Forms\Components\Select::make('kategoris')
+                    ->multiple()
+                    ->relationship('kategoris', 'namaKategori')
+                    ->label('Kategori')
+                    ->options(function () {
+                        return \App\Models\Kategori::all()->mapWithKeys(function ($kategori) {
+                            return [$kategori->id => $kategori->namaKategori];
+                        });
+                    })
+                    ->searchable()
+                    ->required(),
+            ]);
 
-    
+
     }
 
     public static function saved($record)
@@ -166,7 +167,7 @@ class BukuResource extends Resource
                     })
                     ->sortable()
                     ->searchable(),
-                    TextColumn::make('harga')
+                TextColumn::make('harga')
                     ->sortable()
                     ->searchable()
                     ->money(),
@@ -195,11 +196,11 @@ class BukuResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-    if (auth()->check() && auth()->user()->tokoBuku) {
-        return (string) Buku::where('toko_buku_id', auth()->user()->tokoBuku->id)->count();
-    }
+        if (auth()->check() && auth()->user()->tokoBuku) {
+            return (string) Buku::where('toko_buku_id', auth()->user()->tokoBuku->id)->count();
+        }
 
-    return '0'; 
+        return '0';
     }
 
     public static function getNavigationBadgeTooltip(): ?string

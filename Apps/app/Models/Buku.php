@@ -11,7 +11,7 @@ class Buku extends Model
     use HasFactory;
     protected $guarded = ['id'];
     protected $casts = ['kategori' => 'array',];
-    protected $fillable = ['judul','toko_buku_id', 'penulis_id', 'penerbit_id', 'kategori', 'tahun_terbit', 'harga', 'stok', 'deskripsi', 'gambar', 'penulis', 'penerbit', ];
+    protected $fillable = ['judul', 'toko_buku_id', 'penulis_id', 'penerbit_id', 'kategori', 'tahun_terbit', 'harga', 'stok', 'deskripsi', 'gambar', 'penulis', 'penerbit',];
 
     public function tokoBuku()
     {
@@ -35,13 +35,13 @@ class Buku extends Model
 
     public function getKategoriAttribute()
     {
-        return $this->kategoris->pluck('namaKategori')->implode(', '); 
+        return $this->kategoris->pluck('namaKategori')->implode(', ');
     }
 
     public function seller()
     {
         return $this->belongsTo(Seller::class, 'Id_seller');
     }
-    
+
 
 }
