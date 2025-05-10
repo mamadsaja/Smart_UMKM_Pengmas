@@ -21,4 +21,9 @@ class Seller extends Authenticatable
     {
         return $this->hasOne(TokoBuku::class, 'Id_seller');
     }
+
+    public function buku()
+    {
+        return $this->hasMany(Buku::class, 'Id_seller');
+    }
 }

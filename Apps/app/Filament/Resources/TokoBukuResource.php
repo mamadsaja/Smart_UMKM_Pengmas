@@ -7,6 +7,8 @@ use App\Filament\Resources\TokoBukuResource\RelationManagers;
 use App\Models\Seller;
 use App\Models\TokoBuku;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -32,44 +34,65 @@ class TokoBukuResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+    ->schema([
+        TextInput::make('Nama_Toko'),
+        Repeater::make('Link_Marketplace')
+            ->label('Link Marketplace')
             ->schema([
-                TextInput::make('Nama_Toko'),
-                Repeater::make('Link_Marketplace')
-                    ->label('Link Marketplace')
-                    ->schema([
-                        TextInput::make('url')
-                            ->label('URL Toko Online')
-                            ->url()
-                            ->placeholder('https://tokopedia.com/tokomu')
-                            ->required(),
-                    ])
-                    ->columns(1)
-                    ->addActionLabel('Tambah Link Toko')
-                    ->minItems(1)
-                    ->reorderable()
-                    ->defaultItems(1),
-                Select::make('Id_seller')
-                    ->label('Nama Seller')
-                    ->options(Seller::pluck('name', 'id'))
-                    ->searchable()
-                    ->reactive()
-                    ->afterStateUpdated(function ($state, callable $set) {
-                        $seller = Seller::find($state);
-                        if ($seller) {
-                            $set('Kontak', $seller->Kontak);
-                            $set('name', $seller->Nama_Seller);
-                        }
-                    })
+                TextInput::make('url')
+                    ->label('URL Toko Online')
+                    ->url()
+                    ->placeholder('https://tokopedia.com/tokomu')
                     ->required(),
-                TextInput::make('Alamat'),
-                TextInput::make('Kontak')
-                    ->label('Kontak')
-                    ->readOnly()
-                    ->required(),
-                TextInput::make('name') 
-                    ->hidden(),
-                TextInput::make('deskripsi_toko')
-            ]);
+            ])
+            ->columns(1)
+            ->addActionLabel('Tambah Link Toko')
+            ->minItems(1)
+            ->reorderable()
+            ->defaultItems(1),
+            Select::make('Id_seller')
+            ->label('Nama Seller')
+            ->options(Seller::pluck('name', 'id'))
+            ->searchable()
+            ->reactive()
+            ->afterStateUpdated(function ($state, callable $set) {
+                $seller = Seller::find($state);
+                if ($seller) {
+                    $set('Kontak', $seller->Kontak);
+                    $set('name', $seller->name); // ⬅️ SIMPAN ke kolom name di DB toko_bukus
+                }
+            })
+            ->required(),
+
+        TextInput::make('Alamat')->required(),
+
+        TextInput::make('Kontak')
+            ->label('Kontak')
+            ->readOnly()
+            ->required(),
+
+        Hidden::make('name') // ⬅️ Kolom ini bakal masuk ke DB
+            ->required(),
+
+            TextInput::make('deskripsi_toko')
+                ->required(),
+            
+            FileUpload::make('gambar_toko')
+                ->label('Foto Profil')
+                ->image()
+                ->directory('gambar_toko')  
+                ->required() 
+                ->disk('public'), 
+
+            
+            FileUpload::make('banner')
+                ->label('Banner')
+                ->image()
+                ->directory('banners')  
+                ->required() 
+                ->disk('public'), 
+        ]);
+
     }
 
     public static function table(Table $table): Table
@@ -85,6 +108,9 @@ class TokoBukuResource extends Resource
                     ->disabled(),
                 TextInputColumn::make('Alamat')
                     ->disabled(),
+                TextInputColumn::make('gambar_toko')
+                    ->disabled(),
+                TextInputColumn::make('banner')
             ])
             ->filters([
                 //
@@ -125,4 +151,5 @@ class TokoBukuResource extends Resource
     {
         return 'Total Toko Buku yang terdaftar';
     }
+
 }

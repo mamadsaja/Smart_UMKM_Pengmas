@@ -3,12 +3,17 @@ namespace App\Filament\Seller\Resources;
 
 use App\Models\Buku;
 use App\Filament\Seller\Resources\BukuResource\Pages;
+use App\Models\Penerbit;
+use App\Models\Penulis;
+use App\Models\Seller;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Tables;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Form;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Widgets\StatsOverviewWidget;
 
 
@@ -24,7 +29,6 @@ class BukuResource extends Resource
 
     protected static ?int $sort = 0;
 
-    // Menambahkan Stats Overview Widget
     protected function getStats(): array
     {
         return [
@@ -55,38 +59,86 @@ class BukuResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('judul')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('penulis')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('penerbit')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('tahun_terbit')
-                    ->required()
-                    ->numeric()
-                    ->minValue(0)
-                    ->maxLength(6),
-                Forms\Components\TextInput::make('harga')
-                    ->required()
-                    ->minValue(0)
-                    ->numeric(),
-                Forms\Components\Textarea::make('deskripsi')
-                    ->required(),
-                Forms\Components\TextInput::make('stok')
-                    ->required()
-                    ->minValue(0)
-                    ->numeric(),
-                Forms\Components\FileUpload::make('gambar')
-                    ->required(),
-                Forms\Components\TextInput::make('kategori')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+    ->schema([
+        Forms\Components\TextInput::make('judul')
+            ->required()
+            ->maxLength(255),
+
+        Forms\Components\TextInput::make('penulis')
+            ->label('Penulis')
+            ->placeholder('Masukkan nama penulis'),
+
+        Forms\Components\Select::make('penerbit')
+            ->label('Penerbit')
+            ->options(function () {
+                return \App\Models\Buku::whereNotNull('penerbit')
+                ->pluck('penerbit', 'penerbit')
+                ->filter(function ($value) {
+                    return !empty($value);  
+                })
+                ->unique()
+                ->toArray();
+            })
+            ->searchable(),
+
+        Forms\Components\TextInput::make('penerbit')
+            ->label('Penerbit Baru (Jika Tidak Ada)')
+            ->required(false)
+            ->placeholder('Masukkan nama penerbit baru')
+            ->afterStateUpdated(function ($state, callable $set) {
+                if ($state) {
+                    $set('penerbit_temp', $state);
+                }
+            }),
+
+        Forms\Components\TextInput::make('tahun_terbit')
+            ->required()
+            ->numeric()
+            ->minValue(0)
+            ->maxLength(6),
+        Forms\Components\TextInput::make('harga')
+            ->required()
+            ->minValue(0)
+            ->numeric(),
+        Forms\Components\Textarea::make('deskripsi')
+            ->required(),
+        Forms\Components\TextInput::make('stok')
+            ->required()
+            ->minValue(0)
+            ->numeric(),
+        Forms\Components\FileUpload::make('gambar')
+            ->required(),
+        Forms\Components\Select::make('kategori')
+            ->multiple()  
+            ->label('Kategori')
+            ->options(function () {
+                return \App\Models\Kategori::all()->mapWithKeys(function ($kategori) {
+                    return [$kategori->id => $kategori->namaKategori]; 
+                });
+            })
+            ->searchable()
+            ->required(),
+    ]);
+
+    
     }
+
+    public static function saved($record)
+    {
+        if ($record->penulis_temp) {
+            $penulis = Penulis::firstOrCreate(['nama' => $record->penulis_temp]);
+            $record->penulis_id = $penulis->id;
+        }
+
+        if ($record->penerbit_temp) {
+            $penerbit = Penerbit::firstOrCreate(['nama' => $record->penerbit_temp]);
+            $record->penerbit_id = $penerbit->id;
+        }
+
+        $record->kategoris()->sync($record->kategori);
+        $record->save();
+    }
+
 
     public static function table(Table $table): Table
     {
@@ -100,19 +152,21 @@ class BukuResource extends Resource
                     ->html()
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('judul')
+                TextColumn::make('judul')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('penulis')
+                TextColumn::make('penulis')
+                    ->sortable()->searchable(),
+                TextColumn::make('penerbit')
+                    ->sortable()->searchable(),
+                TextColumn::make('kategori')
+                    ->label('Kategori')
+                    ->formatStateUsing(function ($state, $record) {
+                        return $record->kategoris->pluck('namaKategori')->implode(', ');
+                    })
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('kategori')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('stok')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('harga')
+                    TextColumn::make('harga')
                     ->sortable()
                     ->searchable()
                     ->money(),
@@ -130,7 +184,6 @@ class BukuResource extends Resource
             ]);
     }
 
-    // Menghubungkan dengan halaman
     public static function getPages(): array
     {
         return [
@@ -140,15 +193,24 @@ class BukuResource extends Resource
         ];
     }
 
-    // Badge yang menunjukkan jumlah buku yang terdaftar
     public static function getNavigationBadge(): ?string
     {
+    if (auth()->check() && auth()->user()->tokoBuku) {
         return (string) Buku::where('toko_buku_id', auth()->user()->tokoBuku->id)->count();
     }
 
-    // Tooltip untuk badge
+    return '0'; 
+    }
+
     public static function getNavigationBadgeTooltip(): ?string
     {
         return 'Total Buku yang terdaftar';
     }
+
+    public function update(Seller $seller, Buku $buku): bool
+    {
+        $tokoBuku = optional($buku->tokoBuku);  // Menggunakan optional untuk menghindari error jika null
+        return $tokoBuku->Id_seller === $seller->id;
+    }
+
 }

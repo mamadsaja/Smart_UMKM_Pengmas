@@ -16,7 +16,7 @@ class BukuPolicy
 
     public function view(Seller $seller, Buku $buku): bool
     {
-        return $buku->tokoBuku->Id_seller === $seller->id;
+        return $buku->tokoBuku && $buku->tokoBuku->Id_seller === $seller->id;
     }
 
     public function create(Seller $seller): bool
@@ -26,12 +26,12 @@ class BukuPolicy
 
     public function update(Seller $seller, Buku $buku): bool
     {
-        return $buku->tokoBuku->Id_seller === $seller->id;
+        return $buku->tokoBuku && $buku->tokoBuku->Id_seller === $seller->id;
     }
 
     public function delete(Seller $seller, Buku $buku): bool
     {
-        return $buku->tokoBuku->Id_seller === $seller->id;
+        return $buku->tokoBuku && $buku->tokoBuku->Id_seller === $seller->id;
     }
 
     public function restore(Seller $seller, Buku $buku): bool
