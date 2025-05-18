@@ -13,6 +13,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@preline/carousel": "^3.0.0",
         "intl-tel-input": "^25.3.1"
     }
 }

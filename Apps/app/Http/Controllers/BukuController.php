@@ -35,9 +35,12 @@ class BukuController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Buku $buku)
+    public function show(Buku $id)
     {
-        //
+        $buku = Buku::with(['penulis', 'penerbit', 'tokoBuku', 'kategoris', 'seller'])
+        ->findOrFail($id);
+
+        return view('buku.show', compact('buku'));
     }
 
     /**

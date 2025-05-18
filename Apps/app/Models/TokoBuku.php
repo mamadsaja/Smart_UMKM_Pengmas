@@ -17,5 +17,10 @@ class TokoBuku extends Model
     {
         return $this->belongsTo(Seller::class, 'Id_seller');
     }
+
+    public function bukus()
+    {
+        return $this->hasMany(Buku::class, 'toko_buku_id');
+    }
 }
 

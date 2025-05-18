@@ -50,7 +50,7 @@ class TokoBukuResource extends Resource
             ->minItems(1)
             ->reorderable()
             ->defaultItems(1),
-            Select::make('Id_seller')
+        Select::make('Id_seller')
             ->label('Nama Seller')
             ->options(Seller::pluck('name', 'id'))
             ->searchable()
