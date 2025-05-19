@@ -108,20 +108,17 @@ class BukuResource extends Resource
                     ->numeric(),
                 Forms\Components\FileUpload::make('gambar')
                     ->required(),
-                Forms\Components\Select::make('kategori')
-                    ->multiple()
-                    ->relationship('kategori', 'namaKategori')
+                Forms\Components\Select::make('kategori_ids')
                     ->label('Kategori')
-                    ->options(function () {
-                        return \App\Models\Kategori::all()->mapWithKeys(function ($kategori) {
-                            return [$kategori->id => $kategori->namaKategori];
-                        });
-                    })
+                    ->multiple()
+                    ->options(\App\Models\Kategori::all()->pluck('namaKategori', 'id'))
+                    ->preload()
                     ->searchable()
-                    ->required(),
+                    ->required()
+                    ->saveRelationshipsUsing(function ($record, $state) {
+                        $record->kategoris()->sync($state);
+                    }),
             ]);
-
-
     }
 
     public static function saved($record)
