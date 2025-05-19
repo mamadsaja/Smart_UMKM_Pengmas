@@ -30,7 +30,7 @@ class Buku extends Model
 
     public function kategoris()
     {
-        return $this->belongsToMany(Kategori::class, 'genre', 'idBuku', 'idKategori', 'buku_kategori');
+        return $this->belongsToMany(Kategori::class, 'genre', 'idBuku', 'idKategori');
     }
 
     public function getKategoriAttribute()

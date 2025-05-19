@@ -108,9 +108,9 @@ class BukuResource extends Resource
                     ->numeric(),
                 Forms\Components\FileUpload::make('gambar')
                     ->required(),
-                Forms\Components\Select::make('kategoris')
+                Forms\Components\Select::make('kategori')
                     ->multiple()
-                    ->relationship('kategoris', 'namaKategori')
+                    ->relationship('kategori', 'namaKategori')
                     ->label('Kategori')
                     ->options(function () {
                         return \App\Models\Kategori::all()->mapWithKeys(function ($kategori) {
@@ -139,7 +139,7 @@ class BukuResource extends Resource
         if ($record->kategoris) {
             $record->kategoris()->sync($record->kategoris);
         }
-        
+
         $record->save();
     }
 
