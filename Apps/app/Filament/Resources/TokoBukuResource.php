@@ -59,7 +59,7 @@ class TokoBukuResource extends Resource
                 $seller = Seller::find($state);
                 if ($seller) {
                     $set('Kontak', $seller->Kontak);
-                    $set('name', $seller->name); // ⬅️ SIMPAN ke kolom name di DB toko_bukus
+                    $set('name', $seller->name);
                 }
             })
             ->required(),
@@ -71,7 +71,7 @@ class TokoBukuResource extends Resource
             ->readOnly()
             ->required(),
 
-        Hidden::make('name') // ⬅️ Kolom ini bakal masuk ke DB
+        Hidden::make('name') 
             ->required(),
 
             TextInput::make('deskripsi_toko')

@@ -109,8 +109,8 @@
                                 </div>
                             </div>
 
-                            <a href="{{ route('shop_detail') }}" 
-                            class="block w-full text-center py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-300">
+                            <a href="{{ route('shop_detail', $toko->id) }}" 
+                                class="block w-full text-center py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-300">
                                 Lihat Toko
                             </a>
                         </div>

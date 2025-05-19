@@ -22,5 +22,12 @@ class TokoBuku extends Model
     {
         return $this->hasMany(Buku::class, 'toko_buku_id');
     }
+
+    public function data_seller()
+    {
+        return $this->belongsTo(Seller::class);
+    }
+
+    
 }
 

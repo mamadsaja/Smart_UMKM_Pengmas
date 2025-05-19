@@ -29,6 +29,10 @@ Route::get('/Shop', [UsersController::class, 'shop'])->name('shop');
 Route::get('/Shop_detail', [UsersController::class, 'shop_detail'])->name('shop_detail');
 
 Route::get('/buku/{id}', [BukuController::class, 'show'])->name('buku.show');
-// Route::get('/tokos/{id}', [TokoBukuController::class, 'Toko'])->name('toko.show');
+// Route::get('/buku/{id}', [BukuController::class, 'detail'])->name('buku_detail');
+Route::get('/shop/{id}', [TokoBukuController::class, 'show'])->name('shop_detail');
+Route::get('/book/{id}', [BukuController::class, 'detail'])->name('book_detail');
+Route::get('/book/data/{id}', [BukuController::class, 'data'])->name('data_buku');
+
 
 

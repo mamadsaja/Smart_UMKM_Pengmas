@@ -19,7 +19,7 @@ class UsersController extends Controller
 
     public function library()
     {
-        $bukus = Buku::with(['penulis', 'tokoBuku'])->paginate(12); // bebas jumlah per page
+        $bukus = Buku::with(['penulis', 'toko'])->paginate(12); // bebas jumlah per page
         return view('users.book', compact('bukus'));
     }
 

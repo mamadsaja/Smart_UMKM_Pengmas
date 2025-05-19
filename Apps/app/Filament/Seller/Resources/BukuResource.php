@@ -136,7 +136,10 @@ class BukuResource extends Resource
             $record->penerbit_id = $penerbit->id;
         }
 
-        $record->kategoris()->sync($record->kategori);
+        if ($record->kategoris) {
+            $record->kategoris()->sync($record->kategoris);
+        }
+        
         $record->save();
     }
 
@@ -177,6 +180,7 @@ class BukuResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

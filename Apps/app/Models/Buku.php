@@ -13,7 +13,7 @@ class Buku extends Model
     protected $casts = ['kategori' => 'array',];
     protected $fillable = ['judul', 'toko_buku_id', 'penulis_id', 'penerbit_id', 'kategori', 'tahun_terbit', 'harga', 'stok', 'deskripsi', 'gambar', 'penulis', 'penerbit',];
 
-    public function tokoBuku()
+    public function toko()
     {
         return $this->belongsTo(TokoBuku::class, 'toko_buku_id');
     }
@@ -30,7 +30,7 @@ class Buku extends Model
 
     public function kategoris()
     {
-        return $this->belongsToMany(Kategori::class, 'genre', 'idBuku', 'idKategori');
+        return $this->belongsToMany(Kategori::class, 'genre', 'idBuku', 'idKategori', 'buku_kategori');
     }
 
     public function getKategoriAttribute()
