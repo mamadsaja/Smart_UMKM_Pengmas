@@ -19,18 +19,19 @@ class UsersController extends Controller
 
     public function library()
     {
-        $bukus = Buku::with(['penulis', 'toko'])->paginate(12); // bebas jumlah per page
+        $bukus = Buku::with(['penulis', 'tokoBuku'])->paginate(12); // bebas jumlah per page
         return view('users.book', compact('bukus'));
     }
 
-    public function shop(Request $request){
+    public function shop(Request $request)
+    {
         $query = TokoBuku::withCount('bukus');
 
         if ($request->has('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('Nama_Toko', 'like', '%' . $search . '%')
-                ->orWhere('name', 'like', '%' . $search . '%');
+                    ->orWhere('name', 'like', '%' . $search . '%');
             });
         }
 
@@ -38,7 +39,8 @@ class UsersController extends Controller
         return view('users.shop', compact('tokos'));
     }
 
-    public function shop_detail(){
+    public function shop_detail()
+    {
         return view('users.shop_detail');
     }
     /**

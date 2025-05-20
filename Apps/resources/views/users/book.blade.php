@@ -6,9 +6,9 @@
         <h1 class="text-5xl font-extrabold text-gray-900 mb-6 tracking-wide drop-shadow">LIBRARY</h1>
         <div class="max-w-lg mx-auto mt-10 sm:mt-12">
             <div class="relative">
-                <input 
-                    type="text" 
-                    placeholder="Cari buku ..." 
+                <input
+                    type="text"
+                    placeholder="Cari buku ..."
                     class="w-full pl-4 pr-12 py-3 border rounded-full shadow focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-base sm:text-lg bg-white"
                 />
                 <button class="absolute right-4 top-1/2 -translate-y-1/2 text-blue-500 hover:text-blue-700">
@@ -23,7 +23,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-8 w-full">
             @foreach ($bukus as $buku)
-                <a href="{{ route('book_detail', ['id' => $buku->toko->id]) }}">
+                <a href="{{ route('book_detail', ['id' => $buku->tokoBuku->id]) }}">
                     <div class="bg-white rounded-2xl shadow hover:shadow-xl overflow-hidden transition-all duration-300 group w-full">
                         <div class="relative">
                             <img src="{{ asset('storage/' . $buku->gambar) }}"
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </a>
-            @endforeach          
+            @endforeach
         </div>
 
         <div class="mt-12 flex justify-center">
