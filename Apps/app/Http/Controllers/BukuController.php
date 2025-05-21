@@ -11,14 +11,14 @@ class BukuController extends Controller
     public function show(Buku $id)
     {
         $buku = Buku::with(['penulis', 'penerbit', 'tokoBuku', 'kategoris', 'seller'])
-        ->findOrFail($id);
+            ->findOrFail($id);
 
         return view('buku.show', compact('buku'));
     }
 
     public function detail($id)
-    {   
-        $buku = Buku::with('toko', 'kategoris')->findOrFail($id); 
+    {
+        $buku = Buku::with('tokoBuku', 'kategoris')->findOrFail($id);
         return view('users.book_detail', compact('buku'));
     }
 

@@ -47,16 +47,9 @@ body {
                 <div class="mb-6">
                     <div class="text-sm text-gray-500 mb-2">Genres</div>
                     <div class="flex flex-wrap gap-2">
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">Nonfiction</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">Self Help</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">Psychology</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">Audiobook</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">Personal Development</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">Philosophy</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">Business</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">Mental Health</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">Humor</span>
-                        <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">Unfinished</span>
+                        @foreach ($buku->kategori_list as $kategori)
+                            <span class="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full">{{ $kategori }}</span>
+                        @endforeach
                     </div>
                 </div>
 
@@ -149,14 +142,14 @@ body {
                       <div class="text-sm text-gray-600">Karin Slaughter</div>
                       <button class="mt-2 px-5 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-full hover:bg-gray-100 transition-colors self-start">Buy Now</button>
                     </div>
-                  </div>    
-          
+                  </div>
+
                 <!-- Tambahkan buku lain di bawah ini sesuai format di atas -->
                 <!-- Buku 2, Buku 3, dst... -->
               </div>
             </div>
           </div>
-        </div>  
+        </div>
     </div>
 </div>
 @endsection
