@@ -23,7 +23,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-8 w-full">
             @foreach ($bukus as $buku)
-                <a href="{{ route('book_detail', ['id' => $buku->tokoBuku->id]) }}">
+                <a href="{{ route('book_detail', ['id' => $buku->id]) }}">
                     <div class="bg-white rounded-2xl shadow hover:shadow-xl overflow-hidden transition-all duration-300 group w-full">
                         <div class="relative">
                             <img src="{{ asset('storage/' . $buku->gambar) }}"
