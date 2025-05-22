@@ -14,12 +14,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // \App\Models\User::factory(10)->create();
-        Kategori::factory()->count(10)->create();
         $this->call([
             AdminSeeder::class,
             SellerSeeder::class,
             TokoBukuSeeder::class,
             BukuSeeder::class,
+            KategoriSeeder::class,
+            GenreSeeder::class,
         ]);
     }
 }
