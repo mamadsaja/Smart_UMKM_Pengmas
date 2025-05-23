@@ -23,15 +23,15 @@ body {
         <div class="bg-white pb-[8vh] rounded-2xl shadow-sm overflow-hidden flex flex-col md:flex-row relative">
             <!-- Cover Buku -->
             <div class="md:w-1/3 flex items-center justify-center p-8 md:p-12">
-                <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
+                <img src="{{  asset('storage/' . $buku->gambar) }}"
                      alt="The Subtle Art of Not Giving a F*ck"
                      class="rounded-lg shadow-md w-full object-cover max-w-xs md:max-w-none">
             </div>
 
             <!-- Detail Buku -->
             <div class="md:w-2/3 p-8 md:p-12 text-gray-700">
-                <div class="text-lg font-medium mb-2">Mark Manson</div>
-                <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">The Subtle Art of Not Giving a F*ck</h1>
+                <div class="text-lg font-medium mb-2">{{ $buku->penulis }}</div>
+                <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">{{ $buku->judul }}</h1>
 
                 <div class="flex items-center gap-4 mb-6 text-sm text-gray-500">
                     <span class="flex items-center gap-1">
@@ -64,22 +64,13 @@ body {
         <div class="bg-white rounded-2xl shadow-sm mt-8 p-8 md:p-12 flex flex-col md:flex-row gap-8">
             <!-- Table of Contents -->
             <div class="md:w-1/3 bg-gray-50 rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Table of Contents</h2>
-                <ul class="text-gray-600 text-sm space-y-2">
-                    <li>1. The struggle is real</li>
-                    <li>2. The danger of misguided values</li>
-                    <li>3. Identifying and avoiding shitty values</li>
-                    <li>4. Taking responsibility for your life</li>
-                    <li>5. Overcoming the fear of failure</li>
-                    <li>6. Embracing uncertainty and self-doubt</li>
-                    <li>7. Navigating romantic relationships</li>
-                </ul>
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Deskripisi Buku atau Sinopsis</h2>
             </div>
 
             <!-- Description -->
             <div class="md:w-2/3">
-                <p class="text-gray-600 text-base leading-relaxed">
-                    In a world filled with endless opportunities and choices, it's easy to feel overwhelmed and stressed out. We often find ourselves trying to do it all, spreading ourselves too thin, and ultimately feeling unfulfilled. Mark Manson's "The Subtle Art of Not Giving a F*ck" offers a refreshing perspective on how to navigate life's challenges and find true happiness. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium, amet. Delectus ea dolores sequi officiis nesciunt, obcaecati consequuntur architecto necessitatibus a illum numquam corrupti aliquid voluptatem fugit sunt, sint minima. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptas quos dolor et reiciendis inventore quo delectus iste commodi architecto porro, perferendis consequuntur aliquam? Nobis deserunt inventore reiciendis minima quidem error? Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut nobis amet, culpa possimus eius cum repellat, recusandae eos, doloribus porro adipisci. Magni nobis harum perspiciatis vel beatae, aliquid iste ipsam!
+                <p class="text-gray-600 text-base leading-relaxed text-justify">
+                  {{ $buku->deskripsi }}
                 </p>
             </div>
         </div>
@@ -89,10 +80,10 @@ body {
             <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Recent Bestsellers</h2>
             <div class="overflow-x-auto w-full py-20">
               <div class="flex gap-8 items-start px-4 md:px-8 w-max snap-x snap-mandatory overflow-x-scroll scrollbar-hide">
-                <!-- Buku 1 -->
-                <div class="flex-shrink-0 flex items-start gap-6 w-72 snap-start">
-                  <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-                       alt="Other Book 1"
+                @foreach($buku->tokoBuku->bukus()->where('id', '!=', $buku->id)->latest()->take(5)->get() as $recentBook)
+                <a href="{{ route('book_detail', ['id' => $recentBook->id]) }}" class="flex-shrink-0 flex items-start gap-6 w-72 snap-start hover:bg-gray-50 p-2 rounded-lg transition-colors">
+                  <img src="{{ asset('storage/' . $recentBook->gambar) }}"
+                       alt="{{ $recentBook->judul }}"
                        class="w-32 h-48 object-cover rounded-lg shadow-2xl">
                   <div class="flex flex-col justify-between h-48 py-1">
                     <div class="flex items-center text-yellow-400 text-base">
@@ -102,50 +93,12 @@ body {
                       <svg class="w-5 h-5 text-gray-300 fill-current" viewBox="0 0 20 20"><path d="..."/></svg>
                       <svg class="w-5 h-5 text-gray-300 fill-current" viewBox="0 0 20 20"><path d="..."/></svg>
                     </div>
-                    <div class="text-base font-semibold text-gray-800 leading-tight">False Witness: A Novel</div>
-                    <div class="text-sm text-gray-600">Karin Slaughter</div>
-                    <button class="mt-2 px-5 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-full hover:bg-gray-100 transition-colors self-start">Buy Now</button>
+                    <div class="text-base font-semibold text-gray-800 leading-tight">{{ $recentBook->judul }}</div>
+                    <div class="text-sm text-gray-600">{{ $recentBook->penulis }}</div>
+                    <div class="mt-2 px-5 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-full hover:bg-gray-100 transition-colors self-start">Lihat Detail</div>
                   </div>
-                </div>
-
-                <div class="flex-shrink-0 flex items-start gap-6 w-72 snap-start">
-                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-                         alt="Other Book 1"
-                         class="w-32 h-48 object-cover rounded-lg shadow-2xl">
-                    <div class="flex flex-col justify-between h-48 py-1">
-                      <div class="flex items-center text-yellow-400 text-base">
-                        <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="..."/></svg>
-                        <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="..."/></svg>
-                        <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="..."/></svg>
-                        <svg class="w-5 h-5 text-gray-300 fill-current" viewBox="0 0 20 20"><path d="..."/></svg>
-                        <svg class="w-5 h-5 text-gray-300 fill-current" viewBox="0 0 20 20"><path d="..."/></svg>
-                      </div>
-                      <div class="text-base font-semibold text-gray-800 leading-tight">False Witness: A Novel</div>
-                      <div class="text-sm text-gray-600">Karin Slaughter</div>
-                      <button class="mt-2 px-5 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-full hover:bg-gray-100 transition-colors self-start">Buy Now</button>
-                    </div>
-                  </div>
-
-                  <div class="flex-shrink-0 flex items-start gap-6 w-72 snap-start">
-                    <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80"
-                         alt="Other Book 1"
-                         class="w-32 h-48 object-cover rounded-lg shadow-2xl">
-                    <div class="flex flex-col justify-between h-48 py-1">
-                      <div class="flex items-center text-yellow-400 text-base">
-                        <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="..."/></svg>
-                        <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="..."/></svg>
-                        <svg class="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="..."/></svg>
-                        <svg class="w-5 h-5 text-gray-300 fill-current" viewBox="0 0 20 20"><path d="..."/></svg>
-                        <svg class="w-5 h-5 text-gray-300 fill-current" viewBox="0 0 20 20"><path d="..."/></svg>
-                      </div>
-                      <div class="text-base font-semibold text-gray-800 leading-tight">False Witness: A Novel</div>
-                      <div class="text-sm text-gray-600">Karin Slaughter</div>
-                      <button class="mt-2 px-5 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-full hover:bg-gray-100 transition-colors self-start">Buy Now</button>
-                    </div>
-                  </div>
-
-                <!-- Tambahkan buku lain di bawah ini sesuai format di atas -->
-                <!-- Buku 2, Buku 3, dst... -->
+                </a>
+                @endforeach
               </div>
             </div>
           </div>
