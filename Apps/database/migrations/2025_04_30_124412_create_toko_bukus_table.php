@@ -15,6 +15,8 @@ return new class extends Migration {
             $table->foreignId('Id_seller')->constrained('sellers')->onDelete('cascade');
             $table->string('Nama_Toko');
             $table->json('Link_Marketplace');
+            $table->json('Link_Shopee');
+            $table->json('Link_Tokopedia');
             $table->string('name')->nullable();
             $table->string('Alamat');
             $table->bigInteger('Kontak');
