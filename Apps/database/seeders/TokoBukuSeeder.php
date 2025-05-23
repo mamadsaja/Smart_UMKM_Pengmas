@@ -18,9 +18,13 @@ class TokoBukuSeeder extends Seeder
             'Nama_Toko' => 'Toko Buku',
             'name' => 'Seller1',
             'Link_Marketplace' => json_encode([
-                'Tokopedia' => 'https://www.tokopedia.com/tokobuku',
                 'Bukalapak' => 'https://www.bukalapak.com/tokobuku',
+            ]),
+            'Link_Shopee' => json_encode([
                 'Shopee' => 'https://shopee.co.id/tokobuku',
+            ]),
+            'Link_Tokopedia' => json_encode([
+                'Tokopedia' => 'https://www.tokopedia.com/tokobuku',
             ]),
             'Alamat' => 'Jl. Contoh Alamat No. 123',
             'Kontak' => 1234567890,
