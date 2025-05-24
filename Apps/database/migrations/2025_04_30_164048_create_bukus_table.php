@@ -22,6 +22,9 @@ return new class extends Migration {
             $table->integer(column: 'harga');
             $table->integer(column: 'stok');
             $table->text(column: 'deskripsi');
+            $table->json('Link_Marketplace');
+            $table->json('Link_Shopee');
+            $table->json('Link_Tokopedia');
             $table->string(column: 'gambar')->nullable();
             $table->timestamps();
         });
