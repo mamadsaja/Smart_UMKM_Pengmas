@@ -17,10 +17,60 @@ class UsersController extends Controller
         return view('users.Home');
     }
 
-    public function library()
+    public function library(Request $request)
     {
-        $bukus = Buku::with(['penulis', 'tokoBuku'])->paginate(12); // bebas jumlah per page
-        return view('users.book', compact('bukus'));
+        // Ambil semua kategori untuk ditampilkan di navigasi
+        $kategoris = \App\Models\Kategori::all();
+        
+        // Inisialisasi query builder
+        $query = Buku::with(['penulis', 'tokoBuku']);
+        
+        // Filter berdasarkan kategori jika ada
+        if ($request->has('kategori') && $request->kategori != 'semua') {
+            $kategoriId = \App\Models\Kategori::where('namaKategori', $request->kategori)->first();
+            if ($kategoriId) {
+                $query->whereHas('kategoris', function($q) use ($kategoriId) {
+                    $q->where('kategori.id', $kategoriId->id);
+                });
+            }
+        }
+        
+        // Filter berdasarkan pencarian jika ada
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('judul', 'like', '%' . $search . '%')
+                  ->orWhere('penulis', 'like', '%' . $search . '%');
+            });
+        }
+        
+        // Filter berdasarkan rentang harga
+        if ($request->has('min_price') && is_numeric($request->min_price)) {
+            $query->where('harga', '>=', $request->min_price);
+        }
+        
+        if ($request->has('max_price') && is_numeric($request->max_price)) {
+            $query->where('harga', '<=', $request->max_price);
+        }
+        
+        // Pengurutan berdasarkan pilihan
+        if ($request->has('sort')) {
+            switch ($request->sort) {
+                case 'price_asc':
+                    $query->orderBy('harga', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('harga', 'desc');
+                    break;
+                case 'newest':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+            }
+        }
+        
+        $bukus = $query->paginate(12);
+        
+        return view('users.book', compact('bukus', 'kategoris'));
     }
 
     public function shop(Request $request)

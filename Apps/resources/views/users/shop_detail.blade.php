@@ -106,26 +106,25 @@
             <h2 class="text-4xl font-extrabold text-black drop-shadow-lg tracking-wide uppercase">Koleksi Buku</h2>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 justify-center w-full">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center w-full max-w-screen-lg mx-auto">
             @foreach ($bukus as $buku)
-                <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group w-full max-w-xs mx-auto">
+                <div class="bg-white rounded-lg shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group w-full max-w-[300px] mx-auto h-[420px] flex flex-col">
                     <div class="relative">
                         <img src="{{ asset('storage/' . $buku->gambar) }}" 
-                            alt="Book Cover" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
-                        <div class="absolute top-3 left-3">
-                            <span class="bg-white text-black text-xs font-bold px-2 py-1 rounded-full shadow-sm">NEW</span>
+                            alt="Book Cover" class="w-full h-60 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute top-2 left-2">
+                            <span class="bg-white text-black text-xs font-bold px-2 py-1 rounded-md shadow-sm">NEW</span>
                         </div>
                     </div>
-                    <div class="p-4 sm:p-6">
-                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-2">{{ $buku->judul }}</h3>
-                        <p class="text-xs sm:text-sm text-gray-600 mb-4">{{ $buku->penulis }}</p>
-                        <div class="flex items-center justify-between">
-                            <span class="text-base sm:text-lg font-bold text-blue-600">Rp {{ number_format($buku->harga, 0, ',', '.') }}</span>
-                            <button class="text-blue-600 hover:text-blue-800">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                </svg>
-                            </button>
+                    <div class="p-4 flex-1 flex flex-col">
+                        <h3 class="text-base font-semibold text-gray-900 mb-1 line-clamp-2">{{ $buku->judul }}</h3>
+                        <p class="text-xs text-gray-600 mb-3 line-clamp-1">{{ $buku->penulis }}</p>
+                        <div class="mt-auto flex items-center justify-between">
+                            <span class="text-base font-bold text-blue-600">Rp {{ number_format($buku->harga, 0, ',', '.') }}</span>
+                            <a href="{{ route('book_detail', ['id' => $buku->id]) }}" 
+                               class="inline-block text-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors duration-200">
+                                Read
+                            </a>
                         </div>
                     </div>
                 </div>
