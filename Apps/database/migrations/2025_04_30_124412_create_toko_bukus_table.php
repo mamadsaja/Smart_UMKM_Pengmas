@@ -14,13 +14,12 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('Id_seller')->constrained('sellers')->onDelete('cascade');
             $table->string('Nama_Toko');
-            $table->json('Link_Marketplace');
-            $table->json('Link_Shopee');
-            $table->json('Link_Tokopedia');
+            $table->string('Toko_Shopee')->nullable();
+            $table->string('Toko_Tokopedia')->nullable();
             $table->string('name')->nullable();
             $table->string('Alamat');
             $table->bigInteger('Kontak');
-            $table->string('deskripsi_toko');
+            $table->longText('deskripsi_toko');
             $table->string('gambar_toko')->nullable();
             $table->string('banner')->nullable();
             $table->timestamps();

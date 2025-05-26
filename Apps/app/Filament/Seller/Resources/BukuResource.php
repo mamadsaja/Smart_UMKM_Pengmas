@@ -60,64 +60,102 @@ class BukuResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('judul')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\Card::make([
+                    Forms\Components\TextInput::make('judul')
+                        ->required()
+                        ->maxLength(255),
 
-                Forms\Components\TextInput::make('penulis')
-                    ->label('Penulis')
-                    ->placeholder('Masukkan nama penulis'),
+                    Forms\Components\TextInput::make('penulis')
+                        ->label('Penulis')
+                        ->placeholder('Masukkan nama penulis'),
 
-                Forms\Components\Select::make('penerbit')
-                    ->label('Penerbit')
-                    ->options(function () {
-                        return \App\Models\Buku::whereNotNull('penerbit')
-                            ->pluck('penerbit', 'penerbit')
-                            ->filter(function ($value) {
-                                return !empty($value);
-                            })
-                            ->unique()
-                            ->toArray();
-                    })
-                    ->searchable(),
+                    Forms\Components\Select::make('penerbit')
+                        ->label('Penerbit')
+                        ->options(function () {
+                            return \App\Models\Buku::whereNotNull('penerbit')
+                                ->pluck('penerbit', 'penerbit')
+                                ->filter(function ($value) {
+                                    return !empty($value);
+                                })
+                                ->unique()
+                                ->toArray();
+                        })
+                        ->searchable(),
 
-                Forms\Components\TextInput::make('penerbit')
-                    ->label('Penerbit Baru (Jika Tidak Ada)')
-                    ->required(false)
-                    ->placeholder('Masukkan nama penerbit baru')
-                    ->afterStateUpdated(function ($state, callable $set) {
-                        if ($state) {
-                            $set('penerbit_temp', $state);
-                        }
-                    }),
+                    Forms\Components\TextInput::make('penerbit')
+                        ->label('Penerbit Baru (Jika Tidak Ada)')
+                        ->required(false)
+                        ->placeholder('Masukkan nama penerbit baru')
+                        ->afterStateUpdated(function ($state, callable $set) {
+                            if ($state) {
+                                $set('penerbit_temp', $state);
+                            }
+                        }),
 
-                Forms\Components\TextInput::make('tahun_terbit')
-                    ->required()
-                    ->numeric()
-                    ->minValue(0)
-                    ->maxLength(6),
-                Forms\Components\TextInput::make('harga')
-                    ->required()
-                    ->minValue(0)
-                    ->numeric(),
-                Forms\Components\Textarea::make('deskripsi')
-                    ->required(),
-                Forms\Components\TextInput::make('stok')
-                    ->required()
-                    ->minValue(0)
-                    ->numeric(),
-                Forms\Components\FileUpload::make('gambar')
-                    ->required(),
-                Forms\Components\Select::make('kategori_ids')
-                    ->label('Kategori')
-                    ->multiple()
-                    ->options(\App\Models\Kategori::all()->pluck('namaKategori', 'id'))
-                    ->preload()
-                    ->searchable()
-                    ->required()
-                    ->saveRelationshipsUsing(function ($record, $state) {
-                        $record->kategoris()->sync($state);
-                    }),
+                    Forms\Components\TextInput::make('tahun_terbit')
+                        ->required()
+                        ->numeric()
+                        ->minValue(0)
+                        ->maxLength(6),
+                    Forms\Components\TextInput::make('harga')
+                        ->required()
+                        ->minValue(0)
+                        ->numeric(),
+                    Forms\Components\Textarea::make('deskripsi')
+                        ->required(),
+                    Forms\Components\TextInput::make('stok')
+                        ->required()
+                        ->minValue(0)
+                        ->numeric(),
+                    Forms\Components\FileUpload::make('gambar')
+                        ->required(),
+                    Forms\Components\Select::make('kategori_ids')
+                        ->label('Kategori')
+                        ->multiple()
+                        ->options(\App\Models\Kategori::all()->pluck('namaKategori', 'id'))
+                        ->preload()
+                        ->searchable()
+                        ->required()
+                        ->saveRelationshipsUsing(function ($record, $state) {
+                            $record->kategoris()->sync($state);
+                        }),
+                ])->columns(2)->heading('Informasi Buku'),
+
+                // Card baru untuk link marketplace
+                Forms\Components\Card::make([
+                    Forms\Components\TextInput::make('Link_Marketplace')
+                        ->label('Link Marketplace')
+                        ->placeholder('https://www.marketplace.com/product/123')
+                        ->url()
+                        ->nullable() // Membuat field menjadi opsional
+                        ->suffixAction(
+                            Forms\Components\Actions\Action::make('openMarketplace')
+                                ->icon('heroicon-o-shopping-bag')
+                                ->url(fn ($state) => $state, shouldOpenInNewTab: true)
+                        ),
+                    
+                    Forms\Components\TextInput::make('Link_Shopee')
+                        ->label('Link Shopee')
+                        ->placeholder('https://shopee.co.id/product/123')
+                        ->url()
+                        ->nullable() // Membuat field menjadi opsional
+                        ->suffixAction(
+                            Forms\Components\Actions\Action::make('openShopee')
+                                ->icon('heroicon-o-shopping-bag')
+                                ->url(fn ($state) => $state, shouldOpenInNewTab: true)
+                        ),
+                    
+                    Forms\Components\TextInput::make('Link_Tokopedia')
+                        ->label('Link Tokopedia')
+                        ->placeholder('https://www.tokopedia.com/product/123')
+                        ->url()
+                        ->nullable() // Membuat field menjadi opsional
+                        ->suffixAction(
+                            Forms\Components\Actions\Action::make('openTokopedia')
+                                ->icon('heroicon-o-shopping-bag')
+                                ->url(fn ($state) => $state, shouldOpenInNewTab: true)
+                        ),
+                ])->columns(1)->heading('Link Marketplace'),
             ]);
     }
 

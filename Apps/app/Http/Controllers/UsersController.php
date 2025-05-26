@@ -14,7 +14,19 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return view('users.Home');
+        // Ambil 4 buku terbaru berdasarkan timestamp created_at
+        $latestBooks = Buku::with('tokoBuku')
+            ->orderBy('created_at', 'desc')
+            ->take(4)
+            ->get();
+    
+        // Ambil 4 toko buku dengan jumlah buku terbanyak
+        $topStores = TokoBuku::withCount('bukus')
+            ->orderBy('bukus_count', 'desc')
+            ->take(4)
+            ->get();
+    
+        return view('users.Home', compact('latestBooks', 'topStores'));
     }
 
     public function library(Request $request)

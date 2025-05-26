@@ -7,7 +7,7 @@
         <!-- Enhanced Search Bar -->
         <div class="max-w-lg mx-auto mt-10 sm:mt-12">
             <form action="{{ route('book') }}" method="GET" class="relative group">
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full opacity-75 group-hover:opacity-100 blur transition duration-300"></div>
+                <div class="absolute -inset-0.5 bg-gradient-to-r rounded-full opacity-75 group-hover:opacity-100 blur transition duration-300"></div>
                 <div class="relative flex items-center bg-white rounded-full shadow-lg">
                     <input
                         type="text"

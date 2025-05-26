@@ -35,62 +35,113 @@ class TokoBukuResource extends Resource
     {
         return $form
     ->schema([
-        TextInput::make('Nama_Toko'),
-        Repeater::make('Link_Marketplace')
-            ->label('Link Marketplace')
+        Forms\Components\Section::make('Informasi Toko')
+            ->description('Informasi dasar tentang toko buku Anda')
+            ->icon('heroicon-o-information-circle')
             ->schema([
-                TextInput::make('url')
-                    ->label('URL Toko Online')
-                    ->url()
-                    ->placeholder('https://tokopedia.com/tokomu')
+                TextInput::make('Nama_Toko')
+                    ->required()
+                    ->maxLength(255),
+                    
+                Select::make('Id_seller')
+                    ->label('Nama Seller')
+                    ->options(Seller::pluck('name', 'id'))
+                    ->searchable()
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        $seller = Seller::find($state);
+                        if ($seller) {
+                            $set('Kontak', $seller->Kontak);
+                            $set('name', $seller->name);
+                        }
+                    })
                     ->required(),
-            ])
-            ->columns(1)
-            ->addActionLabel('Tambah Link Toko')
-            ->minItems(1)
-            ->reorderable()
-            ->defaultItems(1),
-        Select::make('Id_seller')
-            ->label('Nama Seller')
-            ->options(Seller::pluck('name', 'id'))
-            ->searchable()
-            ->reactive()
-            ->afterStateUpdated(function ($state, callable $set) {
-                $seller = Seller::find($state);
-                if ($seller) {
-                    $set('Kontak', $seller->Kontak);
-                    $set('name', $seller->name);
-                }
-            })
-            ->required(),
 
-        TextInput::make('Alamat')->required(),
+                TextInput::make('Alamat')
+                    ->required()
+                    ->maxLength(255),
 
-        TextInput::make('Kontak')
-            ->label('Kontak')
-            ->readOnly()
-            ->required(),
+                TextInput::make('Kontak')
+                    ->label('Kontak')
+                    ->readOnly()
+                    ->required(),
 
-        Hidden::make('name') 
-            ->required(),
+                Hidden::make('name') 
+                    ->required(),
 
-            TextInput::make('deskripsi_toko')
-                ->required(),
+                TextInput::make('deskripsi_toko')
+                    ->label('Deskripsi Toko')
+                    ->required()
+                    ->maxLength(1000)
+                    ->columnSpanFull(),
+            ])->columns(2),
             
-            FileUpload::make('gambar_toko')
-                ->label('Foto Profil')
-                ->image()
-                ->directory('gambar_toko')  
-                ->required() 
-                ->disk('public'), 
+        Forms\Components\Section::make('Input Link Marketplace')
+            ->description('Masukkan link toko online Anda di berbagai marketplace')
+            ->icon('heroicon-o-shopping-bag')
+            ->collapsible()
+            ->schema([
+                TextInput::make('Toko_Shopee')
+                    ->label('Link Shopee')
+                    ->url()
+                    ->placeholder('https://shopee.co.id/tokomu')
+                    ->prefixIcon('heroicon-o-shopping-bag')
+                    ->suffixAction(
+                        Forms\Components\Actions\Action::make('visit')
+                            ->icon('heroicon-m-arrow-top-right-on-square')
+                            ->tooltip('Buka link')
+                            ->url(fn (TextInput $component) => $component->getState(), true)
+                            ->visible(fn (TextInput $component) => filled($component->getState()))
+                    )
+                    ->helperText('Masukkan link toko Shopee Anda'),
 
-            
-            FileUpload::make('banner')
-                ->label('Banner')
-                ->image()
-                ->directory('banners')  
-                ->required() 
-                ->disk('public'), 
+                TextInput::make('Toko_Tokopedia')
+                    ->label('Link Tokopedia')
+                    ->url()
+                    ->placeholder('https://www.tokopedia.com/tokomu')
+                    ->prefixIcon('heroicon-o-shopping-bag')
+                    ->suffixAction(
+                        Forms\Components\Actions\Action::make('visit')
+                            ->icon('heroicon-m-arrow-top-right-on-square')
+                            ->tooltip('Buka link')
+                            ->url(fn (TextInput $component) => $component->getState(), true)
+                            ->visible(fn (TextInput $component) => filled($component->getState()))
+                    )
+                    ->helperText('Masukkan link toko Tokopedia Anda'),
+            ])->columnSpanFull(),
+
+        Forms\Components\Section::make('Media Toko')
+            ->description('Unggah gambar profil dan banner untuk toko Anda')
+            ->icon('heroicon-o-photo')
+            ->schema([
+                FileUpload::make('gambar_toko')
+                    ->label('Foto Profil')
+                    ->image()
+                    ->directory('gambar_toko')
+                    ->required()
+                    ->disk('public')
+                    ->imagePreviewHeight('250')
+                    ->panelAspectRatio('1:1')
+                    ->panelLayout('integrated')
+                    ->imageResizeMode('cover')
+                    ->imageCropAspectRatio('1:1')
+                    ->imageEditor()
+                    ->helperText('Upload gambar profil toko Anda (rasio 1:1)'),
+
+                FileUpload::make('banner')
+                    ->label('Banner')
+                    ->image()
+                    ->directory('banners')
+                    ->required()
+                    ->disk('public')
+                    ->imagePreviewHeight('250')
+                    ->panelAspectRatio('16:9')
+                    ->panelLayout('integrated')
+                    ->imageResizeMode('cover')
+                    ->imageCropAspectRatio('16:9')
+                    ->imageEditor()
+                    ->helperText('Upload banner toko Anda (rasio 16:9)'),
+            ])->columns(2),
         ]);
 
     }
@@ -108,9 +159,6 @@ class TokoBukuResource extends Resource
                     ->disabled(),
                 TextInputColumn::make('Alamat')
                     ->disabled(),
-                TextInputColumn::make('gambar_toko')
-                    ->disabled(),
-                TextInputColumn::make('banner')
             ])
             ->filters([
                 //
@@ -151,5 +199,25 @@ class TokoBukuResource extends Resource
     {
         return 'Total Toko Buku yang terdaftar';
     }
+
+    public static function mutateFormDataBeforeFill(array $data): array
+    {
+        // \log::info('Saving Data:', $data); // DEBUG
+
+        $marketplaceData = $data['Marketplaces'] ?? [];
+    
+        $data['Nama_Marketplace'] = collect($marketplaceData)
+            ->pluck('Nama_Marketplace')
+            ->toArray();
+    
+        $data['Toko_Marketplace'] = collect($marketplaceData)
+            ->pluck('Toko_Marketplace')
+            ->toArray();
+    
+        unset($data['Marketplaces']);
+    
+        return $data;
+    }
+
 
 }

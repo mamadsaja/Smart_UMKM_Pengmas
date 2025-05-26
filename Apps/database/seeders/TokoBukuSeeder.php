@@ -17,12 +17,10 @@ class TokoBukuSeeder extends Seeder
             'Id_seller' => 1, // Assuming the seller with ID 1 exists
             'Nama_Toko' => 'Toko Buku',
             'name' => 'Seller1',
-            'Link_Marketplace' => json_encode([
-            ]),
-            'Link_Shopee' => json_encode([
+            'Toko_Shopee' => json_encode([
                 'Shopee' => 'https://shopee.co.id/tokobuku',
             ]),
-            'Link_Tokopedia' => json_encode([
+            'Toko_Tokopedia' => json_encode([
                 'Tokopedia' => 'https://www.tokopedia.com/tokobuku',
             ]),
             'Alamat' => 'Jl. Contoh Alamat No. 123',

@@ -20,8 +20,8 @@
     <div class="hidden sm:flex space-x-6 font-semibold">
         <a href="{{ route('home') }}" class="text-blue-600 hover:text-blue-800 transition duration-300">HOME</a>
         <a href="{{ route('book') }}" class="text-gray-800 hover:text-blue-800 transition duration-300">LIBRARY</a>
-        <a href="#" class="text-gray-800 hover:text-blue-800 transition duration-300">SHOWS</a>
         <a href="{{ route('shop') }}" class="text-gray-800 hover:text-blue-800 transition duration-300">SHOP</a>
+        <a href="#" class="text-gray-800 hover:text-blue-800 transition duration-300">About Us</a>
     </div>
 
     <!-- Menu Mobile with Animation -->
@@ -37,8 +37,8 @@
     >
         <a href="{{ route('home') }}" class="font-semibold text-gray-800 hover:text-blue-800 transition">HOME</a>
         <a href="{{ route('book') }}" class="font-semibold text-gray-800 hover:text-blue-800 transition">LIBRARY</a>
-        <a href="#" class="font-semibold text-gray-800 hover:text-blue-800 transition">SHOWS</a>
         <a href="{{ route('shop') }}" class="font-semibold text-gray-800 hover:text-blue-800 transition">SHOP</a>
+        <a href="#" class="font-semibold text-gray-800 hover:text-blue-800 transition">About Us</a>
     </div>
 </nav>
 

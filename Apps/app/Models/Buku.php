@@ -11,7 +11,7 @@ class Buku extends Model
     use HasFactory;
     protected $guarded = ['id'];
     protected $casts = ['kategori' => 'array',];
-    protected $fillable = ['judul', 'toko_buku_id', 'penulis_id', 'penerbit_id', 'kategori', 'tahun_terbit', 'harga', 'stok', 'deskripsi', 'gambar', 'penulis', 'penerbit',];
+    protected $fillable = ['judul', 'toko_buku_id', 'penulis_id', 'penerbit_id', 'kategori', 'tahun_terbit', 'harga', 'stok', 'deskripsi', 'gambar', 'penulis', 'penerbit', 'Link_Marketplace', 'Link_Shopee', 'Link_Tokopedia'];
 
     public function tokoBuku()
     {

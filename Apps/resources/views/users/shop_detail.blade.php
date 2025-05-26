@@ -43,21 +43,44 @@
                     
                     <!-- Social Links -->
                     <div class="flex gap-4">
-                        <a href="#" target="_blank" 
-                           class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
-                            <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                            </svg>
+                        <!-- Tokopedia Button - hanya tampil jika ada link -->
+                        @if(isset($toko->Toko_Tokopedia) && $toko->Toko_Tokopedia != '#' && $toko->Toko_Tokopedia != '')
+                        <a href="{{ $toko->Toko_Tokopedia }}" target="_blank" 
+                           class="inline-flex items-center px-4 py-2 bg-white text-green-600 rounded-lg hover:bg-gray-200 transition shadow-md">
+                            <img src="{{ asset('asset/tokopedia.png') }}" alt="Tokopedia Logo" class="w-5 h-5 mr-2">
                             Tokopedia
                         </a>
+                        @endif
                         
-                        <a href="#" target="_blank" 
-                           class="inline-flex items-center px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition">
-                            <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                            </svg>
+                        <!-- Shopee Button - hanya tampil jika ada link -->
+                        @if(isset($toko->Toko_Shopee) && $toko->Toko_Shopee != '#' && $toko->Toko_Shopee != '')
+                        <a href="{{ $toko->Toko_Shopee }}" target="_blank" 
+                           class="inline-flex items-center px-4 py-2 bg-white text-orange-600 rounded-lg hover:bg-gray-200 transition shadow-md">
+                            <img src="{{ asset('asset/Shopee-logo.jpg') }}" alt="Shopee Logo" class="w-5 h-5 mr-2">
                             Shopee
                         </a>
+                        @endif
+                        
+                        <!-- Web Store Button - hanya tampil jika ada link -->
+                        @if(isset($toko->Toko_Marketplace) && $toko->Toko_Marketplace != '#' && $toko->Toko_Marketplace != '')
+                        <!-- Web Store Buttons - untuk marketplace lainnya -->
+                        @if(isset($toko->Link_Marketplace) && is_array($toko->Link_Marketplace))
+                            @foreach($toko->Link_Marketplace as $marketplace)
+                                @if(isset($marketplace['url']) && $marketplace['url'] != '#' && $marketplace['url'] != '')
+                                <a href="{{ $marketplace['url'] }}" target="_blank" 
+                                   class="inline-flex items-center px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-gray-200 transition shadow-md">
+                                    <img src="{{ asset('asset/planet-earth.png') }}" alt="Web Store Logo" class="w-5 h-5 mr-2">
+                                    {{ $marketplace['nama_toko'] ?? 'Toko Online' }}
+                                </a>
+                                @endif
+                            @endforeach
+                        @endif
+                        <a href="{{ $toko->Toko_Marketplace }}" target="_blank" 
+                           class="inline-flex items-center px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-gray-200 transition shadow-md">
+                            <img src="{{ asset('asset/planet-earth.png') }}" alt="Web Store Logo" class="w-5 h-5 mr-2">
+                            Toko Online
+                        </a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -65,7 +88,7 @@
             <!-- Description Section -->
             <div class="mt-8 border-t pt-8">
                 <h2 class="text-2xl font-semibold text-gray-900 mb-4">Deskripsi Toko</h2>
-                <div class="prose max-w-none text-gray-600">
+                <div class="prose max-w-xl text-gray-600 break-words">
                     <p>{{ $toko->deskripsi_toko }}</p>
                     {{-- <p>Dengan pengalaman lebih dari 10 tahun, kami berkomitmen untuk memberikan pelayanan terbaik dan koleksi buku terlengkap untuk memenuhi kebutuhan literasi Anda.</p> --}}
                 </div>

@@ -10,8 +10,8 @@ class TokoBuku extends Model
     use HasFactory;
     protected $guarded = 'id';
     protected $table = 'toko_bukus';
-    protected $casts = ['Link_Marketplace' => 'array'];
-    protected $fillable = ['Nama_Toko', 'Link_Marketplace', 'Id_seller', 'Alamat', 'Kontak', 'name', 'deskripsi_toko', 'gambar_toko', 'banner'];
+    // protected $casts = ['Toko_Marketplace' => 'array', 'Nama_Marketplace' => 'array'];
+    protected $fillable = ['Nama_Toko', 'Toko_Shopee', 'Toko_Tokopedia', 'Id_seller', 'Alamat', 'Kontak', 'name', 'deskripsi_toko', 'gambar_toko', 'banner',];
 
     public function seller()
     {

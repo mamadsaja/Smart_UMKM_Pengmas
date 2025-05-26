@@ -143,6 +143,22 @@ body {
                     </span>
                 </div>
 
+                <div>
+
+                <div class="mb-6">
+                    <div class="text-sm text-gray-500 mb-2">Harga</div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-4xl font-bold text-gray-900">Rp {{ number_format($buku->harga, 0, ',', '.') }}</span>
+                        @if($buku->harga_asli > $buku->harga)
+                            <span class="text-lg text-gray-400 line-through">Rp {{ number_format($buku->harga_asli, 0, ',', '.') }}</span>
+                            <span class="px-2 py-1 bg-red-100 text-red-600 text-sm font-medium rounded-full">
+                                -{{ round((($buku->harga_asli - $buku->harga) / $buku->harga_asli) * 100) }}%
+                            </span>
+                        @endif
+                    </div>
+                </div>
+                </div>
+
                 <div class="mb-6">
                     <div class="text-sm text-gray-500 mb-2">Genres</div>
                     <div class="flex flex-wrap gap-2">
@@ -151,12 +167,50 @@ body {
                         @endforeach
                     </div>
                 </div>
-                <a href="{{ route('shop_detail', $buku->tokoBuku->id) }}">
-                  <button class="flex items-center px-6 py-3 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors shadow-sm">
-                      <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 17l-5-5 1.414-1.414L10 14.172l7.586-7.586L19 8l-9 9z"></path></svg>
-                      Kunjungi Toko {{ $buku->tokoBuku->Nama_Toko }}
-                  </button>
+
+                <!-- Wrapper Tombol Marketplace -->
+                <div class="flex flex-col md:flex-row gap-7 mb-6">
+                    <!-- Shopee Button - hanya tampil jika ada link -->
+                    @if(isset($buku->Link_Shopee) && $buku->tokoBuku->Link_Shopee != '#' && $buku->Link_Shopee != '')
+                    <a href="{{ $buku->Link_Shopee }}" target="_blank">
+                        <button class="flex items-center justify-center px-4 py-2 bg-white text-orange-600 text-sm font-semibold rounded-md hover:bg-gray-200 transition-colors shadow-md">
+                            <span class="mr-2">Shopee</span>
+                            <img src="{{ asset('asset/Shopee-logo.jpg') }}" alt="Shopee Logo" class="w-7 h-7">
+                        </button>
+                    </a>
+                    @endif
+                
+                    <!-- Tokopedia Button - hanya tampil jika ada link -->
+                    @if(isset($buku->Link_Tokopedia) && $buku->Link_Tokopedia != '#' && $buku->Link_Tokopedia != '')
+                    <a href="{{ $buku->Link_Tokopedia }}" target="_blank">
+                        <button class="flex items-center justify-center px-4 py-2 bg-white text-green-600 text-sm font-semibold rounded-md hover:bg-gray-200 transition-colors shadow-md">
+                            <span class="mr-2">Tokopedia</span>
+                            <img src="{{ asset('asset/tokopedia.png') }}" alt="Tokopedia Logo" class="w-7 h-7">
+                        </button>
+                    </a>
+                    @endif
+                
+                    <!-- Web Store Button - hanya tampil jika ada link -->
+                    @if(isset($buku->Link_Marketplace) && $buku->Link_Marketplace != '#' && $buku->Link_Marketplace != '')
+                    <a href="{{ $buku->Link_Marketplace }}" target="_blank">
+                        <button class="flex items-center justify-center px-4 py-2 bg-white text-blue-600 text-sm font-semibold rounded-md hover:bg-gray-200 transition-colors shadow-md">
+                            <span class="mr-2">Toko Online</span>
+                            <img src="{{ asset('asset/planet-earth.png') }}" alt="Web Store Logo" class="w-6 h-6">
+                        </button>
+                    </a>
+                    @endif
+                </div>
+
+                <!-- Tombol Kunjungi Toko (dibikin lebih besar) -->
+                <a href="{{ route('shop_detail', $buku->tokoBuku->id) }}"
+                class="inline-flex items-center px-6 py-3 bg-orange-500 text-white text-base font-semibold rounded-lg hover:bg-orange-600 transition-colors shadow-md">
+                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 17l-5-5 1.414-1.414L10 14.172l7.586-7.586L19 8l-9 9z"/>
+                    </svg>
+                    Kunjungi Toko {{ $buku->tokoBuku->Nama_Toko }}
                 </a>
+
+                
             </div>
         </div>
 
@@ -164,12 +218,12 @@ body {
         <div class="bg-white rounded-2xl shadow-sm mt-8 p-8 md:p-12 flex flex-col md:flex-row gap-8">
             <!-- Table of Contents -->
             <div class="md:w-1/3 bg-gray-50 rounded-lg p-6">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Deskripisi Buku atau Sinopsis</h2>
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">Deskripisi Buku dan Sinopsis</h2>
             </div>
 
             <!-- Description -->
             <div class="md:w-2/3">
-                <p class="text-gray-600 text-base leading-relaxed text-justify">
+                <p class="text-gray-600 text-base leading-relaxed text-justify break-words">
                   {{ $buku->deskripsi }}
                 </p>
             </div>
