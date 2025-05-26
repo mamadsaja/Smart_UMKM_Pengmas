@@ -18,7 +18,6 @@ class TokoBukuSeeder extends Seeder
             'Nama_Toko' => 'Toko Buku',
             'name' => 'Seller1',
             'Link_Marketplace' => json_encode([
-                'Bukalapak' => 'https://www.bukalapak.com/tokobuku',
             ]),
             'Link_Shopee' => json_encode([
                 'Shopee' => 'https://shopee.co.id/tokobuku',
