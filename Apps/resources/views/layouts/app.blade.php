@@ -17,6 +17,8 @@
     
     @yield('content')
 
+    @include('components.whatsapp')
+    @include('components.section_card')
     @include('components.footer')
     <script src="./assets/vendor/preline/dist/preline.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>

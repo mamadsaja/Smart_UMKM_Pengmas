@@ -62,19 +62,7 @@
                         @endif
                         
                         <!-- Web Store Button - hanya tampil jika ada link -->
-                        @if(isset($toko->Toko_Marketplace) && $toko->Toko_Marketplace != '#' && $toko->Toko_Marketplace != '')
-                        <!-- Web Store Buttons - untuk marketplace lainnya -->
-                        @if(isset($toko->Link_Marketplace) && is_array($toko->Link_Marketplace))
-                            @foreach($toko->Link_Marketplace as $marketplace)
-                                @if(isset($marketplace['url']) && $marketplace['url'] != '#' && $marketplace['url'] != '')
-                                <a href="{{ $marketplace['url'] }}" target="_blank" 
-                                   class="inline-flex items-center px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-gray-200 transition shadow-md">
-                                    <img src="{{ asset('asset/planet-earth.png') }}" alt="Web Store Logo" class="w-5 h-5 mr-2">
-                                    {{ $marketplace['nama_toko'] ?? 'Toko Online' }}
-                                </a>
-                                @endif
-                            @endforeach
-                        @endif
+                        @if(isset($toko->Toko_Marketplace) && !is_array($toko->Toko_Marketplace) && $toko->Toko_Marketplace != '#' && $toko->Toko_Marketplace != '')
                         <a href="{{ $toko->Toko_Marketplace }}" target="_blank" 
                            class="inline-flex items-center px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-gray-200 transition shadow-md">
                             <img src="{{ asset('asset/planet-earth.png') }}" alt="Web Store Logo" class="w-5 h-5 mr-2">

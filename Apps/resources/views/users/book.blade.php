@@ -1,255 +1,543 @@
 @extends('layouts.app')
 @section('title', 'Library')
 @section('content')
-<div class="min-h-screen bg-gray-100 py-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
-    <div class="text-center mb-10 mt-16 sm:mt-20">
-        <h1 class="text-5xl font-extrabold text-gray-900 mb-6 tracking-wide drop-shadow">LIBRARY</h1>
-        <!-- Enhanced Search Bar -->
-        <div class="max-w-lg mx-auto mt-10 sm:mt-12">
-            <form action="{{ route('book') }}" method="GET" class="relative group">
-                <div class="absolute -inset-0.5 bg-gradient-to-r rounded-full opacity-75 group-hover:opacity-100 blur transition duration-300"></div>
-                <div class="relative flex items-center bg-white rounded-full shadow-lg">
-                    <input
-                        type="text"
-                        name="search"
-                        value="{{ request('search') }}"
-                        placeholder="Cari buku favorit Anda..."
-                        class="w-full pl-6 pr-12 py-4 rounded-full focus:outline-none text-base sm:text-lg bg-transparent z-10"
-                    />
-                    <button type="submit" class="absolute right-3 bg-blue-600 hover:bg-blue-700 text-white p-2.5 rounded-full transition-all duration-300 mr-1 z-10">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
-                        </svg>
-                    </button>
+<div class="min-h-screen  bg-white">
+    <div class="flex mt-36">
+        <!-- Sidebar Filter - Diubah menjadi putih dengan bayangan abu-abu -->
+        <!-- Overlay for mobile filter -->
+        <div id="filterOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
+        <div id="filterSidebar" class="w-64  bg-white text-gray-800 p-6 shadow-md border-r border-gray-100 md:relative md:min-h-screen md:w-64 fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 z-50 md:z-0 md:transform-none md:static md:shadow-none md:border-none md:block">
+            <form id="filterFormSidebar" method="GET" action="{{ route('book') }}">
+            <!-- Genre Section -->
+            <div class="mb-8 ">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">Genre</h3>
+                    {{-- Icon panah - biarkan saja sebagai visual --}}
+                    <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
                 </div>
-                <!-- Hidden kategori field to maintain category when searching -->
-                @if(request('kategori'))
-                    <input type="hidden" name="kategori" value="{{ request('kategori') }}">
-                @endif
-            </form>
-        </div>
-        
-        <!-- Modern Navigator -->
-        <div class="max-w-5xl mx-auto mt-10">
-            <div class="bg-white rounded-2xl shadow-lg p-2 flex flex-wrap justify-center gap-2 md:gap-4">
-                <!-- Category Pills -->
-                <div class="flex items-center space-x-3 overflow-x-auto py-2 px-4 scrollbar-hide">
-                    <a href="{{ route('book') }}" 
-                       class="flex items-center space-x-2 {{ !request('kategori') ? 'bg-blue-600 text-white' : 'bg-white text-gray-700' }} px-5 py-2.5 rounded-xl shadow-md hover:bg-blue-700 hover:text-white transition-all duration-300 whitespace-nowrap">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
-                        </svg>
-                        <span class="font-medium">Semua</span>
-                    </a>
-                    
+                
+                <!-- Search Genre -->
+                <div class="relative mb-4">
+                    <input type="text" name="search_genre" value="{{ is_array(request('search_genre')) ? '' : request('search_genre') }}" placeholder="Search Genre" class="w-full bg-gray-50 text-gray-800 px-3 py-2 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 border border-gray-200">
+                    <svg class="w-4 h-4 absolute right-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+                
+                <!-- Genre Tags -->
+                <div class="flex flex-wrap gap-2 mb-4">
+                    {{-- Tombol Semua Genre (checkbox tersembunyi + label) --}}
+                    <input type="checkbox" id="genre_all" name="kategori[]" value="" class="hidden" {{ !request('kategori') || (is_array(request('kategori')) && empty(request('kategori'))) ? 'checked' : '' }}>
+                    <label for="genre_all" class="{{ !request('kategori') || (is_array(request('kategori')) && empty(request('kategori'))) ? 'bg-indigo-100 text-indigo-800' : 'bg-gray-100 text-gray-800' }} px-3 py-1 rounded-full text-xs hover:bg-indigo-100 hover:text-indigo-800 transition-colors border border-gray-200 cursor-pointer">
+                        Semua Genre
+                    </label>
+
                     @foreach($kategoris as $kategori)
-                        @php
-                            $isActive = request('kategori') == $kategori->namaKategori;
-                            
-                            // Assign icon and color based on category name
-                            $iconColor = 'text-blue-500';
-                            $icon = '<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>';
-                            
-                            if($kategori->namaKategori == 'Fiksi') {
-                                $iconColor = 'text-yellow-500';
-                                $icon = '<path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"></path>';
-                            } elseif($kategori->namaKategori == 'Non-Fiksi') {
-                                $iconColor = 'text-green-500';
-                                $icon = '<path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path>';
-                            } elseif($kategori->namaKategori == 'Fantasi' || $kategori->namaKategori == 'Horor') {
-                                $iconColor = 'text-red-500';
-                                $icon = '<path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"></path>';
-                            } elseif($kategori->namaKategori == 'Biografi' || $kategori->namaKategori == 'Sejarah') {
-                                $iconColor = 'text-purple-500';
-                                $icon = '<path d="M9 6a3 3 0 11-6 0 3 3 0 116 0zM17 6a3 3 0 11-6 0 3 3 0 116 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path>';
-                            } elseif($kategori->namaKategori == 'Sains' || $kategori->namaKategori == 'Filsafat') {
-                                $iconColor = 'text-blue-500';
-                                $icon = '<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>';
-                            }
-                        @endphp
-                        
-                        <a href="{{ route('book', ['kategori' => $kategori->namaKategori]) }}{{ request('search') ? '&search='.request('search') : '' }}" 
-                           class="flex items-center space-x-2 {{ $isActive ? 'bg-blue-600 text-white' : 'bg-white text-gray-700' }} px-5 py-2.5 rounded-xl shadow-sm hover:bg-gray-50 hover:shadow-md transition-all duration-300 whitespace-nowrap">
-                            <svg class="w-5 h-5 {{ !$isActive ? $iconColor : '' }}" fill="currentColor" viewBox="0 0 20 20">
-                                {!! $icon !!}
-                            </svg>
-                            <span class="font-medium">{{ $kategori->namaKategori }}</span>
-                        </a>
+                        <input type="checkbox" id="genre_{{ $kategori->id }}" name="kategori[]" value="{{ $kategori->namaKategori }}" class="hidden" {{ (is_array(request('kategori')) && in_array($kategori->namaKategori, request('kategori'))) ? 'checked' : '' }}>
+                        <label for="genre_{{ $kategori->id }}" class="{{ (is_array(request('kategori')) && in_array($kategori->namaKategori, request('kategori'))) ? 'bg-indigo-100 text-indigo-800' : 'bg-gray-100 text-gray-800' }} px-3 py-1 rounded-full text-xs hover:bg-indigo-100 hover:text-indigo-800 transition-colors border border-gray-200 cursor-pointer">
+                            {{ $kategori->namaKategori }}
+                        </label>
                     @endforeach
                 </div>
-                
-                <!-- Filter Button -->
-                <div class="flex items-center">
-                    <button id="filterButton" class="flex items-center space-x-2 bg-gray-100 text-gray-700 px-4 py-2.5 rounded-xl hover:bg-gray-200 transition-all duration-300">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
-                        </svg>
-                        <span class="font-medium">Filter</span>
-                    </button>
+            </div>
+            
+            <!-- Additional Filter Sections -->
+            <div class="space-y-6">
+                <!-- Filter Penulis -->
+                <div>
+                    <h4 class="text-sm font-medium mb-2">Penulis</h4>
+                    <input type="text" name="filter_penulis" value="{{ is_array(request('filter_penulis')) ? '' : request('filter_penulis') }}" placeholder="Nama Penulis" class="w-full bg-gray-50 text-gray-800 px-3 py-2 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 border border-gray-200">
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Filter Panel (Hidden by default) -->
-        <div id="filterPanel" class="bg-white rounded-2xl shadow-lg p-6 mb-8 hidden transform transition-all duration-300">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-gray-800">Filter Buku</h3>
-                <button id="closeFilterBtn" class="text-gray-500 hover:text-gray-700">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-            <form action="{{ route('book') }}" method="GET" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Maintain existing filters -->
-                @if(request('kategori'))
-                    <input type="hidden" name="kategori" value="{{ request('kategori') }}">
-                @endif
-                @if(request('search'))
-                    <input type="hidden" name="search" value="{{ request('search') }}">
-                @endif
-                
-                <!-- Price Range -->
-                <div class="bg-gray-50 p-4 rounded-xl">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">Rentang Harga</label>
-                    <div class="flex items-center space-x-3">
-                        <div class="relative flex-1">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-500 sm:text-sm">Rp</span>
-                            </div>
-                            <input 
-                                type="number" 
-                                name="min_price" 
-                                value="{{ request('min_price') }}" 
-                                placeholder="Min" 
-                                class="pl-10 w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            >
-                        </div>
-                        <span class="text-gray-500">-</span>
-                        <div class="relative flex-1">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <span class="text-gray-500 sm:text-sm">Rp</span>
-                            </div>
-                            <input 
-                                type="number" 
-                                name="max_price" 
-                                value="{{ request('max_price') }}" 
-                                placeholder="Max" 
-                                class="pl-10 w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                            >
-                        </div>
+                <!-- Filter Tahun Terbit -->
+                <div>
+                    <h4 class="text-sm font-medium mb-2">Tahun Terbit</h4>
+                    <div class="flex space-x-2">
+                        <input type="number" name="filter_tahun_dari" value="{{ is_array(request('filter_tahun_dari')) ? '' : request('filter_tahun_dari') }}" placeholder="Dari" class="w-1/2 bg-gray-50 text-gray-800 px-3 py-2 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 border border-gray-200">
+                        <input type="number" name="filter_tahun_sampai" value="{{ is_array(request('filter_tahun_sampai')) ? '' : request('filter_tahun_sampai') }}" placeholder="Sampai" class="w-1/2 bg-gray-50 text-gray-800 px-3 py-2 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 border border-gray-200">
                     </div>
                 </div>
-                
-                <!-- Sort By -->
-                <div class="bg-gray-50 p-4 rounded-xl">
-                    <label class="block text-sm font-medium text-gray-700 mb-3">Urutkan Berdasarkan</label>
-                    <select name="sort" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                        <option value="">Pilih...</option>
-                        <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Harga: Rendah ke Tinggi</option>
-                        <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Harga: Tinggi ke Rendah</option>
-                        <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Terbaru</option>
+
+                <!-- Filter Bahasa (contoh dropdown, perlu data bahasa dari backend) -->
+                <div>
+                    <h4 class="text-sm font-medium mb-2">Bahasa</h4>
+                    <select name="filter_bahasa" class="w-full bg-gray-50 text-gray-800 px-3 py-2 rounded text-sm focus:outline-none border border-gray-200">
+                        <option value="">Semua Bahasa</option>
+                        {{-- Contoh opsi, sesuaikan dengan data dari database --}}
+                        <option value="Indonesia" {{ request('filter_bahasa') == 'Indonesia' ? 'selected' : '' }}>Indonesia</option>
+                        <option value="Inggris" {{ request('filter_bahasa') == 'Inggris' ? 'selected' : '' }}>Inggris</option>
+                        <option value="Jepang" {{ request('filter_bahasa') == 'Jepang' ? 'selected' : '' }}>Jepang</option>
+                        {{-- ... loop data bahasa dari database di sini ... --}}
                     </select>
                 </div>
-                
-                <!-- Submit Button -->
-                <div class="md:col-span-2 lg:col-span-3 flex justify-end mt-4">
-                    <a href="{{ route('book') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2.5 rounded-lg mr-3 transition-colors duration-300 flex items-center">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                        </svg>
-                        Reset
-                    </a>
-                    <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg transition-colors duration-300 flex items-center">
-                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
-                        </svg>
-                        Terapkan Filter
-                    </button>
-                </div>
+            </div>
+            
+            <!-- Filter Buttons -->
+            <div class="mt-8 space-y-3">
+                {{-- Tombol Cancel (untuk mereset form) --}}
+                <button type="button" id="cancelFilterButton" class="w-full bg-gray-200 text-gray-800 py-2 rounded hover:bg-gray-300 transition-colors">Cancel</button>
+                {{-- Tombol Submit (untuk mengirimkan form filter) --}}
+                <button type="submit" class="w-full bg-indigo-500 text-white py-2 rounded hover:bg-indigo-600 transition-colors">Submit</button>
+            </div>
             </form>
         </div>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-8 w-full">
-            @if($bukus->count() > 0)
-                @foreach ($bukus as $buku)
-                    <a href="{{ route('book_detail', ['id' => $buku->id]) }}">
-                        <div class="bg-white rounded-2xl shadow hover:shadow-xl overflow-hidden transition-all duration-300 group w-full">
-                            <div class="relative">
-                                <img src="{{ asset('storage/' . $buku->gambar) }}"
-                                    alt="{{ $buku->judul }}"
-                                    class="w-full h-58 sm:h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                                />
-                                <div class="absolute top-3 left-3 flex gap-2">
-                                    <span class="bg-white text-black text-xs font-bold px-2 py-1 rounded-full shadow-sm">NEW</span>
-                                    <span class="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">UP</span>
-                                </div>
-                                <div class="absolute top-3 right-3 text-sm bg-white/80 px-2 py-1 rounded-full shadow-sm">🇮🇩</div>
-                            </div>
-                            <div class="p-5">
-                                <h3 class="text-base font-semibold truncate mb-2">{{ $buku->judul }}</h3>
-                                <p class="text-xs text-gray-500">
-                                    Toko: <span class="font-medium text-gray-700">{{ $buku->tokoBuku->Nama_Toko ?? 'Unknown' }}</span>
-                                </p>
-                                <div class="flex items-center justify-between mt-4 text-xs text-gray-500">
-                                    <div class="flex items-center space-x-2">
-                                        <svg class="h-4 w-4 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M12 22c5.421 0 10-4.579 10-10S17.421 2 12 2 2 6.579 2 12s4.579 10 10 10z"/>
-                                        </svg>
-                                        <span class="font-medium">{{ $buku->penulis ?? 'Anonim' }}</span>
-                                    </div>
-                                    <div class="font-bold text-gray-800">Rp {{ number_format($buku->harga, 0, ',', '.') }}</div>
-                                </div>
-                            </div>
+        <!-- Main Content -->
+        <div class="flex-1 bg-white overflow-x-hidden">
+            <!-- Top Bar - Diubah menjadi lebih terang -->
+            <div class="bg-white text-gray-800 p-4 shadow-sm border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <!-- Left side - View toggles -->
+                    <div class="flex items-center space-x-4">
+                        <div class="flex bg-gray-100 rounded overflow-hidden border border-gray-200">
+                            <button id="gridViewBtn" class="p-2 bg-indigo-500 text-white rounded-l">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                                </svg>
+                            </button>
+                            <button id="listViewBtn" class="p-2 text-gray-600">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                            </button>
                         </div>
-                    </a>
-                @endforeach
-            @else
-                <div class="col-span-full py-12 text-center">
-                    <svg class="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <h3 class="mt-4 text-lg font-medium text-gray-900">Tidak ada buku ditemukan</h3>
-                    <p class="mt-2 text-sm text-gray-500">Coba ubah filter atau kata kunci pencarian Anda.</p>
+                    </div>
+                    
+                    <!-- Center - Search -->
+                    <div class="flex-1 mx-4 min-w-0">
+                        <form action="{{ route('book') }}" method="GET" class="relative">
+                            <input type="text" name="search" value="{{ is_array(request('search')) ? '' : request('search') }}" placeholder="Cari" class="w-full bg-gray-50 text-gray-800 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-300 border border-gray-200">
+                            <svg class="w-5 h-5 absolute right-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            @if(request('kategori'))
+                                @if(is_array(request('kategori')))
+                                    @foreach(request('kategori') as $kat)
+                                        <input type="hidden" name="kategori[]" value="{{ $kat }}">
+                                    @endforeach
+                                @else
+                                     <input type="hidden" name="kategori" value="{{ request('kategori') }}">
+                                @endif
+                            @endif
+                        </form>
+                    </div>
+                    
+                    <!-- Right side - Sort, Download, and Filter Button (Mobile) -->
+                    <div class="flex items-center space-x-2 md:space-x-4 min-w-0">
+                        <select name="sort" class="bg-gray-50 text-gray-800 px-3 py-2 rounded focus:outline-none border border-gray-200 hidden md:block">
+                            <option value="">Popularitas</option>
+                            <option value="newest" {{ (is_array(request('sort')) ? '' : request('sort')) == 'newest' ? 'selected' : '' }}>Terbaru</option>
+                            <option value="price_asc" {{ (is_array(request('sort')) ? '' : request('sort')) == 'price_asc' ? 'selected' : '' }}>Harga: Rendah ke Tinggi</option>
+                            <option value="price_desc" {{ (is_array(request('sort')) ? '' : request('sort')) == 'price_desc' ? 'selected' : '' }}>Harga: Tinggi ke Rendah</option>
+                        </select>
+                        <button class="p-2 bg-gray-50 rounded hover:bg-gray-100 text-gray-600 border border-gray-200 hidden md:block">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </button>
+                        <!-- Filter Button for Mobile -->
+                        <button id="filterButtonMobile" class="p-2 bg-gray-50 rounded hover:bg-gray-100 text-gray-600 border border-gray-200 md:hidden">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-            @endif
-        </div>
+            </div>
+            
+            <!-- Books Grid -->
+            <div class="py-6 px-4 md:px-6">
+                @if($bukus->count() > 0)
+                    <div id="booksContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                        @foreach ($bukus as $buku)
+                            <a href="{{ route('book_detail', ['id' => $buku->id]) }}" class="group">
+                                <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100">
+                                    <div class="relative">
+                                        <img src="{{ asset('storage/' . $buku->gambar) }}" alt="{{ $buku->judul }}" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
+                                        
+                                        <!-- Status badges -->
+                                        <div class="absolute top-2 left-2 flex flex-col gap-1">
+                                            <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded">NEW</span>
+                                            <span class="bg-red-500 text-white text-xs px-2 py-1 rounded">UP</span>
+                                        </div>
+                                        
+                                        <!-- Country flag -->
+                                        <div class="absolute top-2 right-2">
+                                            <span class="text-lg">🇮🇩</span>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <!-- Book info -->
+                                    <div class="p-3">
+                                        <h2 class="font-medium text-gray-900 truncate mb-1">{{ $buku->judul }}</h2>
+                                        <p class="text-xs text-gray-500 mb-1">{{ $buku->penulis ?? 'Anonim' }}</p>
+                                        <!-- Tambahkan deskripsi singkat -->
+                                        <p class="text-xs text-gray-500 mb-2 line-clamp-2 hidden">{{ Str::limit($buku->deskripsi ?? 'Tidak ada deskripsi tersedia', 400) }}</p>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-sm font-bold text-gray-900">Rp {{ number_format($buku->harga, 0, ',', '.') }}</span>
+                                            <span class="text-xs text-gray-500">{{ $buku->tokoBuku->Nama_Toko ?? 'Unknown' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center py-12">
+                        <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <h3 class="text-lg font-medium text-gray-900 mb-2">Tidak ada buku ditemukan</h3>
+                        <p class="text-gray-500">Coba ubah filter atau kata kunci pencarian Anda.</p>
+                    </div>
+                @endif
+                
+                <!-- Pagination -->
+                <div class="mt-8 flex justify-center">
+                    @if($bukus->hasPages())
+                        <div class="flex flex-col items-center">
+                            {{-- Desktop and Mobile Pagination Controls --}}
+                            <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm mb-4" aria-label="Pagination">
+                                @if($bukus->onFirstPage())
+                                    <span class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 cursor-not-allowed">
+                                        <span class="sr-only">Sebelumnya</span>
+                                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                @else
+                                    <a href="{{ $bukus->previousPageUrl() }}" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                        <span class="sr-only">Sebelumnya</span>
+                                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                                        </svg>
+                                    </a>
+                                @endif
 
-        <div class="mt-12 flex justify-center">
-            {{ $bukus->appends(request()->query())->links() }}
+                                {{-- Pagination Elements (Numbers) --}}
+                                @foreach($bukus->getUrlRange(1, $bukus->lastPage()) as $page => $url)
+                                    @if($page == $bukus->currentPage())
+                                        <span class="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                            {{ $page }}
+                                        </span>
+                                    @else
+                                        <a href="{{ $url }}" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                            {{ $page }}
+                                        </a>
+                                    @endif
+                                @endforeach
+
+                                @if($bukus->hasMorePages())
+                                    <a href="{{ $bukus->nextPageUrl() }}" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                        <span class="sr-only">Selanjutnya</span>
+                                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                                        </svg>
+                                    </a>
+                                @else
+                                    <span class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 cursor-not-allowed">
+                                        <span class="sr-only">Selanjutnya</span>
+                                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                @endif
+                            </nav>
+
+                            {{-- Result Count --}}
+                            <p class="text-sm text-gray-700">
+                                Menampilkan
+                                <span class="font-medium">{{ $bukus->firstItem() }}</span>
+                                sampai
+                                <span class="font-medium">{{ $bukus->lastItem() }}</span>
+                                dari
+                                <span class="font-medium">{{ $bukus->total() }}</span>
+                                hasil
+                            </p>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const filterButton = document.getElementById('filterButton');
-        const filterPanel = document.getElementById('filterPanel');
-        const closeFilterBtn = document.getElementById('closeFilterBtn');
-        
-        filterButton.addEventListener('click', function() {
-            filterPanel.classList.toggle('hidden');
-            // Add a small delay before adding the transform class for a nice animation effect
-            if (!filterPanel.classList.contains('hidden')) {
-                setTimeout(() => {
-                    filterPanel.classList.add('opacity-100', 'scale-100');
-                    filterPanel.classList.remove('opacity-0', 'scale-95');
-                }, 10);
+document.addEventListener('DOMContentLoaded', function() {
+    const gridViewBtn = document.getElementById('gridViewBtn');
+    const listViewBtn = document.getElementById('listViewBtn');
+    const booksContainer = document.getElementById('booksContainer');
+    const filterButtonMobile = document.getElementById('filterButtonMobile');
+    const filterSidebar = document.getElementById('filterSidebar');
+    const filterOverlay = document.getElementById('filterOverlay');
+    const filterFormSidebar = document.getElementById('filterFormSidebar');
+    const cancelFilterButton = document.getElementById('cancelFilterButton');
+
+    // Fungsi untuk membuka sidebar filter
+    function openFilterSidebar() {
+        filterSidebar.classList.remove('-translate-x-full');
+        filterOverlay.classList.remove('hidden');
+    }
+
+    // Fungsi untuk menutup sidebar filter
+    function closeFilterSidebar() {
+        filterSidebar.classList.add('-translate-x-full');
+        filterOverlay.classList.add('hidden');
+    }
+
+    // Event listener untuk tombol filter mobile
+    if (filterButtonMobile) {
+        filterButtonMobile.addEventListener('click', openFilterSidebar);
+    }
+
+    // Event listener untuk overlay (menutup sidebar)
+    if (filterOverlay) {
+        filterOverlay.addEventListener('click', closeFilterSidebar);
+    }
+    
+    // Event listener untuk tombol Cancel
+    if (cancelFilterButton && filterFormSidebar) {
+        cancelFilterButton.addEventListener('click', function() {
+            // Reset input teks, number, dan select
+            filterFormSidebar.querySelectorAll('input[type="text"], input[type="number"], select').forEach(input => {
+                if (input.type === 'select-one' || input.type === 'select-multiple') {
+                    input.selectedIndex = 0; // Pilih opsi pertama (Semua Bahasa)
+                } else {
+                    input.value = ''; // Kosongkan input teks dan number
+                }
+            });
+
+            // Reset semua checkbox genre
+            const genreCheckboxes = filterFormSidebar.querySelectorAll('input[name="kategori[]"]');
+            genreCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Centang 'Semua Genre' secara manual
+            const genreAllCheckbox = document.getElementById('genre_all');
+            if (genreAllCheckbox) {
+                genreAllCheckbox.checked = true;
+            }
+
+            // Perbarui tampilan label genre (aktif/tidak aktif) setelah reset
+            updateGenreLabels();
+        });
+    }
+
+    // Fungsi untuk memperbarui tampilan label genre berdasarkan status checkbox
+    function updateGenreLabels() {
+        const genreCheckboxes = filterFormSidebar.querySelectorAll('input[name="kategori[]"]');
+        genreCheckboxes.forEach(checkbox => {
+            const label = filterFormSidebar.querySelector(`label[for="${checkbox.id}"]`);
+            if (label) {
+                if (checkbox.checked) {
+                    label.classList.remove('bg-gray-100', 'text-gray-800');
+                    label.classList.add('bg-indigo-100', 'text-indigo-800');
+                } else {
+                    label.classList.remove('bg-indigo-100', 'text-indigo-800');
+                    label.classList.add('bg-gray-100', 'text-gray-800');
+                }
             } else {
-                filterPanel.classList.remove('opacity-100', 'scale-100');
-                filterPanel.classList.add('opacity-0', 'scale-95');
+                 console.error(`Label for checkbox with id ${checkbox.id} not found.`);
             }
         });
-        
-        closeFilterBtn.addEventListener('click', function() {
-            filterPanel.classList.add('opacity-0', 'scale-95');
-            filterPanel.classList.remove('opacity-100', 'scale-100');
-            setTimeout(() => {
-                filterPanel.classList.add('hidden');
-            }, 300);
+    }
+
+    // Handle logika checkbox genre
+    const genreCheckboxes = filterFormSidebar.querySelectorAll('input[name="kategori[]"]');
+    const genreAllCheckbox = document.getElementById('genre_all');
+
+    genreCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            if (this.id === 'genre_all') {
+                // Jika 'Semua Genre' dicentang, hapus centang dari semua genre lain
+                if (this.checked) {
+                    genreCheckboxes.forEach(cb => {
+                        if (cb.id !== 'genre_all') {
+                            cb.checked = false;
+                        }
+                    });
+                }
+            } else {
+                // Jika genre lain dicentang, hapus centang dari 'Semua Genre'
+                if (this.checked && genreAllCheckbox) {
+                    genreAllCheckbox.checked = false;
+                }
+
+                // Jika tidak ada genre lain yang dicentang, centang 'Semua Genre' kembali
+                const anyOtherGenreChecked = Array.from(genreCheckboxes).some(cb => cb.id !== 'genre_all' && cb.checked);
+                if (!anyOtherGenreChecked && genreAllCheckbox) {
+                    genreAllCheckbox.checked = true;
+                }
+            }
+
+            // Perbarui tampilan label setelah perubahan
+            updateGenreLabels();
         });
     });
+
+    // Panggil saat halaman dimuat untuk mengatur tampilan awal
+    updateGenreLabels();
+
+    // Fungsi untuk mengatur tampilan grid
+    function setGridView() {
+        // Reset container class
+        booksContainer.className = '';
+        booksContainer.classList.add('grid', 'grid-cols-2', 'sm:grid-cols-3', 'md:grid-cols-4', 'lg:grid-cols-5', 'xl:grid-cols-6', 'gap-4');
+        
+        // Mengubah tampilan tombol
+        gridViewBtn.classList.remove('text-gray-600', 'bg-gray-100');
+        gridViewBtn.classList.add('bg-indigo-500', 'text-white');
+        listViewBtn.classList.remove('bg-indigo-600', 'text-white');
+        listViewBtn.classList.add('text-gray-600', 'bg-gray-100');
+        
+        // Simpan preferensi di localStorage
+        localStorage.setItem('bookViewMode', 'grid');
+        
+        // Reset dan atur ulang tampilan item dalam grid view
+        const bookItems = booksContainer.querySelectorAll('a.group');
+        bookItems.forEach(item => {
+            // Hapus semua class yang mungkin ditambahkan oleh list view
+            item.className = 'group';
+            
+            const bookCard = item.querySelector('div');
+            if (bookCard) {
+                // Reset class pada card
+                bookCard.className = 'bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100';
+                
+                const imageContainer = bookCard.querySelector('div.relative');
+                const infoContainer = bookCard.querySelector('div.p-3');
+                
+                if (imageContainer) {
+                    // Reset class pada container gambar
+                    imageContainer.className = 'relative';
+                    
+                    const img = imageContainer.querySelector('img');
+                    if (img) {
+                        // Atur class gambar untuk grid view
+                        img.className = 'w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300';
+                    }
+                }
+                
+                if (infoContainer) {
+                    // Reset class pada container info
+                    infoContainer.className = 'p-3';
+                    
+                    // Pastikan tampilan teks sesuai untuk grid view
+                    const title = infoContainer.querySelector('h2');
+                    if (title) title.className = 'font-medium text-gray-900 truncate mb-1';
+                    
+                    const author = infoContainer.querySelector('p');
+                    if (author) author.className = 'text-xs text-gray-500 mb-2';
+                    
+                    // Jika ada deskripsi, atur tampilan untuk grid view
+                    const description = infoContainer.querySelector('p:nth-child(3)');
+                    if (description) {
+                        description.classList.add('hidden');
+                    }
+                    
+                    // Atur tampilan harga dan toko
+                    const priceContainer = infoContainer.querySelector('div');
+                    if (priceContainer) priceContainer.className = 'flex justify-between items-center';
+                }
+            }
+        });
+    }
+    
+    // Fungsi untuk mengatur tampilan list
+    function setListView() {
+        // Reset container class
+        booksContainer.className = '';
+        booksContainer.classList.add('grid', 'grid-cols-1', 'md:grid-cols-2', 'gap-4');
+        
+        // Mengubah tampilan tombol
+        listViewBtn.classList.remove('text-gray-600', 'bg-gray-100');
+        listViewBtn.classList.add('bg-indigo-600', 'text-white');
+        gridViewBtn.classList.remove('bg-indigo-500', 'text-white');
+        gridViewBtn.classList.add('text-gray-600', 'bg-gray-100');
+        
+        // Simpan preferensi di localStorage
+        localStorage.setItem('bookViewMode', 'list');
+        
+        // Reset dan atur ulang tampilan item dalam list view
+        const bookItems = booksContainer.querySelectorAll('a.group');
+        bookItems.forEach(item => {
+            // Hapus semua class yang mungkin ada dan tambahkan class untuk list view
+            item.className = 'group w-full';
+            
+            const bookCard = item.querySelector('div');
+            if (bookCard) {
+                // Reset class pada card dan tambahkan class untuk list view
+                bookCard.className = 'bg-white overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-row h-auto';
+                
+                const imageContainer = bookCard.querySelector('div.relative');
+                const infoContainer = bookCard.querySelector('div.p-3');
+                
+                if (imageContainer) {
+                    // Atur class pada container gambar untuk list view
+                    imageContainer.className = 'relative w-1/3 sm:w-36 h-auto flex-shrink-0';
+                    
+                    const img = imageContainer.querySelector('img');
+                    if (img) {
+                        // Atur class gambar untuk list view
+                        img.className = 'w-full h-full object-cover object-center';
+                    }
+                    
+                    // Sembunyikan badge dan flag di list view
+                    const badges = imageContainer.querySelectorAll('.absolute');
+                    badges.forEach(badge => {
+                        badge.classList.add('hidden');
+                    });
+                }
+                
+                if (infoContainer) {
+                    // Atur class pada container info untuk list view
+                    infoContainer.className = 'p-3 flex flex-col justify-between pl-4 flex-grow w-2/3 sm:w-auto overflow-hidden min-w-0';
+                    
+                    // Atur judul untuk list view
+                    const title = infoContainer.querySelector('h2');
+                    if (title) {
+                        title.className = 'font-medium text-gray-900 text-lg mb-1';
+                    }
+                    
+                    // Atur penulis untuk list view
+                    const author = infoContainer.querySelector('p');
+                    if (author) {
+                        author.className = 'text-sm text-gray-500 mb-1';
+                    }
+                    
+                    // Tampilkan deskripsi di list view
+                    const description = infoContainer.querySelector('p:nth-child(3)');
+                    if (description) {
+                        description.classList.remove('hidden');
+                    }
+                    
+                    // Atur tampilan harga dan toko
+                    const priceContainer = infoContainer.querySelector('div');
+                    if (priceContainer) {
+                        priceContainer.className = 'flex justify-between items-center mt-auto';
+                    }
+                }
+            }
+        });
+    }
+    
+    // Event listener untuk tombol grid
+    gridViewBtn.addEventListener('click', setGridView);
+    
+    // Event listener untuk tombol list
+    listViewBtn.addEventListener('click', setListView);
+    
+    // Cek preferensi yang tersimpan
+    const savedViewMode = localStorage.getItem('bookViewMode');
+    if (savedViewMode === 'list') {
+        setListView();
+    } else {
+        setGridView(); // Default ke grid view
+    }
+});
 </script>
 @endsection

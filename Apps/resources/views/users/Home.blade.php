@@ -3,46 +3,46 @@
 @section('content')
 
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16 mt-16 sm:mt-20">
-            <!-- Swiper -->
-            <div class="swiper w-7xl h-[70vh]">
-                <div class="swiper-wrapper">
-                  <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
+        <!-- Swiper -->
+        <div class="swiper w-full h-[70vh] mb-16 sm:mb-20 lg:mb-24">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
                     <img src="https://picsum.photos/600/400?random=1" class="w-full h-[70vh] object-cover" alt="Slide 1" />
-                  </div>
-                  <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
-                    <img src="https://picsum.photos/600/400?random=2" class="w-full h-[70vh] object-cover" alt="Slide 2" />
-                  </div>
-                  <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
-                    <img src="https://picsum.photos/600/400?random=3" class="w-full h-[70vh] object-cover" alt="Slide 3" />
-                  </div>
-                  <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
-                    <img src="https://picsum.photos/600/400?random=4" class="w-full h-[70vh] object-cover" alt="Slide 4" />
-                  </div>
-                  <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
-                    <img src="https://picsum.photos/600/400?random=5" class="w-full h-[70vh] object-cover" alt="Slide 5" />
-                  </div>
                 </div>
-              
-                <!-- Pagination -->
-                <div class="swiper-pagination mt-4"></div>
-              
-                <!-- Navigation buttons -->
-                <div class="swiper-button-prev text-white"></div>
-                <div class="swiper-button-next text-white"></div>
-              </div>
+                <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
+                    <img src="https://picsum.photos/600/400?random=2" class="w-full h-[70vh] object-cover" alt="Slide 2" />
+                </div>
+                <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
+                    <img src="https://picsum.photos/600/400?random=3" class="w-full h-[70vh] object-cover" alt="Slide 3" />
+                </div>
+                <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
+                    <img src="https://picsum.photos/600/400?random=4" class="w-full h-[70vh] object-cover" alt="Slide 4" />
+                </div>
+                <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
+                    <img src="https://picsum.photos/600/400?random=5" class="w-full h-[70vh] object-cover" alt="Slide 5" />
+                </div>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="swiper-pagination mt-6"></div>
+            
+            <!-- Navigation buttons -->
+            <div class="swiper-button-prev text-white"></div>
+            <div class="swiper-button-next text-white"></div>
+        </div>
 
         <!-- What's Kampung Buku Section -->
-        <div class="mt-16 sm:mt-20 lg:mt-24">
-            <div class="relative flex items-center justify-center my-12">
+        <div class="py-16 bg-white rounded-xl mb-16 sm:mb-20 lg:mb-24">
+            <div class="relative flex items-center justify-center mb-12">
                 <div class="w-1/2 border-t-2 border border-gray-600"></div>
                 <span class="absolute px-6 sm:px-8 bg-white font-extrabold text-xl sm:text-2xl text-gray-800">WHAT'S KAMPUNG BUKU</span>
                 <div class="w-1/2 border-t-2 border border-gray-600"></div>
             </div>
 
-            <div class="max-w-7xl py-12 mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div class="order-2 md:order-1">
-                        <img class="rounded-2xl w-full h-auto object-cover shadow-xl transform hover:scale-105 transition-transform duration-300" src="https://images.unsplash.com/photo-1648737963503-1a26da876aca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=900&h=900&q=80" alt="Features Image">
+                        <img class="rounded-md w-full h-auto object-cover shadow-xl transform hover:scale-105 transition-transform duration-300" src="https://images.unsplash.com/photo-1648737963503-1a26da876aca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=900&h=900&q=80" alt="Features Image">
                     </div>
                     <div class="order-1 md:order-2 space-y-6 sm:space-y-8">
                         <h2 class="font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-800 leading-tight">
@@ -65,7 +65,7 @@
         </div>
 
         <!-- Counter Section -->
-        <div class="mt-12 sm:mt-16 lg:mt-20">
+        <div class="py-16 bg-white rounded-xl mb-16 sm:mb-20 lg:mb-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
                     <div class="flex flex-col items-center">
@@ -87,42 +87,42 @@
         </div>
 
         <!-- What's News Section -->
-        <div class="mt-16 py-12 sm:mt-20 lg:mt-24 bg-gray-50">
-            <div class="relative flex items-center justify-center my-12">
+        <div class="py-16 bg-white rounded-xl mb-16 sm:mb-20 lg:mb-24">
+            <div class="relative flex items-center justify-center mb-12">
                 <div class="w-1/2 border-t-2 border border-gray-600"></div>
-                <span class="absolute px-6 sm:px-8 bg-gray-50 font-extrabold text-xl sm:text-2xl text-gray-800">WHAT'S NEWS</span>
+                <span class="absolute px-6 sm:px-8 bg-white font-extrabold text-xl sm:text-2xl text-gray-800">WHAT'S NEWS</span>
                 <div class="w-1/2 border-t-2 border border-gray-600"></div>
             </div>
 
-            <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3"> <!-- Ubah menjadi 2 kolom di mobile dan kurangi gap -->
                     @foreach($latestBooks as $index => $book)
                     <!-- Card {{ $index + 1 }} -->                    
-                    <div class="group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
-                        <div class="absolute top-3 left-3 z-10 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
+                    <div class="group relative overflow-hidden rounded-md shadow-md hover:shadow-lg transition-all duration-300 bg-white"> <!-- Kurangi shadow -->
+                        <div class="absolute top-1 left-1 z-10 bg-blue-600 text-white text-[10px] font-bold px-1.5 py-1 rounded-full shadow-sm"> <!-- Kurangi ukuran dan padding -->
                             Buku Baru
                         </div>
                         <div class="w-full aspect-[3/4] overflow-hidden">
                             <img src="{{ asset('storage/' . $book->gambar) }}" 
                                  alt="{{ $book->judul }}" 
-                                 class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500 ease-in-out"/>
+                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"/> <!-- Kurangi efek scale -->
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
-                        <div class="p-4 text-center transform translate-y-0 group-hover:translate-y-[-8px] transition-transform duration-300">
-                            <h3 class="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300">{{ $book->judul }}</h3>
-                            <p class="text-sm text-gray-500 mt-2">Oleh: <span class="font-medium">{{ $book->penulis }}</span></p>
-                            <p class="text-sm text-gray-500">Penerbit: <span class="font-medium">{{ $book->penerbit }}</span></p>
-                            <p class="text-sm font-semibold text-blue-600 mt-1">Rp {{ number_format($book->harga, 0, ',', '.') }}</p>
-                            <div class="mt-2 flex justify-center space-x-1">
+                        <div class="p-1.5 text-center"> <!-- Kurangi padding dan hapus efek translate -->
+                            <h1 class="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 truncate">{{ $book->judul }}</h1> <!-- Kurangi ukuran font -->
+                            <p class="text-[10px] text-gray-500 mt-0.5">Oleh: <span class="font-medium">{{ $book->penulis }}</span></p> <!-- Kurangi ukuran font dan margin -->
+                            <p class="text-[10px] text-gray-500">Penerbit: <span class="font-medium">{{ $book->penerbit }}</span></p> <!-- Kurangi ukuran font -->
+                            <p class="text-[10px] font-semibold text-blue-600 mt-0.5">Rp {{ number_format($book->harga, 0, ',', '.') }}</p> <!-- Kurangi ukuran font -->
+                            <div class="mt-0.5 flex justify-center space-x-1"> <!-- Kurangi margin -->
                                 @if($book->stok > 0)
-                                    <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Stok: {{ $book->stok }}</span>
+                                    <span class="px-1 py-0.5 bg-green-100 text-green-800 text-[9px] rounded-full">Stok: {{ $book->stok }}</span> <!-- Kurangi ukuran font dan padding -->
                                 @else
-                                    <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">Stok Habis</span>
+                                    <span class="px-1 py-0.5 bg-red-100 text-red-800 text-[9px] rounded-full">Stok Habis</span> <!-- Kurangi ukuran font dan padding -->
                                 @endif
-                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">{{ $book->tahun_terbit }}</span>
+                                <span class="px-1 py-0.5 bg-blue-100 text-blue-800 text-[9px] rounded-full">{{ $book->tahun_terbit }}</span> <!-- Kurangi ukuran font dan padding -->
                             </div>
-                            <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <a href="{{ route('book_detail', $book->id) }}" class="px-4 py-2 bg-blue-600 text-white rounded-full text-sm font-medium hover:bg-blue-700 transition-colors duration-300 w-full inline-block">Lihat Detail</a>
+                            <div class="mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <a href="{{ route('book_detail', $book->id) }}" class="px-3 py-3 bg-blue-600 text-white rounded-full text-xs font-medium hover:bg-blue-600 transition-colors duration-300 w-full inline-block">Lihat Detail</a>
                             </div>
                         </div>
                     </div>
@@ -132,8 +132,8 @@
         </div>
 
         <!-- Our Store Section -->
-        <div class="mt-16 py-12 sm:mt-20 lg:mt-24">
-            <div class="relative flex items-center justify-center my-12">
+        <div class="py-16 bg-white rounded-xl mb-16 sm:mb-20 lg:mb-24">
+            <div class="relative flex items-center justify-center mb-12">
                 <div class="w-1/2 border-t-2 border border-gray-600"></div>
                 <span class="absolute px-6 sm:px-8 bg-white font-extrabold text-xl sm:text-2xl text-gray-800">OUR STORE</span>
                 <div class="w-1/2 border-t-2 border border-gray-600"></div>
@@ -153,9 +153,6 @@
                             @if($toko->gambar_toko)
                             <img src="{{ asset('storage/' . $toko->gambar_toko) }}" alt="{{ $toko->Nama_Toko }}" class="absolute inset-0 w-full h-full object-cover opacity-80">
                             @endif
-                            {{-- <div class="absolute inset-0 bg-gradient-to-b from-{{ ['blue', 'green', 'purple', 'red', 'amber', 'indigo'][$index % 6] }}-100 to-{{ ['blue', 'green', 'purple', 'red', 'amber', 'indigo'][$index % 6] }}-50 opacity-80"></div>
-                            <div class="text-6xl font-bold text-{{ ['blue', 'green', 'purple', 'red', 'amber', 'indigo'][$index % 6] }}-500 z-10 font-serif tracking-wider">{{ substr($toko->Nama_Toko, 0, 1) }}</div>
-                            <div class="absolute bottom-0 left-0 w-full h-1 bg-{{ ['blue', 'green', 'purple', 'red', 'amber', 'indigo'][$index % 6] }}-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div> --}}
                         </div>
                         <div class="p-6">
                             <div class="flex justify-between items-start mb-2">
@@ -187,6 +184,43 @@
                         </div>
                     </div>
                     @endforeach
+                </div>
+                
+                <!-- Pixel Style Pagination -->
+                <div class="mt-10 flex justify-center">
+                    <div class="inline-flex items-center px-2 py-2 bg-white border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        <div class="flex space-x-1">
+                            <!-- Previous Page Button -->
+                            <a href="{{ $topStores->previousPageUrl() }}" class="w-10 h-10 flex items-center justify-center {{ $topStores->onFirstPage() ? 'bg-gray-600 cursor-not-allowed' : 'bg-gray-700 hover:bg-blue-500 hover:border-blue-700' }} border-2 border-gray-900 text-white font-bold transition-colors duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" {{ $topStores->onFirstPage() ? 'aria-disabled="true"' : '' }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                            
+                            <!-- Page Numbers -->
+                            @for ($i = 1; $i <= $topStores->lastPage(); $i++)
+                                <a href="{{ $topStores->url($i) }}" class="w-10 h-10 flex items-center justify-center {{ $topStores->currentPage() == $i ? 'bg-blue-500 border-blue-700' : 'bg-gray-700 hover:bg-blue-500 hover:border-blue-700' }} border-2 border-gray-900 text-white font-bold transition-colors duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                                    {{ $i }}
+                                </a>
+                            @endfor
+                            
+                            <!-- Next Page Button -->
+                            <a href="{{ $topStores->nextPageUrl() }}" class="w-10 h-10 flex items-center justify-center {{ $topStores->hasMorePages() ? 'bg-gray-700 hover:bg-blue-500 hover:border-blue-700' : 'bg-gray-600 cursor-not-allowed' }} border-2 border-gray-900 text-white font-bold transition-colors duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" {{ $topStores->hasMorePages() ? '' : 'aria-disabled="true"' }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pixel Art Decoration -->
+                <div class="flex justify-center mt-4">
+                    <div class="flex space-x-1">
+                        @foreach(['red', 'blue', 'green', 'yellow', 'purple'] as $color)
+                        <div class="w-3 h-3 bg-{{ $color }}-500 border border-gray-900"></div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
