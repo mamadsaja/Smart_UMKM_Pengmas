@@ -23,15 +23,14 @@
                 </div>
             </div>
             
-            <!-- Pagination -->
+          
             <div class="swiper-pagination mt-6"></div>
             
-            <!-- Navigation buttons -->
             <div class="swiper-button-prev text-white"></div>
             <div class="swiper-button-next text-white"></div>
         </div>
 
-        <!-- What's Kampung Buku Section -->
+      
         <div class="py-16 bg-white rounded-xl mb-16 sm:mb-20 lg:mb-24">
             <div class="relative flex items-center justify-center mb-12">
                 <div class="w-1/2 border-t-2 border border-gray-600"></div>
@@ -49,8 +48,7 @@
                             Platform Digital untuk Kampung Buku
                         </h2>
                         <p class="text-gray-600 text-base sm:text-lg leading-relaxed">
-                            Kampung Buku adalah platform digital yang menghubungkan UMKM buku dengan pembaca. Kami menyediakan wadah bagi para penjual buku lokal untuk menjangkau lebih banyak pembaca dan membantu pembaca menemukan buku-buku berkualitas dari UMKM lokal.
-                        </p>
+                            Kampung Ilmu adalah tempat jual beli buku di pusat Kota Surabaya yang penuh dengan semangat belajar dan berbagi ilmu. Di sini, pengunjung bisa menemukan berbagai jenis buku dengan harga terjangkau, membaca di tempat, hingga mengikuti diskusi atau pertunjukan seni. Dahulu, tempat ini dibangun sebagai wadah bagi pedagang buku bekas agar bisa berjualan dengan lebih tertib dan nyaman. Kini, Kampung Ilmu menjadi simbol semangat literasi, tempat berkumpulnya orang-orang yang mencintai pengetahuan, seni, dan budaya.                        </p>
                         <div class="flex flex-wrap gap-4">
                             <button class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300">
                                 Pelajari Lebih Lanjut
@@ -64,7 +62,6 @@
             </div>
         </div>
 
-        <!-- Counter Section -->
         <div class="py-16 bg-white rounded-xl mb-16 sm:mb-20 lg:mb-24">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
@@ -86,7 +83,6 @@
             </div>
         </div>
 
-        <!-- What's News Section -->
         <div class="py-16 bg-white rounded-xl mb-16 sm:mb-20 lg:mb-24">
             <div class="relative flex items-center justify-center mb-12">
                 <div class="w-1/2 border-t-2 border border-gray-600"></div>
@@ -95,31 +91,31 @@
             </div>
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3"> <!-- Ubah menjadi 2 kolom di mobile dan kurangi gap -->
+                <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3"> 
                     @foreach($latestBooks as $index => $book)
                     <!-- Card {{ $index + 1 }} -->                    
-                    <div class="group relative overflow-hidden rounded-md shadow-md hover:shadow-lg transition-all duration-300 bg-white"> <!-- Kurangi shadow -->
-                        <div class="absolute top-1 left-1 z-10 bg-blue-600 text-white text-[10px] font-bold px-1.5 py-1 rounded-full shadow-sm"> <!-- Kurangi ukuran dan padding -->
+                    <div class="group relative overflow-hidden rounded-md shadow-md hover:shadow-lg transition-all duration-300 bg-white"> 
+                        <div class="absolute top-1 left-1 z-10 bg-blue-600 text-white text-[10px] font-bold px-1.5 py-1 rounded-full shadow-sm"> 
                             Buku Baru
                         </div>
                         <div class="w-full aspect-[3/4] overflow-hidden">
                             <img src="{{ asset('storage/' . $book->gambar) }}" 
                                  alt="{{ $book->judul }}" 
-                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"/> <!-- Kurangi efek scale -->
+                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"/> 
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
-                        <div class="p-1.5 text-center"> <!-- Kurangi padding dan hapus efek translate -->
-                            <h1 class="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 truncate">{{ $book->judul }}</h1> <!-- Kurangi ukuran font -->
-                            <p class="text-[10px] text-gray-500 mt-0.5">Oleh: <span class="font-medium">{{ $book->penulis }}</span></p> <!-- Kurangi ukuran font dan margin -->
-                            <p class="text-[10px] text-gray-500">Penerbit: <span class="font-medium">{{ $book->penerbit }}</span></p> <!-- Kurangi ukuran font -->
-                            <p class="text-[10px] font-semibold text-blue-600 mt-0.5">Rp {{ number_format($book->harga, 0, ',', '.') }}</p> <!-- Kurangi ukuran font -->
-                            <div class="mt-0.5 flex justify-center space-x-1"> <!-- Kurangi margin -->
+                        <div class="p-1.5 text-center"> 
+                            <h1 class="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 truncate">{{ $book->judul }}</h1> 
+                            <p class="text-[10px] text-gray-500 mt-0.5">Oleh: <span class="font-medium">{{ $book->penulis }}</span></p> 
+                            <p class="text-[10px] text-gray-500">Penerbit: <span class="font-medium">{{ $book->penerbit }}</span></p> 
+                            <p class="text-[10px] font-semibold text-blue-600 mt-0.5">Rp {{ number_format($book->harga, 0, ',', '.') }}</p> 
+                            <div class="mt-0.5 flex justify-center space-x-1"> 
                                 @if($book->stok > 0)
-                                    <span class="px-1 py-0.5 bg-green-100 text-green-800 text-[9px] rounded-full">Stok: {{ $book->stok }}</span> <!-- Kurangi ukuran font dan padding -->
+                                    <span class="px-1 py-0.5 bg-green-100 text-green-800 text-[9px] rounded-full">Stok: {{ $book->stok }}</span> 
                                 @else
-                                    <span class="px-1 py-0.5 bg-red-100 text-red-800 text-[9px] rounded-full">Stok Habis</span> <!-- Kurangi ukuran font dan padding -->
+                                    <span class="px-1 py-0.5 bg-red-100 text-red-800 text-[9px] rounded-full">Stok Habis</span> 
                                 @endif
-                                <span class="px-1 py-0.5 bg-blue-100 text-blue-800 text-[9px] rounded-full">{{ $book->tahun_terbit }}</span> <!-- Kurangi ukuran font dan padding -->
+                                <span class="px-1 py-0.5 bg-blue-100 text-blue-800 text-[9px] rounded-full">{{ $book->tahun_terbit }}</span> 
                             </div>
                             <div class="mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <a href="{{ route('book_detail', $book->id) }}" class="px-3 py-3 bg-blue-600 text-white rounded-full text-xs font-medium hover:bg-blue-600 transition-colors duration-300 w-full inline-block">Lihat Detail</a>
@@ -190,21 +186,18 @@
                 <div class="mt-10 flex justify-center">
                     <div class="inline-flex items-center px-2 py-2 bg-white border-2 border-gray-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                         <div class="flex space-x-1">
-                            <!-- Previous Page Button -->
                             <a href="{{ $topStores->previousPageUrl() }}" class="w-10 h-10 flex items-center justify-center {{ $topStores->onFirstPage() ? 'bg-gray-600 cursor-not-allowed' : 'bg-gray-700 hover:bg-blue-500 hover:border-blue-700' }} border-2 border-gray-900 text-white font-bold transition-colors duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" {{ $topStores->onFirstPage() ? 'aria-disabled="true"' : '' }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
                                 </svg>
                             </a>
                             
-                            <!-- Page Numbers -->
                             @for ($i = 1; $i <= $topStores->lastPage(); $i++)
                                 <a href="{{ $topStores->url($i) }}" class="w-10 h-10 flex items-center justify-center {{ $topStores->currentPage() == $i ? 'bg-blue-500 border-blue-700' : 'bg-gray-700 hover:bg-blue-500 hover:border-blue-700' }} border-2 border-gray-900 text-white font-bold transition-colors duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                                     {{ $i }}
                                 </a>
                             @endfor
                             
-                            <!-- Next Page Button -->
                             <a href="{{ $topStores->nextPageUrl() }}" class="w-10 h-10 flex items-center justify-center {{ $topStores->hasMorePages() ? 'bg-gray-700 hover:bg-blue-500 hover:border-blue-700' : 'bg-gray-600 cursor-not-allowed' }} border-2 border-gray-900 text-white font-bold transition-colors duration-200 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" {{ $topStores->hasMorePages() ? '' : 'aria-disabled="true"' }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
@@ -214,7 +207,6 @@
                     </div>
                 </div>
                 
-                <!-- Pixel Art Decoration -->
                 <div class="flex justify-center mt-4">
                     <div class="flex space-x-1">
                         @foreach(['red', 'blue', 'green', 'yellow', 'purple'] as $color)

@@ -2,7 +2,7 @@
 @section('title', 'Library')
 @section('content')
 <div class="min-h-screen  bg-white">
-    <div class="flex mt-36">
+    <div class="flex mt-28">
         <!-- Sidebar Filter - Diubah menjadi putih dengan bayangan abu-abu -->
         <!-- Overlay for mobile filter -->
         <div id="filterOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>

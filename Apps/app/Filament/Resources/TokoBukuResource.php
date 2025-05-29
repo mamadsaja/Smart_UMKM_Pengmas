@@ -41,24 +41,26 @@ class TokoBukuResource extends Resource
             ->schema([
                 TextInput::make('Nama_Toko')
                     ->required()
+                    ->placeholder('Masukkan nama toko buku Anda')
                     ->maxLength(255),
                     
                 Select::make('Id_seller')
-                    ->label('Nama Seller')
-                    ->options(Seller::pluck('name', 'id'))
+                    ->label('Email Seller')
+                    ->options(Seller::pluck('email', 'id'))
                     ->searchable()
                     ->reactive()
                     ->afterStateUpdated(function ($state, callable $set) {
                         $seller = Seller::find($state);
                         if ($seller) {
                             $set('Kontak', $seller->Kontak);
-                            $set('name', $seller->name);
+                            $set('email', $seller->email);
                         }
                     })
                     ->required(),
 
                 TextInput::make('Alamat')
                     ->required()
+                    ->placeholder('Masukkan alamat toko buku Anda')
                     ->maxLength(255),
 
                 TextInput::make('Kontak')
@@ -72,6 +74,7 @@ class TokoBukuResource extends Resource
                 TextInput::make('deskripsi_toko')
                     ->label('Deskripsi Toko')
                     ->required()
+                    ->placeholder('Jelaskan tentang toko buku Anda')
                     ->maxLength(1000)
                     ->columnSpanFull(),
             ])->columns(2),
