@@ -27,19 +27,21 @@
                 </div>
                 
                 <!-- Genre Tags -->
-                <div class="flex flex-wrap gap-2 mb-4">
-                    {{-- Tombol Semua Genre (checkbox tersembunyi + label) --}}
-                    <input type="checkbox" id="genre_all" name="kategori[]" value="" class="hidden" {{ !request('kategori') || (is_array(request('kategori')) && empty(request('kategori'))) ? 'checked' : '' }}>
-                    <label for="genre_all" class="{{ !request('kategori') || (is_array(request('kategori')) && empty(request('kategori'))) ? 'bg-indigo-100 text-indigo-800' : 'bg-gray-100 text-gray-800' }} px-3 py-1 rounded-full text-xs hover:bg-indigo-100 hover:text-indigo-800 transition-colors border border-gray-200 cursor-pointer">
-                        Semua Genre
-                    </label>
-
-                    @foreach($kategoris as $kategori)
-                        <input type="checkbox" id="genre_{{ $kategori->id }}" name="kategori[]" value="{{ $kategori->namaKategori }}" class="hidden" {{ (is_array(request('kategori')) && in_array($kategori->namaKategori, request('kategori'))) ? 'checked' : '' }}>
-                        <label for="genre_{{ $kategori->id }}" class="{{ (is_array(request('kategori')) && in_array($kategori->namaKategori, request('kategori'))) ? 'bg-indigo-100 text-indigo-800' : 'bg-gray-100 text-gray-800' }} px-3 py-1 rounded-full text-xs hover:bg-indigo-100 hover:text-indigo-800 transition-colors border border-gray-200 cursor-pointer">
-                            {{ $kategori->namaKategori }}
+                <div class="max-h-48 overflow-y-auto pr-2">
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        {{-- Tombol Semua Genre (checkbox tersembunyi + label) --}}
+                        <input type="checkbox" id="genre_all" name="kategori[]" value="" class="hidden" {{ !request('kategori') || (is_array(request('kategori')) && empty(request('kategori'))) ? 'checked' : '' }}>
+                        <label for="genre_all" class="{{ !request('kategori') || (is_array(request('kategori')) && empty(request('kategori'))) ? 'bg-indigo-100 text-indigo-800' : 'bg-gray-100 text-gray-800' }} px-3 py-1 rounded-full text-xs hover:bg-indigo-100 hover:text-indigo-800 transition-colors border border-gray-200 cursor-pointer">
+                            Semua Genre
                         </label>
-                    @endforeach
+
+                        @foreach($kategoris as $kategori)
+                            <input type="checkbox" id="genre_{{ $kategori->id }}" name="kategori[]" value="{{ $kategori->namaKategori }}" class="hidden" {{ (is_array(request('kategori')) && in_array($kategori->namaKategori, request('kategori'))) ? 'checked' : '' }}>
+                            <label for="genre_{{ $kategori->id }}" class="{{ (is_array(request('kategori')) && in_array($kategori->namaKategori, request('kategori'))) ? 'bg-indigo-100 text-indigo-800' : 'bg-gray-100 text-gray-800' }} px-3 py-1 rounded-full text-xs hover:bg-indigo-100 hover:text-indigo-800 transition-colors border border-gray-200 cursor-pointer">
+                                {{ $kategori->namaKategori }}
+                            </label>
+                        @endforeach
+                    </div>
                 </div>
             </div>
             
@@ -275,6 +277,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const filterOverlay = document.getElementById('filterOverlay');
     const filterFormSidebar = document.getElementById('filterFormSidebar');
     const cancelFilterButton = document.getElementById('cancelFilterButton');
+
+    // Add this line to get the sort dropdown
+    const sortDropdown = document.getElementById('sortDropdown');
 
     // Fungsi untuk membuka sidebar filter
     function openFilterSidebar() {
@@ -537,6 +542,17 @@ document.addEventListener('DOMContentLoaded', function() {
         setListView();
     } else {
         setGridView(); // Default ke grid view
+    }
+
+    // Add event listener to the sort dropdown to submit the form on change
+    if (sortDropdown) {
+        sortDropdown.addEventListener('change', function() {
+            // Find the form that contains the dropdown and submit it
+            const form = this.closest('form');
+            if (form) {
+                form.submit();
+            }
+        });
     }
 });
 </script>

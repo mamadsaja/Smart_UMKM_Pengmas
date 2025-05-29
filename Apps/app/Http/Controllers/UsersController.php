@@ -30,10 +30,13 @@ class UsersController extends Controller
 
     public function library(Request $request)
     {
+        // Ambil semua kategori untuk ditampilkan di navigasi
         $kategoris = \App\Models\Kategori::all();
         
+        // Inisialisasi query builder
         $query = Buku::with(['penulis', 'tokoBuku']);
         
+        // Filter berdasarkan kategori jika ada
         if ($request->has('kategori') && $request->kategori != 'semua') {
             $kategoriId = \App\Models\Kategori::where('namaKategori', $request->kategori)->first();
             if ($kategoriId) {
@@ -43,6 +46,7 @@ class UsersController extends Controller
             }
         }
         
+        // Filter berdasarkan pencarian jika ada
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function($q) use ($search) {
@@ -75,7 +79,7 @@ class UsersController extends Controller
             }
         }
         
-        $bukus = $query->paginate(24);
+        $bukus = $query->paginate(12);
         
         return view('users.book', compact('bukus', 'kategoris'));
     }

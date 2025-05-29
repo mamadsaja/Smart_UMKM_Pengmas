@@ -18,12 +18,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 // only users page
-Route::get('/Home', [UsersController::class, 'index'])->name('home');
+Route::get('/', [UsersController::class, 'index'])->name('home');
 Route::get('/Library', [UsersController::class, 'library'])->name('book');
 Route::get('/Shop', [UsersController::class, 'shop'])->name('shop');
 Route::get('/Shop_detail', [UsersController::class, 'shop_detail'])->name('shop_detail');
