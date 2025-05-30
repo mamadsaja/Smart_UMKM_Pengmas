@@ -34,7 +34,7 @@
         <div class="py-16 bg-white rounded-xl mb-16 sm:mb-20 lg:mb-24">
             <div class="relative flex items-center justify-center mb-12">
                 <div class="w-1/2 border-t-2 border border-gray-600"></div>
-                <span class="absolute px-6 sm:px-8 bg-white font-extrabold text-xl sm:text-2xl text-gray-800">WHAT'S KAMPUNG BUKU</span>
+                <span class="absolute px-6 sm:px-8 bg-white font-extrabold text-xl sm:text-2xl text-gray-800">WHAT'S KAMPUNG ILMU</span>
                 <div class="w-1/2 border-t-2 border border-gray-600"></div>
             </div>
 
@@ -45,7 +45,7 @@
                     </div>
                     <div class="order-1 md:order-2 space-y-6 sm:space-y-8">
                         <h2 class="font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-800 leading-tight">
-                            Platform Digital untuk Kampung Buku
+                            Platform Digital untuk Kampung Ilmu
                         </h2>
                         <p class="text-gray-600 text-base sm:text-lg leading-relaxed">
                             Kampung Ilmu adalah tempat jual beli buku di pusat Kota Surabaya yang penuh dengan semangat belajar dan berbagi ilmu. Di sini, pengunjung bisa menemukan berbagai jenis buku dengan harga terjangkau, membaca di tempat, hingga mengikuti diskusi atau pertunjukan seni. Dahulu, tempat ini dibangun sebagai wadah bagi pedagang buku bekas agar bisa berjualan dengan lebih tertib dan nyaman. Kini, Kampung Ilmu menjadi simbol semangat literasi, tempat berkumpulnya orang-orang yang mencintai pengetahuan, seni, dan budaya.                        </p>

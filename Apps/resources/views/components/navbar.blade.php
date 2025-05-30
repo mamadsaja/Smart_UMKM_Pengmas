@@ -9,7 +9,7 @@
 
     <!-- Logo -->
     <div class="flex items-center space-x-0.5 sm:space-x-1 mx-auto sm:mx-0">
-        <template x-for="char in ['K','A','M','P','U','N','G',' ','B','U','K','U']">
+        <template x-for="char in ['K','A','M','P','U','N','G',' ','I','L','M','U']">
             <div class="border border-gray-300 px-1 sm:px-2 py-0.5 sm:py-1">
                 <span class="text-sm sm:text-base font-bold text-black" x-text="char"></span>
             </div>
