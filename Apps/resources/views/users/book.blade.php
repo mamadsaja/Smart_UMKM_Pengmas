@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('title', 'Library')
 @section('content')
-<div class="min-h-screen  bg-white">
-    <div class="flex mt-28">
+<div class="min-h-screen bg-white">
+    <div class="flex mt-16 md:mt-28">
         <!-- Sidebar Filter - Diubah menjadi putih dengan bayangan abu-abu -->
         <!-- Overlay for mobile filter -->
         <div id="filterOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
-        <div id="filterSidebar" class="w-64  bg-white text-gray-800 p-6 shadow-md border-r border-gray-100 md:relative md:min-h-screen md:w-64 fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 z-50 md:z-0 md:transform-none md:static md:shadow-none md:border-none md:block">
+        <div id="filterSidebar" class="w-64 bg-white text-gray-800 p-6 shadow-md border-r border-gray-100 md:relative md:min-h-screen md:w-64 fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 z-50 md:z-0 md:transform-none md:static md:shadow-none md:border-none md:block overflow-y-auto pb-24">
             <form id="filterFormSidebar" method="GET" action="{{ route('book') }}">
             <!-- Genre Section -->
             <div class="mb-8 ">
@@ -61,23 +61,10 @@
                         <input type="number" name="filter_tahun_sampai" value="{{ is_array(request('filter_tahun_sampai')) ? '' : request('filter_tahun_sampai') }}" placeholder="Sampai" class="w-1/2 bg-gray-50 text-gray-800 px-3 py-2 rounded text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 border border-gray-200">
                     </div>
                 </div>
-
-                <!-- Filter Bahasa (contoh dropdown, perlu data bahasa dari backend) -->
-                <div>
-                    <h4 class="text-sm font-medium mb-2">Bahasa</h4>
-                    <select name="filter_bahasa" class="w-full bg-gray-50 text-gray-800 px-3 py-2 rounded text-sm focus:outline-none border border-gray-200">
-                        <option value="">Semua Bahasa</option>
-                        {{-- Contoh opsi, sesuaikan dengan data dari database --}}
-                        <option value="Indonesia" {{ request('filter_bahasa') == 'Indonesia' ? 'selected' : '' }}>Indonesia</option>
-                        <option value="Inggris" {{ request('filter_bahasa') == 'Inggris' ? 'selected' : '' }}>Inggris</option>
-                        <option value="Jepang" {{ request('filter_bahasa') == 'Jepang' ? 'selected' : '' }}>Jepang</option>
-                        {{-- ... loop data bahasa dari database di sini ... --}}
-                    </select>
-                </div>
             </div>
             
             <!-- Filter Buttons -->
-            <div class="mt-8 space-y-3">
+            <div class="mt-8 space-y-3 sticky bottom-0 bg-white py-4 border-t border-gray-200 md:border-none">
                 {{-- Tombol Cancel (untuk mereset form) --}}
                 <button type="button" id="cancelFilterButton" class="w-full bg-gray-200 text-gray-800 py-2 rounded hover:bg-gray-300 transition-colors">Cancel</button>
                 {{-- Tombol Submit (untuk mengirimkan form filter) --}}

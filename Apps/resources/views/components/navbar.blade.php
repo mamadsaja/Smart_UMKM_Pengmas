@@ -9,18 +9,17 @@
 
     <!-- Logo -->
     <div class="flex items-center space-x-0.5 sm:space-x-1 mx-auto sm:mx-0">
-        <template x-for="char in ['K','A','M','P','U','N','G',' ','I','L','M','U']">
-            <div class="border border-gray-300 px-1 sm:px-2 py-0.5 sm:py-1">
-                <span class="text-sm sm:text-base font-bold text-black" x-text="char"></span>
-            </div>
-        </template>
+        <a href="{{ route('home') }}" class="flex items-center">
+            <img src="{{ asset('asset/Logo-Kampoeng-Ilmu.jpg') }}" alt="Kampoeng Ilmu Logo" class="h-8 sm:h-16 w-auto">
+            <span class="ml-2 text-lg sm:text-xl font-black text-gray-900 tracking-tight">Kampoeng Ilmu</span>
+        </a>
     </div>
 
     <!-- Menu Desktop -->
     <div class="hidden sm:flex space-x-4 lg:space-x-6 font-semibold text-sm lg:text-base">
-        <a href="{{ route('home') }}" class="text-blue-600 hover:text-blue-800 transition duration-300">HOME</a>
-        <a href="{{ route('book') }}" class="text-gray-800 hover:text-blue-800 transition duration-300">LIBRARY</a>
-        <a href="{{ route('shop') }}" class="text-gray-800 hover:text-blue-800 transition duration-300">SHOP</a>
+        <a href="{{ route('home') }}" class="{{ Route::currentRouteName() == 'home' ? 'text-blue-600' : 'text-gray-800' }} hover:text-blue-800 transition duration-300">HOME</a>
+        <a href="{{ route('book') }}" class="{{ Route::currentRouteName() == 'book' ? 'text-blue-600' : 'text-gray-800' }} hover:text-blue-800 transition duration-300">LIBRARY</a>
+        <a href="{{ route('shop') }}" class="{{ Route::currentRouteName() == 'shop' ? 'text-blue-600' : 'text-gray-800' }} hover:text-blue-800 transition duration-300">SHOP</a>
         <a href="#" class="text-gray-800 hover:text-blue-800 transition duration-300">ABOUT US</a>
     </div>
 
@@ -35,9 +34,9 @@
          @click.away="open = false"
          class="absolute top-full left-0 w-full bg-white border-t border-gray-300 flex flex-col space-y-4 py-4 px-5 sm:hidden z-40 shadow-md"
     >
-        <a href="{{ route('home') }}" class="font-semibold text-gray-800 hover:text-blue-800 transition">HOME</a>
-        <a href="{{ route('book') }}" class="font-semibold text-gray-800 hover:text-blue-800 transition">LIBRARY</a>
-        <a href="{{ route('shop') }}" class="font-semibold text-gray-800 hover:text-blue-800 transition">SHOP</a>
+        <a href="{{ route('home') }}" class="font-semibold {{ Route::currentRouteName() == 'home' ? 'text-blue-600' : 'text-gray-800' }} hover:text-blue-800 transition">HOME</a>
+        <a href="{{ route('book') }}" class="font-semibold {{ Route::currentRouteName() == 'book' ? 'text-blue-600' : 'text-gray-800' }} hover:text-blue-800 transition">LIBRARY</a>
+        <a href="{{ route('shop') }}" class="font-semibold {{ Route::currentRouteName() == 'shop' ? 'text-blue-600' : 'text-gray-800' }} hover:text-blue-800 transition">SHOP</a>
         <a href="#" class="font-semibold text-gray-800 hover:text-blue-800 transition">About Us</a>
     </div>
 </nav>

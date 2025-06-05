@@ -117,7 +117,7 @@ body {
 </style>
 
 <div class="bg-[#f5f5f5] flex justify-center py-0">
-    <div class="max-w-5xl w-full mx-auto flex flex-col mt-[20vh] shadow-2xl">
+    <div class="max-w-5xl w-full mx-auto flex flex-col shadow-2xl">
         <!-- Top Section -->
         <div class="bg-white pb-[8vh] rounded-2xl shadow-sm overflow-hidden flex flex-col md:flex-row relative">
             <!-- Cover Buku -->

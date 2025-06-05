@@ -7,19 +7,19 @@
         <div class="swiper w-full h-[70vh] mb-16 sm:mb-20 lg:mb-24">
             <div class="swiper-wrapper">
                 <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
-                    <img src="https://picsum.photos/600/400?random=1" class="w-full h-[70vh] object-cover" alt="Slide 1" />
+                    <img src="{{ asset('asset/gambar1.jpeg') }}" class="w-full h-[70vh] object-cover" alt="Slide 1" />
                 </div>
                 <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
-                    <img src="https://picsum.photos/600/400?random=2" class="w-full h-[70vh] object-cover" alt="Slide 2" />
+                    <img src="{{ asset('asset/gambar2.jpeg') }}" class="w-full h-[70vh] object-cover" alt="Slide 2" />
                 </div>
                 <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
-                    <img src="https://picsum.photos/600/400?random=3" class="w-full h-[70vh] object-cover" alt="Slide 3" />
+                    <img src="{{ asset('asset/gambar3.jpeg') }}" class="w-full h-[70vh] object-cover" alt="Slide 3" />
                 </div>
                 <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
-                    <img src="https://picsum.photos/600/400?random=4" class="w-full h-[70vh] object-cover" alt="Slide 4" />
+                    <img src="{{ asset('asset/gambar4.jpg') }}" class="w-full h-[70vh] object-cover" alt="Slide 4" />
                 </div>
                 <div class="swiper-slide rounded-md overflow-hidden shadow-lg">
-                    <img src="https://picsum.photos/600/400?random=5" class="w-full h-[70vh] object-cover" alt="Slide 5" />
+                    <img src="{{ asset('asset/gambar5.jpg') }}" class="w-full h-[70vh] object-cover" alt="Slide 5" />
                 </div>
             </div>
             
@@ -41,14 +41,14 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div class="order-2 md:order-1">
-                        <img class="rounded-md w-full h-auto object-cover shadow-xl transform hover:scale-105 transition-transform duration-300" src="https://images.unsplash.com/photo-1648737963503-1a26da876aca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=900&h=900&q=80" alt="Features Image">
+                        <img class="rounded-md w-full h-auto object-cover shadow-xl transform hover:scale-105 transition-transform duration-300" src="{{ asset('asset/gambar6.webp') }}" alt="Features Image">
                     </div>
                     <div class="order-1 md:order-2 space-y-6 sm:space-y-8">
                         <h2 class="font-bold text-3xl sm:text-4xl lg:text-5xl text-gray-800 leading-tight">
-                            Platform Digital untuk Kampung Ilmu
+                            Platform Digital untuk Kampoeng Ilmu
                         </h2>
                         <p class="text-gray-600 text-base sm:text-lg leading-relaxed">
-                            Kampung Ilmu adalah tempat jual beli buku di pusat Kota Surabaya yang penuh dengan semangat belajar dan berbagi ilmu. Di sini, pengunjung bisa menemukan berbagai jenis buku dengan harga terjangkau, membaca di tempat, hingga mengikuti diskusi atau pertunjukan seni. Dahulu, tempat ini dibangun sebagai wadah bagi pedagang buku bekas agar bisa berjualan dengan lebih tertib dan nyaman. Kini, Kampung Ilmu menjadi simbol semangat literasi, tempat berkumpulnya orang-orang yang mencintai pengetahuan, seni, dan budaya.                        </p>
+                            Kampoeng Ilmu adalah tempat jual beli buku di pusat Kota Surabaya yang penuh dengan semangat belajar dan berbagi ilmu. Di sini, pengunjung bisa menemukan berbagai jenis buku dengan harga terjangkau, membaca di tempat, hingga mengikuti diskusi atau pertunjukan seni. Dahulu, tempat ini dibangun sebagai wadah bagi pedagang buku bekas agar bisa berjualan dengan lebih tertib dan nyaman. Kini, Kampung Ilmu menjadi simbol semangat literasi, tempat berkumpulnya orang-orang yang mencintai pengetahuan, seni, dan budaya.                        </p>
                         <div class="flex flex-wrap gap-4">
                             <button class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300">
                                 Pelajari Lebih Lanjut
