@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.min.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hyperscroll@1.0.0/dist/hyperscroll.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    @vite('resources/css/app.css')
-    @vite('resources/js/app.js')
+    <link rel="stylesheet" href="{{ asset('build/assets/app-9d98b757.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-d66ac298.css') }}">
+    <script src="{{ asset('build/assets/app-1d1e7247.js') }}" defer></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>@yield('title')</title>
 </head>
 <body>

@@ -54,6 +54,8 @@ class SellerPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->tenant(null)
+            ->tenantRoutePrefix(null);
     }
 }
