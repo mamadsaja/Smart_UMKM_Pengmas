@@ -44,9 +44,9 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12">
       <!-- Left Column - Call to Action -->
       <div class="col-span-1">
-        <h3 class="text-3xl font-bold text-white mb-6">Kunjungi Kampung Ilmu</h3>
-        <p class="text-gray-300 text-lg mb-8 leading-relaxed">Temukan ribuan buku dari berbagai penulis dan penerbit lokal. Kampung Ilmu menawarkan pengalaman membaca yang unik dan menyenangkan untuk semua kalangan.</p>
-        <p class="text-gray-300 text-lg mb-10 leading-relaxed">Jadilah bagian dari komunitas literasi kami dan dukung UMKM lokal dalam industri Ilmu.</p>
+        <h3 class="text-3xl font-bold text-white mb-6">Kunjungi Kampung Buku</h3>
+        <p class="text-gray-300 text-lg mb-8 leading-relaxed">Temukan ribuan buku dari berbagai penulis dan penerbit lokal. Kampung Buku menawarkan pengalaman membaca yang unik dan menyenangkan untuk semua kalangan.</p>
+        <p class="text-gray-300 text-lg mb-10 leading-relaxed">Jadilah bagian dari komunitas literasi kami dan dukung UMKM lokal dalam industri buku.</p>
         
         <a href="#" class="inline-flex items-center justify-center px-8 py-4 border-2 border-blue-500 text-blue-400 font-medium rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 text-lg w-full sm:w-auto text-center">
           Kunjungi Sekarang
@@ -62,7 +62,7 @@
           <div class="relative w-full h-full min-h-[350px]">
             <!-- Google Maps Embed -->
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.900545286187!2d112.72886709999999!3d-7.2521591!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7f95a4c38f333%3A0xac15d9b72acc122b!2sToko%20Buku%20Kampoeng%20Ilmu!5e0!3m2!1sid!2sid!4v1748609194280!5m2!1sid!2sid"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.379740337472!2d112.72634007687003!3d-7.311166492696757!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fbd1cb925a1d%3A0x1dbecb0b2e9b059f!2sUniversitas%20Telkom%20Surabaya!5e0!3m2!1sid!2sid!4v1748281633298!5m2!1sid!2sid"
               class="absolute inset-0 w-full h-full" 
               style="border:0;" 
               allowfullscreen="" 
@@ -132,7 +132,7 @@
       
       <!-- Copyright -->
       <div class="mt-8 text-center">
-        <p class="text-gray-400 text-sm">&copy; 2025 Smart UMKM. By Pengmas Telkom University Surabaya.</p>
+        <p class="text-gray-400 text-sm">&copy; 2023 Smart UMKM. All rights reserved.</p>
       </div>
     </div>
   </div>

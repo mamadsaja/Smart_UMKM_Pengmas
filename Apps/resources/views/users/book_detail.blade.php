@@ -116,7 +116,7 @@ body {
 }
 </style>
 
-<div class="bg-[#f5f5f5] flex justify-center py-0">
+<div class="bg-[#f5f5f5] flex justify-center py-16 md:py-24 lg:py-32">
     <div class="max-w-5xl w-full mx-auto flex flex-col shadow-2xl">
         <!-- Top Section -->
         <div class="bg-white pb-[8vh] rounded-2xl shadow-sm overflow-hidden flex flex-col md:flex-row relative">
@@ -303,7 +303,7 @@ body {
                                     <!-- Read Button -->
                                     <a href="#" 
                                         class="inline-block text-center px-4 py-2 bg-blue-600 text-white text-xs font-medium rounded-md hover:bg-blue-700 transition-colors duration-200" 
-                                        onclick="showBookModal('{{ asset('storage/' . $recentBook->gambar) }}', '{{ $recentBook->judul }}', '{{ $recentBook->deskripsi }}'); return false;">
+                                        onclick="showBookModal('{{ asset('storage/' . $recentBook->gambar) }}', '{{ $recentBook->judul }}', '{{ $recentBook->deskripsi }}', '{{ \App\Http\Controllers\BukuController::hashId($recentBook->id) }}'); return false;">
                                         Read
                                     </a>
                                 </div>
@@ -331,26 +331,27 @@ body {
                     <div class="mt-2 px-4 py-3 text-left">
                         <p id="modalBookDescription" class="text-sm text-gray-600"></p>
                     </div>
-                    <div class="items-center px-4 py-3">
+                    <div class="items-center px-4 py-3 flex space-x-3">
                         <button id="closeModalBtn" class="px-6 py-2 bg-blue-600 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">Close</button>
+                        <a id="viewBookBtn" href="#" class="px-6 py-2 bg-orange-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500">Lihat Buku</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- Basic JavaScript for Modal (needs to be in a script tag, likely at the end of the body or in a dedicated JS file) --}}
         <script>
-            function showBookModal(cover, title, description) {
+            function showBookModal(cover, title, description, bookId) {
                 document.getElementById('modalBookCover').src = cover;
                 document.getElementById('modalBookTitle').innerText = title;
                 document.getElementById('modalBookDescription').innerText = description;
+                document.getElementById('viewBookBtn').href = "{{ route('book_detail', '') }}/" + bookId;
                 document.getElementById('bookModal').classList.remove('hidden');
             }
-
+        
             document.getElementById('closeModalBtn').onclick = function() {
                 document.getElementById('bookModal').classList.add('hidden');
             }
-
+        
             // Close the modal when clicking outside of it
             window.onclick = function(event) {
                 const modal = document.getElementById('bookModal');
@@ -358,7 +359,7 @@ body {
                     modal.classList.add('hidden');
                 }
             }
-
+        
             // Custom pixel scroll functionality
             document.addEventListener('DOMContentLoaded', function() {
                 const scrollContainer = document.getElementById('scrollContainer');
@@ -499,3 +500,9 @@ body {
     </div>
 </div>
 @endsection
+
+<!-- Jika ada link ke buku lain, ubah dari: -->
+<a href="{{ route('book_detail', ['id' => $recentBook->id]) }}">
+
+<!-- Menjadi: -->
+<a href="{{ route('book_detail', ['id' => \App\Http\Controllers\BukuController::hashId($recentBook->id)]) }}">

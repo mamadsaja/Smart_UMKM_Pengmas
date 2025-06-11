@@ -6,7 +6,7 @@
         <!-- Sidebar Filter - Diubah menjadi putih dengan bayangan abu-abu -->
         <!-- Overlay for mobile filter -->
         <div id="filterOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
-        <div id="filterSidebar" class="w-64 bg-white text-gray-800 p-6 shadow-md border-r border-gray-100 md:relative md:min-h-screen md:w-64 fixed inset-y-0 left-0 transform -translate-x-full transition-transform duration-300 z-50 md:z-0 md:transform-none md:static md:shadow-none md:border-none md:block overflow-y-auto pb-24">
+        <div id="filterSidebar" class="w-64 bg-white text-gray-800 p-6 shadow-md border-r border-gray-100 md:relative md:min-h-screen md:w-64 fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-50 md:z-0 md:block overflow-y-auto pb-24">
             <form id="filterFormSidebar" method="GET" action="{{ route('book') }}">
             <!-- Genre Section -->
             <div class="mb-8 ">
@@ -141,7 +141,11 @@
                 @if($bukus->count() > 0)
                     <div id="booksContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
                         @foreach ($bukus as $buku)
-                            <a href="{{ route('book_detail', ['id' => $buku->id]) }}" class="group">
+                            <!-- Ganti baris ini: -->
+                            {{-- <a href="{{ route('book_detail', ['id' => $buku->id]) }}" class="group"> --}}
+                            
+                            <!-- Menjadi: -->
+                            <a href="{{ route('book_detail', ['id' => \App\Http\Controllers\BukuController::hashId($buku->id)]) }}" class="group">
                                 <div class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100">
                                     <div class="relative">
                                         <img src="{{ asset('storage/' . $buku->gambar) }}" alt="{{ $buku->judul }}" class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300">
@@ -194,14 +198,14 @@
                                     <span class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 cursor-not-allowed">
                                         <span class="sr-only">Sebelumnya</span>
                                         <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                            <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                                            <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                         </svg>
                                     </span>
                                 @else
                                     <a href="{{ $bukus->previousPageUrl() }}" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
                                         <span class="sr-only">Sebelumnya</span>
                                         <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                            <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                                            <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                         </svg>
                                     </a>
                                 @endif
@@ -271,11 +275,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Fungsi untuk membuka sidebar filter
     function openFilterSidebar() {
         filterSidebar.classList.remove('-translate-x-full');
+        filterSidebar.classList.add('translate-x-0');
         filterOverlay.classList.remove('hidden');
     }
 
     // Fungsi untuk menutup sidebar filter
     function closeFilterSidebar() {
+        filterSidebar.classList.remove('translate-x-0');
         filterSidebar.classList.add('-translate-x-full');
         filterOverlay.classList.add('hidden');
     }
