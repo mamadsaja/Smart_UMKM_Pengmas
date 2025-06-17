@@ -8,18 +8,14 @@ use App\Models\Seller;
 use App\Models\TokoBuku;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\TextInputColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TokoBukuResource extends Resource
 {
@@ -53,7 +49,6 @@ class TokoBukuResource extends Resource
                         $seller = Seller::find($state);
                         if ($seller) {
                             $set('Kontak', $seller->Kontak);
-                            $set('email', $seller->email);
                         }
                     })
                     ->required(),
@@ -66,9 +61,6 @@ class TokoBukuResource extends Resource
                 TextInput::make('Kontak')
                     ->label('Kontak')
                     ->readOnly()
-                    ->required(),
-
-                Hidden::make('name') 
                     ->required(),
 
                 TextInput::make('deskripsi_toko')
@@ -113,6 +105,54 @@ class TokoBukuResource extends Resource
                     ->helperText('Masukkan link toko Tokopedia Anda'),
             ])->columnSpanFull(),
 
+        Forms\Components\Section::make('Link Social Media')
+            ->description('Masukkan link social media toko Anda')
+            ->icon('heroicon-o-share')
+            ->collapsible()
+            ->schema([
+                TextInput::make('Instagram')
+                    ->label('Link Instagram')
+                    ->url()
+                    ->placeholder('https://instagram.com/tokomu')
+                    ->prefixIcon('heroicon-o-camera')
+                    ->suffixAction(
+                        Forms\Components\Actions\Action::make('visit')
+                            ->icon('heroicon-m-arrow-top-right-on-square')
+                            ->tooltip('Buka link')
+                            ->url(fn (TextInput $component) => $component->getState(), true)
+                            ->visible(fn (TextInput $component) => filled($component->getState()))
+                    )
+                    ->helperText('Masukkan link Instagram toko Anda'),
+
+                TextInput::make('Facebook')
+                    ->label('Link Facebook')
+                    ->url()
+                    ->placeholder('https://facebook.com/tokomu')
+                    ->prefixIcon('heroicon-o-user-group')
+                    ->suffixAction(
+                        Forms\Components\Actions\Action::make('visit')
+                            ->icon('heroicon-m-arrow-top-right-on-square')
+                            ->tooltip('Buka link')
+                            ->url(fn (TextInput $component) => $component->getState(), true)
+                            ->visible(fn (TextInput $component) => filled($component->getState()))
+                    )
+                    ->helperText('Masukkan link Facebook toko Anda'),
+
+                TextInput::make('Tiktok')
+                    ->label('Link TikTok')
+                    ->url()
+                    ->placeholder('https://tiktok.com/@tokomu')
+                    ->prefixIcon('heroicon-o-musical-note')
+                    ->suffixAction(
+                        Forms\Components\Actions\Action::make('visit')
+                            ->icon('heroicon-m-arrow-top-right-on-square')
+                            ->tooltip('Buka link')
+                            ->url(fn (TextInput $component) => $component->getState(), true)
+                            ->visible(fn (TextInput $component) => filled($component->getState()))
+                    )
+                    ->helperText('Masukkan link TikTok toko Anda'),
+            ])->columnSpanFull(),
+
         Forms\Components\Section::make('Media Toko')
             ->description('Unggah gambar profil dan banner untuk toko Anda')
             ->icon('heroicon-o-photo')
@@ -153,15 +193,19 @@ class TokoBukuResource extends Resource
     {
         return $table
             ->columns([
-                TextInputColumn::make('Nama_Toko')
+                TextColumn::make('Nama_Toko')
                     ->searchable()
-                    ->disabled(),
-                TextInputColumn::make('seller.name')
-                    ->disabled(),
-                TextInputColumn::make('Kontak')
-                    ->disabled(),
-                TextInputColumn::make('Alamat')
-                    ->disabled(),
+                    ->sortable(),
+                TextColumn::make('seller.name')
+                    ->label('Seller')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('Kontak')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('Alamat')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //

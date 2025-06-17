@@ -16,6 +16,9 @@ return new class extends Migration {
             $table->string('Nama_Toko');
             $table->string('Toko_Shopee')->nullable();
             $table->string('Toko_Tokopedia')->nullable();
+            $table->string('Instagram')->nullable();
+            $table->string('Facebook')->nullable();
+            $table->string('Tiktok')->nullable();
             $table->string('name')->nullable();
             $table->string('Alamat');
             $table->bigInteger('Kontak');

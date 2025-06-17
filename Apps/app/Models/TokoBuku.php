@@ -11,7 +11,7 @@ class TokoBuku extends Model
     protected $guarded = 'id';
     protected $table = 'toko_bukus';
     // protected $casts = ['Toko_Marketplace' => 'array', 'Nama_Marketplace' => 'array'];
-    protected $fillable = ['Nama_Toko', 'Toko_Shopee', 'Toko_Tokopedia', 'Id_seller', 'Alamat', 'Kontak', 'name', 'deskripsi_toko', 'gambar_toko', 'banner',];
+    protected $fillable = ['Nama_Toko', 'Toko_Shopee', 'Toko_Tokopedia', 'Id_seller', 'Alamat', 'Kontak', 'name', 'deskripsi_toko', 'gambar_toko', 'banner', 'Instagram', 'Facebook', 'Tiktok'];
 
     public function seller()
     {
