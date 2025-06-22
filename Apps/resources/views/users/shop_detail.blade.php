@@ -182,20 +182,106 @@
 
         <!-- Pagination -->
         <div class="mt-12 flex justify-center">
-            <nav class="inline-flex items-center space-x-2">
-                <a href="#" class="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-300 bg-white text-gray-500 hover:bg-blue-100 hover:text-blue-600 transition">
-                    <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd"/>
-                    </svg>
-                </a>
-                <div class="mt-4">
-                    {{ $bukus->links() }}
+            @if($bukus->hasPages())
+                <div class="flex flex-col items-center">
+                    {{-- Desktop and Mobile Pagination Controls --}}
+                    <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm mb-4" aria-label="Pagination">
+                        {{-- Previous Button --}}
+                        @if($bukus->onFirstPage())
+                            <span class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 cursor-not-allowed">
+                                <span class="sr-only">Sebelumnya</span>
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                        @else
+                            <a href="{{ $bukus->previousPageUrl() }}" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                <span class="sr-only">Sebelumnya</span>
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                        @endif
+
+                        {{-- Pagination Logic --}}
+                        @php
+                            $currentPage = $bukus->currentPage();
+                            $lastPage = $bukus->lastPage();
+                            $showPages = 5; // Jumlah halaman yang ditampilkan di sekitar halaman aktif
+                            $halfShow = floor($showPages / 2);
+                        @endphp
+
+                        {{-- Always show page 1 --}}
+                        @if($currentPage > $halfShow + 2)
+                            <a href="{{ $bukus->url(1) }}" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                1
+                            </a>
+                            
+                            {{-- Show ellipsis if there's gap --}}
+                            @if($currentPage > $halfShow + 3)
+                                <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-500 ring-1 ring-inset ring-gray-300">
+                                    ...
+                                </span>
+                            @endif
+                        @endif
+
+                        {{-- Show pages around current page --}}
+                        @for($i = max(1, $currentPage - $halfShow); $i <= min($lastPage, $currentPage + $halfShow); $i++)
+                            @if($i == $currentPage)
+                                <span class="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                    {{ $i }}
+                                </span>
+                            @else
+                                <a href="{{ $bukus->url($i) }}" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                    {{ $i }}
+                                </a>
+                            @endif
+                        @endfor
+
+                        {{-- Always show last page --}}
+                        @if($currentPage < $lastPage - $halfShow - 1)
+                            {{-- Show ellipsis if there's gap --}}
+                            @if($currentPage < $lastPage - $halfShow - 2)
+                                <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-500 ring-1 ring-inset ring-gray-300">
+                                    ...
+                                </span>
+                            @endif
+                            
+                            <a href="{{ $bukus->url($lastPage) }}" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                {{ $lastPage }}
+                            </a>
+                        @endif
+
+                        {{-- Next Button --}}
+                        @if($bukus->hasMorePages())
+                            <a href="{{ $bukus->nextPageUrl() }}" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                                <span class="sr-only">Selanjutnya</span>
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                        @else
+                            <span class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 cursor-not-allowed">
+                                <span class="sr-only">Selanjutnya</span>
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                        @endif
+                    </nav>
+
+                    {{-- Result Count --}}
+                    <p class="text-sm text-gray-700">
+                        Menampilkan
+                        <span class="font-medium">{{ $bukus->firstItem() }}</span>
+                        sampai
+                        <span class="font-medium">{{ $bukus->lastItem() }}</span>
+                        dari
+                        <span class="font-medium">{{ $bukus->total() }}</span>
+                        hasil
+                    </p>
                 </div>
-                    <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/>
-                    </svg>
-                </a>
-            </nav>
+            @endif
         </div>
     </div>
 </div>

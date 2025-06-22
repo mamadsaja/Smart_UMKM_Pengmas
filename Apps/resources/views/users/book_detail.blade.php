@@ -281,9 +281,18 @@ body {
                             <div class="flex p-6 gap-6">
                                 <!-- Book Cover -->
                                 <div class="flex-shrink-0">
-                                    <img src="{{ asset('storage/' . $recentBook->gambar) }}"
-                                        alt="{{ $recentBook->judul }}"
-                                        class="w-24 h-36 object-cover rounded-lg shadow-sm">
+                                    @if($recentBook->gambar && !filter_var($recentBook->gambar, FILTER_VALIDATE_URL))
+                                        <!-- Gambar dari local storage -->
+                                        <img src="{{ asset('storage/' . $recentBook->gambar) }}"
+                                            alt="{{ $recentBook->judul }}"
+                                            class="w-24 h-36 object-cover rounded-lg shadow-sm">
+                                    @else
+                                        <!-- Gambar dari URL eksternal (https) -->
+                                        <img src="{{ $recentBook->gambar ?? 'https://via.placeholder.com/96x144/f3f4f6/9ca3af?text=Book' }}"
+                                            alt="{{ $recentBook->judul }}"
+                                            class="w-24 h-36 object-cover rounded-lg shadow-sm"
+                                            onerror="this.src='https://via.placeholder.com/96x144/f3f4f6/9ca3af?text=Book'">
+                                    @endif
                                 </div>
                                 
                                 <!-- Book Details -->
