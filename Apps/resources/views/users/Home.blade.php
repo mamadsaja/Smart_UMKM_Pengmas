@@ -99,9 +99,18 @@
                             Buku Baru
                         </div>
                         <div class="w-full aspect-[3/4] overflow-hidden relative">
-                            <img src="{{ asset('storage/' . $book->gambar) }}" 
-                                 alt="{{ $book->judul }}" 
-                                 class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"/> 
+                            @if($book->gambar && !filter_var($book->gambar, FILTER_VALIDATE_URL))
+                                <!-- Gambar dari local storage -->
+                                <img src="{{ asset('storage/' . $book->gambar) }}" 
+                                     alt="{{ $book->judul }}" 
+                                     class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
+                            @else
+                                <!-- Gambar dari URL eksternal (https) -->
+                                <img src="{{ $book->gambar ?? 'https://via.placeholder.com/300x400/f3f4f6/9ca3af?text=Book+Cover' }}" 
+                                     alt="{{ $book->judul }}" 
+                                     class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"
+                                     onerror="this.src='https://via.placeholder.com/300x400/f3f4f6/9ca3af?text=Book+Cover'"/>
+                            @endif
                             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                         </div>
                         <div class="p-4 text-center pb-16"> 
