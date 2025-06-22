@@ -170,7 +170,7 @@
                         <p class="text-xs text-gray-600 mb-3 line-clamp-1">{{ $buku->penulis }}</p>
                         <div class="mt-auto flex items-center justify-between">
                             <span class="text-base font-bold text-blue-600">Rp {{ number_format($buku->harga, 0, ',', '.') }}</span>
-                            <a href="{{ route('book_detail', ['id' => $buku->id]) }}" 
+                            <a href="{{ route('book_detail', ['id' => \App\Http\Controllers\BukuController::hashId($buku->id)]) }}" 
                                class="inline-block text-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors duration-200">
                                 Read
                             </a>

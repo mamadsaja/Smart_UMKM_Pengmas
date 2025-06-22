@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Seller;
+use App\Models\TokoBuku;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class TokoBukuSeeder extends Seeder
 {
@@ -13,20 +14,20 @@ class TokoBukuSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('toko_bukus')->insert([
-            'Id_seller' => 1, // Assuming the seller with ID 1 exists
-            'Nama_Toko' => 'Toko Buku',
-            'name' => 'Seller1',
-            'Toko_Shopee' => json_encode([
-                'Shopee' => 'https://shopee.co.id/tokobuku',
-            ]),
-            'Toko_Tokopedia' => json_encode([
-                'Tokopedia' => 'https://www.tokopedia.com/tokobuku',
-            ]),
-            'Alamat' => 'Jl. Contoh Alamat No. 123',
-            'Kontak' => 1234567890,
-            'deskripsi_toko' => 'Toko Buku Terpercaya',
-        ]);
+        // Nonaktifkan foreign key checks untuk truncate
+        Schema::disableForeignKeyConstraints();
+        TokoBuku::truncate();
+        Seller::truncate();
+        Schema::enableForeignKeyConstraints();
+
+        // Buat 100 seller, dan untuk setiap seller, buatkan satu toko buku
+        Seller::factory(100)->create()->each(function ($seller) {
+            $seller->tokoBuku()->create(
+                TokoBuku::factory()->make([
+                    'name' => $seller->name,    // Ambil nama dari seller
+                    'Kontak' => $seller->Kontak, // Ambil kontak dari seller
+                ])->toArray()
+            );
+        });
     }
-    protected $casts = ['Link_Marketplace' => 'array'];
 }

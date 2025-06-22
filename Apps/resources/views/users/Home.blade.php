@@ -95,16 +95,16 @@
                     @foreach($latestBooks as $index => $book)
                     <!-- Card {{ $index + 1 }} -->                    
                     <div class="group relative overflow-hidden rounded-md shadow-md hover:shadow-lg transition-all duration-300 bg-white"> 
-                        <div class="absolute top-1 left-1 z-10 bg-blue-600 text-white text-[10px] font-bold px-1.5 py-1 rounded-full shadow-sm"> 
+                        <div class="absolute top-1 left-1 z-20 bg-blue-600 text-white text-[10px] font-bold px-1.5 py-1 rounded-full shadow-sm"> 
                             Buku Baru
                         </div>
-                        <div class="w-full aspect-[3/4] overflow-hidden">
+                        <div class="w-full aspect-[3/4] overflow-hidden relative">
                             <img src="{{ asset('storage/' . $book->gambar) }}" 
                                  alt="{{ $book->judul }}" 
                                  class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"/> 
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                         </div>
-                        <div class="p-1.5 text-center"> 
+                        <div class="p-4 text-center pb-16"> 
                             <h1 class="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 truncate">{{ $book->judul }}</h1> 
                             <p class="text-[10px] text-gray-500 mt-0.5">Oleh: <span class="font-medium">{{ $book->penulis }}</span></p> 
                             <p class="text-[10px] text-gray-500">Penerbit: <span class="font-medium">{{ $book->penerbit }}</span></p> 
@@ -117,9 +117,12 @@
                                 @endif
                                 <span class="px-1 py-0.5 bg-blue-100 text-blue-800 text-[9px] rounded-full">{{ $book->tahun_terbit }}</span> 
                             </div>
-                            <div class="mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <a href="{{ route('book_detail', $book->id) }}" class="px-3 py-3 bg-blue-600 text-white rounded-full text-xs font-medium hover:bg-blue-600 transition-colors duration-300 w-full inline-block">Lihat Detail</a>
-                            </div>
+                        </div>
+                        <div class="absolute bottom-4 left-0 right-0 px-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out transform group-hover:translate-y-0 translate-y-2">
+                            <a href="{{ route('book_detail', ['id' => \App\Http\Controllers\BukuController::hashId($book->id)]) }}" 
+                               class="block w-full px-4 py-3 bg-blue-600 text-white rounded-full text-sm font-medium hover:bg-blue-700 transition-colors duration-300 text-center shadow-lg">
+                               Lihat Detail
+                            </a>
                         </div>
                     </div>
                     @endforeach

@@ -2,31 +2,27 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Kategori;
 
 class KategoriSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     */
     public function run(): void
     {
-        $kategori = [
-            'Fiksi',
-            'Non-Fiksi',
-            'Fantasi',
-            'Romantis',
-            'Sejarah',
-            'Biografi',
-            'Sains',
-            'Horor',
-            'Filsafat',
+        $kategoris = [
+            'Fiksi', 'Non-Fiksi', 'Sains', 'Sejarah', 'Biografi', 
+            'Anak-anak', 'Remaja', 'Misteri', 'Fantasi', 'Horor', 
+            'Romansa', 'Pengembangan Diri', 'Bisnis', 'Teknologi', 'Seni'
         ];
 
-        foreach ($kategori as $item) {
-            DB::table('kategori')->insert([
-                'namaKategori' => $item,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        foreach ($kategoris as $namaKategori) {
+            // Cek apakah kategori sudah ada sebelum membuat
+            Kategori::firstOrCreate(['namaKategori' => $namaKategori]);
         }
     }
 }

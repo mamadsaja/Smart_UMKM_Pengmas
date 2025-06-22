@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Admin;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
@@ -13,10 +14,13 @@ class AdminSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table(table: 'users')->insert([
-            'name' => 'Admin',
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt('password'), // Use bcrypt for hashing the password
-        ]);
+        // Cek apakah admin sudah ada sebelum membuat
+        if (!Admin::where('email', 'admin@gmail.com')->exists()) {
+            Admin::create([
+                'name' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'password' => Hash::make('password'),
+            ]);
+        }
     }
 }

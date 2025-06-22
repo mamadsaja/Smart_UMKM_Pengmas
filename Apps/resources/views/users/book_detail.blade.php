@@ -202,7 +202,7 @@ body {
                 </div>
 
                 <!-- Tombol Kunjungi Toko (dibikin lebih besar) -->
-                <a href="{{ route('shop_detail', $buku->tokoBuku->id) }}"
+                <a href="{{ route('shop_detail', ['id' => \App\Http\Controllers\TokoBukuController::hashId($buku->tokoBuku->id)]) }}"
                 class="inline-flex items-center px-6 py-3 bg-orange-500 text-white text-base font-semibold rounded-lg hover:bg-orange-600 transition-colors shadow-md">
                     <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 17l-5-5 1.414-1.414L10 14.172l7.586-7.586L19 8l-9 9z"/>

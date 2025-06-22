@@ -30,5 +30,9 @@ Route::get('/shop/{id}', [TokoBukuController::class, 'show'])->name('shop_detail
 Route::get('/book/{id}', [BukuController::class, 'detail'])->name('book_detail');
 Route::get('/book/data/{id}', [BukuController::class, 'data'])->name('data_buku');
 
-
+// Route::get('symlink', function () {
+//     $targetFolder = base_path() . '/storage/app/public';
+//     $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage';
+//     symlink($targetFolder, $linkFolder);
+// });
 
