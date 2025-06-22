@@ -27,20 +27,40 @@
             @foreach ($tokos as $toko)
                 <div class="bg-white rounded-md shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
                     <div class="relative h-48">
-                        <img src="{{ asset('storage/' . $toko->banner) }}" 
-                            alt="Banner {{ $toko->Nama_Toko }}" 
-                            class="w-full h-full object-cover"
-                        />
+                        @if($toko->banner && !filter_var($toko->banner, FILTER_VALIDATE_URL))
+                            <!-- Banner dari local storage -->
+                            <img src="{{ asset('storage/' . $toko->banner) }}" 
+                                alt="Banner {{ $toko->Nama_Toko }}" 
+                                class="w-full h-full object-cover"
+                            />
+                        @else
+                            <!-- Banner dari URL eksternal (https) -->
+                            <img src="{{ $toko->banner ?? 'https://via.placeholder.com/800x192/f3f4f6/9ca3af?text=Shop+Banner' }}" 
+                                alt="Banner {{ $toko->Nama_Toko }}" 
+                                class="w-full h-full object-cover"
+                                onerror="this.src='https://via.placeholder.com/800x192/f3f4f6/9ca3af?text=Shop+Banner'"
+                            />
+                        @endif
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                     </div>
 
-                    <div class="relative px-6 pb-6">
+                    <div class="relative px-6 pb-6">                        
                         <div class="absolute -top-12 left-6">
                             <div class="w-24 h-24 rounded-full border-4 border-white overflow-hidden shadow-lg">
-                                <img src="{{ asset('storage/' . $toko->gambar_toko) }}" 
-                                    alt="{{ $toko->name }}" 
-                                    class="w-full h-full object-cover"
-                                />
+                                @if($toko->gambar_toko && !filter_var($toko->gambar_toko, FILTER_VALIDATE_URL))
+                                    <!-- Gambar dari local storage -->
+                                    <img src="{{ asset('storage/' . $toko->gambar_toko) }}" 
+                                        alt="{{ $toko->name }}" 
+                                        class="w-full h-full object-cover"
+                                    />
+                                @else
+                                    <!-- Gambar dari URL eksternal (https) -->
+                                    <img src="{{ $toko->gambar_toko ?? 'https://via.placeholder.com/96x96/f3f4f6/9ca3af?text=Shop' }}" 
+                                        alt="{{ $toko->name }}" 
+                                        class="w-full h-full object-cover"
+                                        onerror="this.src='https://via.placeholder.com/96x96/f3f4f6/9ca3af?text=Shop'"
+                                    />
+                                @endif
                             </div>
                         </div>
 

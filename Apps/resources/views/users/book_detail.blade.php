@@ -122,9 +122,18 @@ body {
         <div class="bg-white pb-[8vh] rounded-2xl shadow-sm overflow-hidden flex flex-col md:flex-row relative">
             <!-- Cover Buku -->
             <div class="md:w-1/3 flex items-center justify-center p-8 md:p-12">
-                <img src="{{  asset('storage/' . $buku->gambar) }}"
-                     alt="The Subtle Art of Not Giving a F*ck"
-                     class="rounded-lg shadow-md w-full object-cover max-w-xs md:max-w-none">
+                @if($buku->gambar && !filter_var($buku->gambar, FILTER_VALIDATE_URL))
+                    <!-- Gambar dari local storage -->
+                    <img src="{{ asset('storage/' . $buku->gambar) }}"
+                         alt="{{ $buku->judul }}"
+                         class="rounded-lg shadow-md w-full object-cover max-w-xs md:max-w-none">
+                @else
+                    <!-- Gambar dari URL eksternal (https) -->
+                    <img src="{{ $buku->gambar ?? 'https://via.placeholder.com/300x400/f3f4f6/9ca3af?text=No+Image' }}"
+                         alt="{{ $buku->judul }}"
+                         class="rounded-lg shadow-md w-full object-cover max-w-xs md:max-w-none"
+                         onerror="this.src='https://via.placeholder.com/300x400/f3f4f6/9ca3af?text=No+Image'">
+                @endif
             </div>
 
             <!-- Detail Buku -->
