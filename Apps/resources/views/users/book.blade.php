@@ -6,7 +6,7 @@
         <!-- Sidebar Filter - Diubah menjadi putih dengan bayangan abu-abu -->
         <!-- Overlay for mobile filter -->
         <div id="filterOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
-        <div id="filterSidebar" class="w-64 bg-white text-gray-800 p-6 shadow-md border-r border-gray-100 md:relative md:min-h-screen md:w-64 fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-50 md:z-0 md:block overflow-y-auto pb-24">
+        <div id="filterSidebar" class="w-64 bg-white text-gray-800 p-6 shadow-md border-r border-gray-100 md:sticky md:top-0 md:h-screen md:w-64 fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-50 md:z-0 md:block overflow-y-auto pb-24">
             <form id="filterFormSidebar" method="GET" action="{{ route('book') }}">
             <!-- Genre Section -->
             <div class="mb-8 ">

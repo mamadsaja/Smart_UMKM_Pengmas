@@ -94,46 +94,54 @@
                 <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3"> 
                     @foreach($latestBooks as $index => $book)
                     <!-- Card {{ $index + 1 }} -->                    
-                    <div class="group relative overflow-hidden rounded-md shadow-md hover:shadow-lg transition-all duration-300 bg-white"> 
-                        <div class="absolute top-1 left-1 z-20 bg-blue-600 text-white text-[10px] font-bold px-1.5 py-1 rounded-full shadow-sm"> 
-                            Buku Baru
-                        </div>
-                        <div class="w-full aspect-[3/4] overflow-hidden relative">
-                            @if($book->gambar && !filter_var($book->gambar, FILTER_VALIDATE_URL))
-                                <!-- Gambar dari local storage -->
-                                <img src="{{ asset('storage/' . $book->gambar) }}" 
-                                     alt="{{ $book->judul }}" 
-                                     class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"/>
-                            @else
-                                <!-- Gambar dari URL eksternal (https) -->
-                                <img src="{{ $book->gambar ?? 'https://via.placeholder.com/300x400/f3f4f6/9ca3af?text=Book+Cover' }}" 
-                                     alt="{{ $book->judul }}" 
-                                     class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-in-out"
-                                     onerror="this.src='https://via.placeholder.com/300x400/f3f4f6/9ca3af?text=Book+Cover'"/>
-                            @endif
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-                        </div>
-                        <div class="p-4 text-center pb-16"> 
-                            <h1 class="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 truncate">{{ $book->judul }}</h1> 
-                            <p class="text-[10px] text-gray-500 mt-0.5">Oleh: <span class="font-medium">{{ $book->penulis }}</span></p> 
-                            <p class="text-[10px] text-gray-500">Penerbit: <span class="font-medium">{{ $book->penerbit }}</span></p> 
-                            <p class="text-[10px] font-semibold text-blue-600 mt-0.5">Rp {{ number_format($book->harga, 0, ',', '.') }}</p> 
-                            <div class="mt-0.5 flex justify-center space-x-1"> 
-                                @if($book->stok > 0)
-                                    <span class="px-1 py-0.5 bg-green-100 text-green-800 text-[9px] rounded-full">Stok: {{ $book->stok }}</span> 
+                   <div class="group relative rounded-md shadow-md hover:shadow-lg transition-all duration-300 bg-white"> 
+                            <!-- Label Buku Baru -->
+                            <div class="absolute top-1 left-1 z-20 bg-blue-600 text-white text-[10px] font-bold px-1.5 py-1 rounded-full shadow-sm"> 
+                                Buku Baru
+                            </div>
+
+                            <!-- Gambar + Tombol -->
+                            <div class="w-full aspect-[3/4] relative">
+                                @if($buku->gambar && !filter_var($buku->gambar, FILTER_VALIDATE_URL))
+                                    <img src="{{ asset('storage/' . $buku->gambar) }}" 
+                                        alt="{{ $buku->judul }}" 
+                                        class="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"/>
                                 @else
-                                    <span class="px-1 py-0.5 bg-red-100 text-red-800 text-[9px] rounded-full">Stok Habis</span> 
+                                    <img src="{{ $buku->gambar ?? 'https://via.placeholder.com/300x400/f3f4f6/9ca3af?text=Book+Cover' }}" 
+                                        alt="{{ $buku->judul }}" 
+                                        class="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+                                        onerror="this.src='https://via.placeholder.com/300x400/f3f4f6/9ca3af?text=Book+Cover'"/>
                                 @endif
-                                <span class="px-1 py-0.5 bg-blue-100 text-blue-800 text-[9px] rounded-full">{{ $book->tahun_terbit }}</span> 
+
+                                <!-- Overlay gelap -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent pointer-events-none"></div>
+
+                                <!-- Tombol di tengah gambar -->
+                                <div class="absolute inset-0 z-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    <a href="{{ route('book_detail', ['id' => \App\Http\Controllers\BukuController::hashId($book->id)]) }}" 
+                                    class="px-4 py-3 bg-blue-600 text-white rounded-full text-sm font-medium shadow-lg hover:bg-blue-700 transition-all duration-300">
+                                        Lihat Detail
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Info Buku -->
+                            <div class="p-4 text-center pb-6">
+                                <h1 class="text-base font-bold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 truncate">{{ $book->judul }}</h1> 
+                                <p class="text-[10px] text-gray-500 mt-0.5">Oleh: <span class="font-medium">{{ $book->penulis }}</span></p> 
+                                <p class="text-[10px] text-gray-500">Penerbit: <span class="font-medium">{{ $book->penerbit }}</span></p> 
+                                <p class="text-[10px] font-semibold text-blue-600 mt-0.5">Rp {{ number_format($book->harga, 0, ',', '.') }}</p> 
+
+                                <div class="mt-0.5 flex justify-center space-x-1"> 
+                                    @if($book->stok > 0)
+                                        <span class="px-1 py-0.5 bg-green-100 text-green-800 text-[9px] rounded-full">Stok: {{ $book->stok }}</span> 
+                                    @else
+                                        <span class="px-1 py-0.5 bg-red-100 text-red-800 text-[9px] rounded-full">Stok Habis</span> 
+                                    @endif
+                                    <span class="px-1 py-0.5 bg-blue-100 text-blue-800 text-[9px] rounded-full">{{ $book->tahun_terbit }}</span> 
+                                </div>
                             </div>
                         </div>
-                        <div class="absolute bottom-4 left-0 right-0 px-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 ease-in-out transform group-hover:translate-y-0 translate-y-2">
-                            <a href="{{ route('book_detail', ['id' => \App\Http\Controllers\BukuController::hashId($book->id)]) }}" 
-                               class="block w-full px-4 py-3 bg-blue-600 text-white rounded-full text-sm font-medium hover:bg-blue-700 transition-colors duration-300 text-center shadow-lg">
-                               Lihat Detail
-                            </a>
-                        </div>
-                    </div>
                     @endforeach
                 </div>
             </div>
