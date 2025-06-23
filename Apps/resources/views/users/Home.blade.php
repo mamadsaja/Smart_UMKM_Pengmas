@@ -48,7 +48,7 @@
                             Platform Digital untuk Kampoeng Ilmu
                         </h2>
                         <p class="text-gray-600 text-base sm:text-lg leading-relaxed">
-                            Kampoeng Ilmu adalah tempat jual beli buku di pusat Kota Surabaya yang penuh dengan semangat belajar dan berbagi ilmu. Di sini, pengunjung bisa menemukan berbagai jenis buku dengan harga terjangkau, membaca di tempat, hingga mengikuti diskusi atau pertunjukan seni. Dahulu, tempat ini dibangun sebagai wadah bagi pedagang buku bekas agar bisa berjualan dengan lebih tertib dan nyaman. Kini, Kampung Ilmu menjadi simbol semangat literasi, tempat berkumpulnya orang-orang yang mencintai pengetahuan, seni, dan budaya.                        </p>
+                            Kampoeng Ilmu adalah tempat jual beli buku di pusat Kota Surabaya yang penuh dengan semangat belajar dan berbagi ilmu. Di sini, pengunjung bisa menemukan berbagai jenis buku dengan harga terjangkau, membaca di tempat, hingga mengikuti diskusi atau pertunjukan seni. Dahulu, tempat ini dibangun sebagai wadah bagi pedagang buku bekas agar bisa berjualan dengan lebih tertib dan nyaman. Kini, Kampung Ilmu menjadi simbol semangat literasi, tempat berkumpulnya orang-orang yang mencintai pengetahuan, seni, dan budaya.                        </p>
                         <div class="flex flex-wrap gap-4">
                             <button class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300">
                                 Pelajari Lebih Lanjut
@@ -102,13 +102,13 @@
 
                             <!-- Gambar + Tombol -->
                             <div class="w-full aspect-[3/4] relative">
-                                @if($buku->gambar && !filter_var($buku->gambar, FILTER_VALIDATE_URL))
-                                    <img src="{{ asset('storage/' . $buku->gambar) }}" 
-                                        alt="{{ $buku->judul }}" 
+                                @if($book->gambar && !filter_var($book->gambar, FILTER_VALIDATE_URL))
+                                    <img src="{{ asset('storage/' . $book->gambar) }}" 
+                                        alt="{{ $book->judul }}" 
                                         class="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"/>
                                 @else
-                                    <img src="{{ $buku->gambar ?? 'https://via.placeholder.com/300x400/f3f4f6/9ca3af?text=Book+Cover' }}" 
-                                        alt="{{ $buku->judul }}" 
+                                    <img src="{{ $book->gambar ?? 'https://via.placeholder.com/300x400/f3f4f6/9ca3af?text=Book+Cover' }}" 
+                                        alt="{{ $book->judul }}" 
                                         class="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
                                         onerror="this.src='https://via.placeholder.com/300x400/f3f4f6/9ca3af?text=Book+Cover'"/>
                                 @endif

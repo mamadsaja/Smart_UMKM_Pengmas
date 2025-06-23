@@ -1,4 +1,4 @@
-@props(['number' => '6281240831105', 'message' => 'Mau Tanya dong bang'])
+@props(['number' => '6281414141927', 'message' => 'Mau Tanya dong bang'])
 
 <div x-data="{ open: false }" class="fixed bottom-6 right-6 z-50">
     <button 

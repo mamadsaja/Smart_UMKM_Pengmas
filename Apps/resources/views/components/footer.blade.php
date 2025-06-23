@@ -62,7 +62,7 @@
           <div class="relative w-full h-full min-h-[350px]">
             <!-- Google Maps Embed -->
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.379740337472!2d112.72634007687003!3d-7.311166492696757!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fbd1cb925a1d%3A0x1dbecb0b2e9b059f!2sUniversitas%20Telkom%20Surabaya!5e0!3m2!1sid!2sid!4v1748281633298!5m2!1sid!2sid"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.900545286187!2d112.72886709999999!3d-7.2521591!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7f95a4c38f333%3A0xac15d9b72acc122b!2sToko%20Buku%20Kampoeng%20Ilmu!5e0!3m2!1sid!2sid!4v1750663802977!5m2!1sid!2sid"
               class="absolute inset-0 w-full h-full" 
               style="border:0;" 
               allowfullscreen="" 
