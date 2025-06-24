@@ -190,7 +190,7 @@
                             </div>
                             <div class="flex justify-between items-center">
                                 <span class="text-xs bg-{{ ['blue', 'green', 'purple', 'red', 'amber', 'indigo'][$index % 6] }}-100 text-{{ ['blue', 'green', 'purple', 'red', 'amber', 'indigo'][$index % 6] }}-700 px-2 py-1 rounded-full">{{ $toko->bukus_count }} Buku</span>
-                                <a href="{{ route('shop_detail', $toko->id) }}" class="text-sm font-medium text-{{ ['blue', 'green', 'purple', 'red', 'amber', 'indigo'][$index % 6] }}-600 hover:text-{{ ['blue', 'green', 'purple', 'red', 'amber', 'indigo'][$index % 6] }}-800 transition-colors duration-300 inline-flex items-center group">
+                                <a href="{{ route('shop_detail', ['id' => \App\Http\Controllers\TokoBukuController::hashId($toko->id)]) }}" class="text-sm font-medium text-{{ ['blue', 'green', 'purple', 'red', 'amber', 'indigo'][$index % 6] }}-600 hover:text-{{ ['blue', 'green', 'purple', 'red', 'amber', 'indigo'][$index % 6] }}-800 transition-colors duration-300 inline-flex items-center group">
                                     Kunjungi
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />

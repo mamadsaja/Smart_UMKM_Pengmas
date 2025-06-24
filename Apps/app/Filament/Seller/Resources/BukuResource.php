@@ -15,6 +15,8 @@ use Filament\Resources\Resource;
 use Filament\Forms\Form;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Widgets\StatsOverviewWidget;
+use Closure;
+use Illuminate\Database\Eloquent\Builder;
 
 
 class BukuResource extends Resource
@@ -108,7 +110,51 @@ class BukuResource extends Resource
                         ->minValue(0)
                         ->numeric(),
                     Forms\Components\FileUpload::make('gambar')
-                        ->required(),
+                        ->label('Upload Gambar')
+                        ->image()
+                        ->imageEditor()
+                        ->nullable()
+                        ->helperText('Upload gambar dari komputer Anda')
+                        ->imagePreviewHeight('200')
+                        ->imageCropAspectRatio('16:9')
+                        ->rules([
+                            function () {
+                                return function (string $attribute, $value, Closure $fail) {
+                                    $gambarUrl = request()->input('gambar_url');
+                                    if (empty($value) && empty($gambarUrl)) {
+                                        $fail('Harap upload gambar atau masukkan URL gambar.');
+                                    }
+                                };
+                            }
+                        ]),
+                    
+                    Forms\Components\TextInput::make('gambar_url')
+                        ->label('URL Gambar')
+                        ->url()
+                        ->nullable()
+                        ->helperText('Atau masukkan URL gambar dari internet')
+                        ->placeholder('https://example.com/image.jpg')
+                        ->suffixAction(
+                            Forms\Components\Actions\Action::make('previewImage')
+                                ->icon('heroicon-o-eye')
+                                ->action(function ($state) {
+                                    if ($state) {
+                                        return redirect()->away($state);
+                                    }
+                                })
+                                ->visible(fn ($state) => !empty($state))
+                        ),
+
+                    Forms\Components\Placeholder::make('image_preview')
+                        ->label('Preview Gambar')
+                        ->content(function ($record) {
+                            if ($record && $record->hasGambar()) {
+                                return view('components.image-preview', ['url' => $record->gambar_url]);
+                            }
+                            return 'Tidak ada gambar untuk ditampilkan';
+                        })
+                        ->visible(fn ($record) => $record && $record->hasGambar()),
+
                     Forms\Components\Select::make('kategori_ids')
                         ->label('Kategori')
                         ->multiple()
@@ -185,12 +231,22 @@ class BukuResource extends Resource
             ->query(Buku::where('toko_buku_id', auth()->user()->tokoBuku->id))
             ->columns([
                 Tables\Columns\TextColumn::make('gambar')
-                    ->formatStateUsing(function ($state) {
-                        return $state ? '<img src="' . asset('storage/' . $state) . '" width="80" height="80" />' : 'No image';
-                    })
-                    ->html()
-                    ->sortable()
-                    ->searchable(),
+                ->formatStateUsing(function ($state) {
+                    if (!$state) {
+                        return 'No image';
+                    }
+
+                    // Cek apakah ini URL valid
+                    if (filter_var($state, FILTER_VALIDATE_URL)) {
+                        return '<img src="' . $state . '" width="80" height="80" onerror="this.src=\'https://via.placeholder.com/80x80?text=No+Image\'" />';
+                    }
+
+                    // Kalau bukan URL, anggap dari storage lokal
+                    return '<img src="' . asset('storage/' . $state) . '" width="80" height="80" onerror="this.src=\'https://via.placeholder.com/80x80?text=No+Image\'" />';
+                })
+                ->html()
+                ->sortable()
+                ->searchable(),
                 TextColumn::make('judul')
                     ->sortable()
                     ->searchable(),
@@ -203,8 +259,9 @@ class BukuResource extends Resource
                     ->formatStateUsing(function ($state, $record) {
                         return $record->kategoris->pluck('namaKategori')->implode(', ');
                     })
-                    ->sortable()
-                    ->searchable(),
+                    ->searchable(isIndividual: true, query: function (Builder $query, string $search): Builder {
+                        return $query->whereHas('kategoris', fn (Builder $q) => $q->where('namaKategori', 'like', "%{$search}%"));
+                    }),
                 TextColumn::make('harga')
                     ->sortable()
                     ->searchable()
